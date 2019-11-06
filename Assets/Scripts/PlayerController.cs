@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum PlayerID
 {
     Player1 = 0,
@@ -13,12 +12,22 @@ public enum PlayerID
 }
 public class PlayerController : MonoBehaviour
 {
+    //inputs vars
     public PlayerID id = PlayerID.Player1;
-    public bool useKeyboard = true;
+    private Player player;
+    public bool useKeyboard = false;
+
+    //movements vars
     public float moveSpeed = 3f;
     public float rotationSpeed = 5.0f;
-    public Camera camera;
+    private Vector3 moveVector;
+    private Vector3 moveVelocity;
+    private Quaternion rotation;
+    private bool isMoving;
+    private bool isShooting;
 
+    //gameobject vars
+    public Camera camera;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
@@ -26,20 +35,14 @@ public class PlayerController : MonoBehaviour
     public GameObject gun;
     [HideInInspector]
     public MeshRenderer gunTexture;
-    private Vector3 moveVector;
-    private Vector3 moveVelocity;
-    private Quaternion rotation;
 
-    private bool isMoving;
-    private bool isShooting;
-
-    private Player player;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         player = ReInput.players.GetPlayer((int)id);
         rigidbody = GetComponent<Rigidbody>();
+        camera = this.GetComponentInChildren<Camera>();
         animator = character.GetComponent<Animator>();
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         gunTexture = gun.GetComponent<MeshRenderer>();
@@ -102,14 +105,6 @@ public class PlayerController : MonoBehaviour
     {
         moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
         moveVector.z = player.GetAxis("Move Vertical");
-        
-        /*if(!useKeyboard)
-        {
-            float tiltAngle = 60.0f;
-            float tiltAroundZ = player.GetAxis("Look Horizontal") * tiltAngle;
-            float tiltAroundX = player.GetAxis("Look Vertical") * tiltAngle;
-            rotation = Quaternion.Euler(tiltAroundX, 0, tiltAroundZ);
-        }*/
     }
 
     private void ProcessInput()
