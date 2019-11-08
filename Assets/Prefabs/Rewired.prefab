@@ -638,9 +638,9 @@ MonoBehaviour:
         _enabled: 1
         _ruleSets: []
     - _id: 1
-      _name: Player0
-      _descriptiveName: Player0
-      _startPlaying: 1
+      _name: Player 1
+      _descriptiveName: Player 1
+      _startPlaying: 0
       _defaultJoystickMaps:
       - _enabled: 1
         _categoryId: 0
@@ -657,6 +657,90 @@ MonoBehaviour:
       _startingCustomControllers: []
       _assignMouseOnStart: 1
       _assignKeyboardOnStart: 1
+      _excludeFromControllerAutoAssignment: 0
+      _controllerMapLayoutManagerSettings:
+        _enabled: 1
+        _loadFromUserDataStore: 1
+        _ruleSets: []
+      _controllerMapEnablerSettings:
+        _enabled: 1
+        _ruleSets: []
+    - _id: 2
+      _name: Player 2
+      _descriptiveName: Player 2
+      _startPlaying: 0
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultMouseMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultKeyboardMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultCustomControllerMaps: []
+      _startingCustomControllers: []
+      _assignMouseOnStart: 0
+      _assignKeyboardOnStart: 0
+      _excludeFromControllerAutoAssignment: 0
+      _controllerMapLayoutManagerSettings:
+        _enabled: 1
+        _loadFromUserDataStore: 1
+        _ruleSets: []
+      _controllerMapEnablerSettings:
+        _enabled: 1
+        _ruleSets: []
+    - _id: 5
+      _name: Player 3
+      _descriptiveName: Player 3
+      _startPlaying: 0
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultMouseMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultKeyboardMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultCustomControllerMaps: []
+      _startingCustomControllers: []
+      _assignMouseOnStart: 0
+      _assignKeyboardOnStart: 0
+      _excludeFromControllerAutoAssignment: 0
+      _controllerMapLayoutManagerSettings:
+        _enabled: 1
+        _loadFromUserDataStore: 1
+        _ruleSets: []
+      _controllerMapEnablerSettings:
+        _enabled: 1
+        _ruleSets: []
+    - _id: 6
+      _name: Player 4
+      _descriptiveName: Player 4
+      _startPlaying: 0
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultMouseMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultKeyboardMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
+      _defaultCustomControllerMaps: []
+      _startingCustomControllers: []
+      _assignMouseOnStart: 0
+      _assignKeyboardOnStart: 0
       _excludeFromControllerAutoAssignment: 0
       _controllerMapLayoutManagerSettings:
         _enabled: 1
@@ -938,7 +1022,7 @@ MonoBehaviour:
     customControllers: []
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
-    playerIdCounter: 2
+    playerIdCounter: 7
     actionIdCounter: 7
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 1
