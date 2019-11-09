@@ -7,14 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> listPlayersPrefabs;
-    private List<PlayerController> players = new List<PlayerController>();
+    public List<PlayerController> players = new List<PlayerController>();
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        Debug.Log(listPlayersPrefabs.Count);
         InitializePlayers();
-        ForceSpawn(2);
         IntializeSplitScreen();
     }
 
