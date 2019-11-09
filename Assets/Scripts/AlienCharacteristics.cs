@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AlienCharacteristics : MonoBehaviour
@@ -19,18 +20,24 @@ public class AlienCharacteristics : MonoBehaviour
     if (collision.gameObject.tag.Equals("projectile"))
     {
       this.healthPoint--;
-      Debug.Log(this.healthPoint);
-      if(this.healthPoint == 0)
+      if(this.healthPoint <= 0)
       {
         alienAnimator.SetTrigger("Die");
-        Destroy(this);
+        Destroy(this.gameObject.GetComponent<BoxCollider>());
+
+        var animController = alienAnimator.runtimeAnimatorController;
+        var clip = animController.animationClips.First(a => a.name == "Die");
+
+        StartCoroutine(DieAfterAnimation(clip.length));
+
       }
     }
   }
 
-  // Update is called once per frame
-  void Update()
-    {
-        
-    }
+  private IEnumerator DieAfterAnimation(float duree)
+  {
+    yield return new WaitForSeconds(duree - 0.15f);
+    Destroy(this.gameObject);
+  }
+
 }
