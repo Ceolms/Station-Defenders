@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion rotation;
     private bool isMoving;
     private bool isShooting;
-
+    private bool canMove = true;
     //gameobject vars
     public Camera camera;
     private UiManager uiManager;
@@ -114,8 +114,11 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
-        moveVector.z = player.GetAxis("Move Vertical");
+        if(canMove)
+        {
+            moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
+            moveVector.z = player.GetAxis("Move Vertical");
+        }
     }
 
     private void ProcessInput()
