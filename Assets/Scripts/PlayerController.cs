@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public bool useKeyboard = false;
 
     //movements vars
-    public float moveSpeed = 3f;
+    private float moveSpeed = 5f;
     public float rotationSpeed = 5.0f;
     private Vector3 moveVector;
     private Vector3 moveVelocity;
@@ -28,11 +28,13 @@ public class PlayerController : MonoBehaviour
 
     //gameobject vars
     public Camera camera;
+    private UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
     public GameObject prefabBullet;
     public GameObject gun;
+    public GameObject sphereMinimap;
     [HideInInspector]
     public MeshRenderer gunTexture;
 
@@ -43,9 +45,13 @@ public class PlayerController : MonoBehaviour
         player = ReInput.players.GetPlayer((int)id);
         rigidbody = GetComponent<Rigidbody>();
         camera = this.GetComponentInChildren<Camera>();
+        uiManager = camera.transform.GetComponent<UiManager>();
         animator = character.GetComponent<Animator>();
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
+        player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         gunTexture = gun.GetComponent<MeshRenderer>();
+        uiManager.SetName(id);
+        sphereMinimap.SetActive(true);
     }
 
     // Update is called once per frame
@@ -80,6 +86,11 @@ public class PlayerController : MonoBehaviour
 
         Instantiate(prefabBullet, firePosition.position, firePosition.rotation);
     }
+    void OnMapButtonDown(InputActionEventData data)
+    {
+        uiManager.TriggerMinimap();
+    }
+
     private void RotationKeyboard()
     {
         Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
