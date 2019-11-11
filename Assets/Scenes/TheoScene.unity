@@ -187,6 +187,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4746163912831977166, guid: db491de2586ba3a4bad90ca14b51a273,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db491de2586ba3a4bad90ca14b51a273, type: 3}
 --- !u!1001 &368575557
@@ -356,7 +361,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549899801}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -370,8 +375,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0
+    height: 0
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -642,7 +647,7 @@ PrefabInstance:
     - target: {fileID: 2151225065865421994, guid: 83b4524b36fa49e40bd42517011a4941,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.8
+      value: -2.84
       objectReference: {fileID: 0}
     - target: {fileID: 2151225065865421994, guid: 83b4524b36fa49e40bd42517011a4941,
         type: 3}

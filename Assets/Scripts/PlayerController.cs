@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     //inputs vars
     public PlayerID id = PlayerID.Player1;
     private Player player;
-    private bool useKeyboard = false;
+    public bool useKeyboard = false;
 
     //movements vars
     private float moveSpeed = 5f;

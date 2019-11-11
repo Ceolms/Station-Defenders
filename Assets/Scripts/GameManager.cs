@@ -56,7 +56,9 @@ public class GameManager : MonoBehaviour
 
                 GameObject player = listPlayersPrefabs[i];
                 Instantiate(player);
-                GameObject spawnPosition = GameObject.Find("SpawnPosition Player"+(i+1));
+                string spawnS = "SpawnPosition Player" + (i + 1).ToString();
+                GameObject spawnPosition = GameObject.Find(spawnS);
+                Debug.Log(spawnPosition.name);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i*4, 0, 0);
                 players.Add(player.GetComponent<PlayerController>());
