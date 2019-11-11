@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
+        player.AddInputEventDelegate(OnDieButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Die");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
        // StartCoroutine(TestLifeBar());
@@ -101,6 +102,11 @@ public class PlayerController : MonoBehaviour
     void OnEmoteButtonDown(InputActionEventData data)
     {
         animator.SetTrigger("isAskingHelp");
+    }
+
+    void OnDieButtonDown(InputActionEventData data)
+    {
+        StartCoroutine(TestLifeBar());
     }
 
     private void RotationKeyboard()

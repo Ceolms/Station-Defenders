@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730176921307178992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.24, y: -0.356, z: 6.799999}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7989831281338006423}
@@ -104,6 +104,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: ed3bd972f89e47e42843b13fe786b1bc, type: 2}
   originalShader: {fileID: 0}
   isHidden: 0
+  obstacleObject: {fileID: 0}
 --- !u!1 &898983992687126218
 GameObject:
   m_ObjectHideFlags: 0

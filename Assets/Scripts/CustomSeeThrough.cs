@@ -31,7 +31,6 @@ public class CustomSeeThrough : MonoBehaviour
         {
             if (hit.collider.gameObject.tag.Equals("Obstacle"))
             {
-                Debug.Log(this.gameObject.name +" " + hit.collider.name);
                 isHidden = true;
                 material.shader = seeThroughShader;
                 obstacleObject = hit.collider.gameObject;

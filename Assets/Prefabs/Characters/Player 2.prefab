@@ -104,6 +104,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: d8dfda64987cff5419b3497636a384d6, type: 2}
   originalShader: {fileID: 0}
   isHidden: 0
+  obstacleObject: {fileID: 0}
 --- !u!1 &4439652161510381877
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,12 +296,12 @@ PrefabInstance:
     - target: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4015205585296981974, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
-    void Start()
+    void Awake()
     {
         Instance = this;
         InitializePlayers();
@@ -21,12 +21,6 @@ public class GameManager : MonoBehaviour
         if (forceSpawnP4) ForceSpawn(4);
 
         IntializeSplitScreen();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -58,7 +52,6 @@ public class GameManager : MonoBehaviour
                 Instantiate(player);
                 string spawnS = "SpawnPosition Player" + (i + 1).ToString();
                 GameObject spawnPosition = GameObject.Find(spawnS);
-                Debug.Log(spawnPosition.name);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i*4, 0, 0);
                 players.Add(player.GetComponent<PlayerController>());
