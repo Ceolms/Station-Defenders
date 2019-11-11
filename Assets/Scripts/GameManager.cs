@@ -9,11 +9,18 @@ public class GameManager : MonoBehaviour
     public List<GameObject> listPlayersPrefabs;
     public List<PlayerController> players = new List<PlayerController>();
     // Start is called before the first frame update
+    public bool forceSpawnP2;
+    public bool forceSpawnP3;
+    public bool forceSpawnP4;
     void Start()
     {
         Instance = this;
         InitializePlayers();
         IntializeSplitScreen();
+        if (forceSpawnP2) ForceSpawn(2);
+        if (forceSpawnP3) ForceSpawn(3);
+        if (forceSpawnP4) ForceSpawn(4);
+
     }
 
     // Update is called once per frame
@@ -22,6 +29,10 @@ public class GameManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Check the number of controllers connected and spawn a player for each of them .
+    /// If no controllers are connected , the P1 is spawn if keyboard and mouse inputs
+    /// </summary>
     void InitializePlayers()
     {
         if(ReInput.controllers.Joysticks.Count == 0)
@@ -83,15 +94,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// For debug purpose , add a player without controller. i = playerId -1
+    /// For debug purpose , add a player without controller.
     /// </summary>
-    void ForceSpawn(int i )
+    void ForceSpawn(int id )
     {
-        GameObject player = listPlayersPrefabs[i];
+        GameObject player = listPlayersPrefabs[id - 1];
         Instantiate(player);
-        GameObject spawnPosition = GameObject.Find("SpawnPosition Player" + (i+1));
+        GameObject spawnPosition = GameObject.Find("SpawnPosition Player" + (id));
         if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
-        else player.transform.position = new Vector3(i * 4, 0, 0);
+        else player.transform.position = new Vector3(id-1 * 4, 0, 0);
         players.Add(player.GetComponent<PlayerController>());
     }
 }
