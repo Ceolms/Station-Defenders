@@ -18,34 +18,42 @@ public class PlayerController : MonoBehaviour
     public bool useKeyboard = false;
 
     //movements vars
-    public float moveSpeed = 3f;
-    public float rotationSpeed = 5.0f;
+    private float moveSpeed = 5f;
+    private float faintSpeed = 0.5f;
+    private float rotationSpeed = 5.0f;
     private Vector3 moveVector;
     private Vector3 moveVelocity;
     private Quaternion rotation;
     private bool isMoving;
+    private bool isFainting;
     private bool isShooting;
-
+    private bool canMove = true;
     //gameobject vars
+
+    public PlayerInfos infos;
     public Camera camera;
+    private UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
     public GameObject prefabBullet;
     public GameObject gun;
-    [HideInInspector]
-    public MeshRenderer gunTexture;
-
+    public GameObject sphereMinimap;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         player = ReInput.players.GetPlayer((int)id);
         rigidbody = GetComponent<Rigidbody>();
         camera = this.GetComponentInChildren<Camera>();
+        uiManager = camera.transform.GetComponent<UiManager>();
         animator = character.GetComponent<Animator>();
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
-        gunTexture = gun.GetComponent<MeshRenderer>();
+        player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
+        player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
+        uiManager.SetName(id);
+        sphereMinimap.SetActive(true);
+       // StartCoroutine(TestLifeBar());
     }
 
     // Update is called once per frame
@@ -63,7 +71,12 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = true;
             animator.SetBool("isRunning", true);
-        }          
+        }      
+        if(infos.lifepoints <= 0)
+        {
+            isFainting = true;
+            animator.SetBool("isFainting", true);
+        }
     }
 
     private void FixedUpdate()
@@ -80,6 +93,16 @@ public class PlayerController : MonoBehaviour
 
         Instantiate(prefabBullet, firePosition.position, firePosition.rotation);
     }
+    void OnMapButtonDown(InputActionEventData data)
+    {
+        uiManager.TriggerMinimap();
+    }
+
+    void OnEmoteButtonDown(InputActionEventData data)
+    {
+        animator.SetTrigger("isAskingHelp");
+    }
+
     private void RotationKeyboard()
     {
         Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
@@ -103,8 +126,11 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
-        moveVector.z = player.GetAxis("Move Vertical");
+        if(canMove)
+        {
+            moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
+            moveVector.z = player.GetAxis("Move Vertical");
+        }
     }
 
     private void ProcessInput()
@@ -112,7 +138,8 @@ public class PlayerController : MonoBehaviour
         // Process movement
         if (moveVector.x != 0.0f || moveVector.z != 0.0f)
         {
-            moveVelocity = moveVector * moveSpeed;
+            if(!isFainting) moveVelocity = moveVector * moveSpeed;
+            else moveVelocity = moveVector * faintSpeed;
         }
        // if(!useKeyboard) transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
     }
@@ -131,4 +158,24 @@ public class PlayerController : MonoBehaviour
             character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
         }
     }
+
+    IEnumerator TestLifeBar()
+    {
+        for (int i = 100; i > 0; i -= 5)
+        {
+            infos.lifepoints -= 5;
+            uiManager.SetLifebarSize(infos.lifepoints);
+            yield return new WaitForSeconds(0.5f); 
+        }
+    }
+    public void SetKeyboardEnabled(bool b)
+    {
+        useKeyboard = b;
+    }
+
+}
+[System.Serializable]
+public class PlayerInfos : System.Object
+{
+    public int lifepoints = 100;
 }

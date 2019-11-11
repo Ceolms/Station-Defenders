@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Projectile
+  - projectile
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
+  - Movings
+  - Walls
+  - MiniMap
   - 
   - 
   - 
