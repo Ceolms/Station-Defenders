@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2368051286888801155}
   - component: {fileID: 1902111271580030177}
   - component: {fileID: 1287493606184044156}
-  - component: {fileID: 5068474343039609996}
   - component: {fileID: 235166657295673736}
+  - component: {fileID: 5392588538152159313}
   m_Layer: 9
   m_Name: Player 4
   m_TagString: Untagged
@@ -67,18 +67,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5068474343039609996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730176921307178992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86ca58e90e1e8814aa93509a5b651371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &235166657295673736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,14 +80,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
-  useKeyboard: 0
-  rotationSpeed: 5
-  camera: {fileID: 0}
+  infos:
+    lifepoints: 100
+  camera: {fileID: 3257167845866190462}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   gun: {fileID: 5332687963482355839}
   sphereMinimap: {fileID: 1732751418569508464}
-  gunTexture: {fileID: 0}
+--- !u!114 &5392588538152159313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730176921307178992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266c3daf89b5a824bb47c0ea31a54216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seeThroughShader: {fileID: 4800000, guid: 6164047c444599a4090327f176bdc389, type: 3}
+  material: {fileID: 2100000, guid: b5bb9a826b3056a48bae3843c804d4a5, type: 2}
 --- !u!1 &1732751418569508464
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +216,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2368051286888801155}
     m_Modifications:
+    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.526
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.69100004
+      objectReference: {fileID: 0}
     - target: {fileID: 1700146612509344, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
       propertyPath: m_Name
       value: SpaceSoldier
@@ -284,18 +297,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 44d979c7f120a344eb0cd26345ca2fc8, type: 2}
-    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.526
-      objectReference: {fileID: 0}
-    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.69100004
-      objectReference: {fileID: 0}
     - target: {fileID: 4450763515300172, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1118,6 +1119,12 @@ PrefabInstance:
 --- !u!4 &2812000945920147065 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
+    type: 3}
+  m_PrefabInstance: {fileID: 5889479102658765111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &3257167845866190462 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 5889479102658765111}
   m_PrefabAsset: {fileID: 0}

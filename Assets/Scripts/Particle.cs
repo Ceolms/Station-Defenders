@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Particle : MonoBehaviour
 {
-    public float destroyAfterSeconds;
+    public float destroyAfterSeconds = 2f;
     void Start()
     {
-        
+        StartCoroutine(DestroyAfterAnimation());
     }
 
     // Update is called once per frame
-    IEnumerable DestroyAfterAnimation()
+    IEnumerator DestroyAfterAnimation()
     {
         yield return new WaitForSeconds(destroyAfterSeconds);
         Destroy(this.gameObject);

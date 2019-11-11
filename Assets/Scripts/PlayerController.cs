@@ -15,18 +15,22 @@ public class PlayerController : MonoBehaviour
     //inputs vars
     public PlayerID id = PlayerID.Player1;
     private Player player;
-    public bool useKeyboard = false;
+    private bool useKeyboard = false;
 
     //movements vars
     private float moveSpeed = 5f;
-    public float rotationSpeed = 5.0f;
+    private float faintSpeed = 0.5f;
+    private float rotationSpeed = 5.0f;
     private Vector3 moveVector;
     private Vector3 moveVelocity;
     private Quaternion rotation;
     private bool isMoving;
+    private bool isFainting;
     private bool isShooting;
     private bool canMove = true;
     //gameobject vars
+
+    public PlayerInfos infos;
     public Camera camera;
     private UiManager uiManager;
     private Rigidbody rigidbody;
@@ -35,12 +39,9 @@ public class PlayerController : MonoBehaviour
     public GameObject prefabBullet;
     public GameObject gun;
     public GameObject sphereMinimap;
-    [HideInInspector]
-    public MeshRenderer gunTexture;
-
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         player = ReInput.players.GetPlayer((int)id);
         rigidbody = GetComponent<Rigidbody>();
@@ -49,9 +50,10 @@ public class PlayerController : MonoBehaviour
         animator = character.GetComponent<Animator>();
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
-        gunTexture = gun.GetComponent<MeshRenderer>();
+        player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
+       // StartCoroutine(TestLifeBar());
     }
 
     // Update is called once per frame
@@ -69,7 +71,12 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = true;
             animator.SetBool("isRunning", true);
-        }          
+        }      
+        if(infos.lifepoints <= 0)
+        {
+            isFainting = true;
+            animator.SetBool("isFainting", true);
+        }
     }
 
     private void FixedUpdate()
@@ -89,6 +96,11 @@ public class PlayerController : MonoBehaviour
     void OnMapButtonDown(InputActionEventData data)
     {
         uiManager.TriggerMinimap();
+    }
+
+    void OnEmoteButtonDown(InputActionEventData data)
+    {
+        animator.SetTrigger("isAskingHelp");
     }
 
     private void RotationKeyboard()
@@ -126,7 +138,8 @@ public class PlayerController : MonoBehaviour
         // Process movement
         if (moveVector.x != 0.0f || moveVector.z != 0.0f)
         {
-            moveVelocity = moveVector * moveSpeed;
+            if(!isFainting) moveVelocity = moveVector * moveSpeed;
+            else moveVelocity = moveVector * faintSpeed;
         }
        // if(!useKeyboard) transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
     }
@@ -145,4 +158,24 @@ public class PlayerController : MonoBehaviour
             character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
         }
     }
+
+    IEnumerator TestLifeBar()
+    {
+        for (int i = 100; i > 0; i -= 5)
+        {
+            infos.lifepoints -= 5;
+            uiManager.SetLifebarSize(infos.lifepoints);
+            yield return new WaitForSeconds(0.5f); 
+        }
+    }
+    public void SetKeyboardEnabled(bool b)
+    {
+        useKeyboard = b;
+    }
+
+}
+[System.Serializable]
+public class PlayerInfos : System.Object
+{
+    public int lifepoints = 100;
 }

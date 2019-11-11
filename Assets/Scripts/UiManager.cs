@@ -11,22 +11,25 @@ public class UiManager : MonoBehaviour
     private Image imageOverlayRed;
     private float sizeMaxLife;
     private bool minimapVisible;
-    void Start()
+    void Awake()
     {
         sizeMaxLife = UILifebar.transform.localScale.x;
         imageOverlayRed = UILifebar.transform.Find("BarRedOverlay").GetComponent<Image>();
-
-        StartCoroutine(LifeBarTestRoutine());
     }
 
     public void SetLifebarSize(int percent)
     {
+        if(imageOverlayRed == null) UILifebar.transform.Find("BarRedOverlay").GetComponent<Image>();
         float scale = sizeMaxLife / 100;
 
         UILifebar.transform.localScale = new Vector2(scale * percent, UILifebar.transform.localScale.y);
         if(percent < 40)
         {
             imageOverlayRed.color =  new Color(255, 0, 0, 0.5f);
+        }
+        else
+        {
+            imageOverlayRed.color = new Color(255, 0, 0, 0.0f);
         }
     }
 
@@ -57,14 +60,6 @@ public class UiManager : MonoBehaviour
                 textPlayerName.text = "Player 4";
                 textPlayerName.color = Color.yellow;
                 break;
-        }
-    }
-    IEnumerator LifeBarTestRoutine()
-    {
-        for(int i = 100; i >=10; i -=5)
-        {
-            SetLifebarSize(i);
-            yield return new WaitForSeconds(0.5f);
         }
     }
 }

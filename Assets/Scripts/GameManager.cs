@@ -16,11 +16,11 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         InitializePlayers();
-        IntializeSplitScreen();
         if (forceSpawnP2) ForceSpawn(2);
         if (forceSpawnP3) ForceSpawn(3);
         if (forceSpawnP4) ForceSpawn(4);
 
+        IntializeSplitScreen();
     }
 
     // Update is called once per frame
@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
             GameObject spawnPosition = GameObject.Find("SpawnPosition Player1");
             if (spawnPosition != null) player1.transform.position = spawnPosition.transform.position;
             else player1.transform.position = new Vector3(0, 0, 0);
-            player1.GetComponent<PlayerController>().useKeyboard = true;
+
+            player1.GetComponent<PlayerController>().SetKeyboardEnabled(true);
             players.Add(player1.GetComponent<PlayerController>());
         }
         else
@@ -105,4 +106,5 @@ public class GameManager : MonoBehaviour
         else player.transform.position = new Vector3(id-1 * 4, 0, 0);
         players.Add(player.GetComponent<PlayerController>());
     }
+ 
 }
