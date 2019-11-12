@@ -761,7 +761,7 @@ PrefabInstance:
     - target: {fileID: 5096083401750040207, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
       propertyPath: forceSpawnP2
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5096083401750040207, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
