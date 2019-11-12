@@ -30,20 +30,9 @@ public class BulletController : MonoBehaviour
             {
                 impact = true;
                 impactObj = Instantiate(prefabImpact, this.transform.position, this.transform.rotation);
-                StartCoroutine(ImpactEffect());
+                Destroy(this.gameObject);
             }
         }
        
-    }
-
-    IEnumerator ImpactEffect()
-    {
-        foreach (Transform t in this.transform)
-        {
-            t.gameObject.SetActive(false);
-        }
-        yield return new WaitForSeconds(0.3f);
-        Destroy(impactObj);
-        Destroy(this.gameObject);
     }
 }

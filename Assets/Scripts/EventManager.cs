@@ -41,8 +41,7 @@ public class EventManager : MonoBehaviour
                 Light light = l.GetComponent<Light>();
                 light.intensity = light.intensity - lightdecreaseSpeed;
             }
-            if (lights[0].GetComponent<Light>().intensity < 0.2f)
-                GameObject.Find("Player One").GetComponent<PlayerController>().gunTexture.material.mainTexture = gunDark;
+            if (lights[0].GetComponent<Light>().intensity < 0.2f) { }
         }
     }
 
@@ -68,6 +67,5 @@ public class EventManager : MonoBehaviour
             Light light = l.GetComponent<Light>();
             light.intensity = 1.33f;
         }
-        GameObject.Find("Player One").GetComponent<PlayerController>().gunTexture.material.mainTexture = gunNormal;
     }
 }
