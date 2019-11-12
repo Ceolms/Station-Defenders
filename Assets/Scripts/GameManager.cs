@@ -7,28 +7,25 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> listPlayersPrefabs;
-    public List<PlayerController> players = new List<PlayerController>();
+    public List<PlayerController> players;
     // Start is called before the first frame update
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
-    void Start()
+    void Awake()
     {
         Instance = this;
+        players = new List<PlayerController>();
         InitializePlayers();
         if (forceSpawnP2) ForceSpawn(2);
         if (forceSpawnP3) ForceSpawn(3);
         if (forceSpawnP4) ForceSpawn(4);
-
         IntializeSplitScreen();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update()
+    {   
     }
-
     /// <summary>
     /// Check the number of controllers connected and spawn a player for each of them .
     /// If no controllers are connected , the P1 is spawn if keyboard and mouse inputs
@@ -37,8 +34,9 @@ public class GameManager : MonoBehaviour
     {
         if(ReInput.controllers.Joysticks.Count == 0)
         {
-            GameObject player1 = listPlayersPrefabs[0];
-            Instantiate(player1);
+            GameObject player1Prefab = listPlayersPrefabs[0];
+            GameObject player1 = Instantiate(player1Prefab);
+
             GameObject spawnPosition = GameObject.Find("SpawnPosition Player1");
             if (spawnPosition != null) player1.transform.position = spawnPosition.transform.position;
             else player1.transform.position = new Vector3(0, 0, 0);
@@ -54,17 +52,17 @@ public class GameManager : MonoBehaviour
                 Joystick j = ReInput.controllers.Joysticks[i];
                 p.controllers.AddController(j,true);
 
-                GameObject player = listPlayersPrefabs[i];
-                Instantiate(player);
+                GameObject playerPrefab = listPlayersPrefabs[i];
+                GameObject player = Instantiate(playerPrefab);
+
                 string spawnS = "SpawnPosition Player" + (i + 1).ToString();
                 GameObject spawnPosition = GameObject.Find(spawnS);
-                Debug.Log(spawnPosition.name);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i*4, 0, 0);
-                players.Add(player.GetComponent<PlayerController>());
-            }
 
-            
+                player.GetComponent<PlayerController>().SetKeyboardEnabled(false);
+                players.Add(player.GetComponent<PlayerController>());
+            } 
         }
     }
     /// <summary>
@@ -74,25 +72,37 @@ public class GameManager : MonoBehaviour
     {
         if(players.Count == 1)
         {
-            players[0].camera.rect = new Rect(0, 0, 1, 1);
+            Camera cp1 = players[0].GetComponentInChildren<Camera>();
+            cp1.rect = new Rect(0, 0, 1, 1);
+
         }
         else if (players.Count == 2)
         {
-            players[0].camera.rect = new Rect(0, 0, 0.5f, 1);
-            players[1].camera.rect = new Rect(0.5f, 0, 0.5f, 1);
+            Camera cp1 = players[0].GetComponentInChildren<Camera>();
+            cp1.rect = new Rect(0, 0, 0.5f, 1);
+            Camera cp2 = players[1].GetComponentInChildren<Camera>();
+            cp2.rect = new Rect(0.5f, 0, 0.5f, 1);
+
         }
         else if (players.Count == 3)
         {
-            players[0].camera.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
-            players[1].camera.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-            players[2].camera.rect = new Rect(0, 0, 0.5f, 0.5f);
+            Camera cp1 = players[0].GetComponentInChildren<Camera>();
+            cp1.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
+            Camera cp2 = players[1].GetComponentInChildren<Camera>();
+            cp2.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+            Camera cp3 = players[2].GetComponentInChildren<Camera>();
+            cp3.rect = new Rect(0, 0, 0.5f, 0.5f);
         }
         else // 4
         {
-            players[0].camera.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
-            players[1].camera.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-            players[2].camera.rect = new Rect(0, 0, 0.5f, 0.5f);
-            players[3].camera.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
+            Camera cp1 = players[0].GetComponentInChildren<Camera>();
+            cp1.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
+            Camera cp2 = players[1].GetComponentInChildren<Camera>();
+            cp2.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+            Camera cp3 = players[2].GetComponentInChildren<Camera>();
+            cp3.rect = new Rect(0, 0, 0.5f, 0.5f);
+            Camera cp4 = players[3].GetComponentInChildren<Camera>();
+            cp4.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
         }
     }
 
@@ -101,8 +111,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void ForceSpawn(int id )
     {
-        GameObject player = listPlayersPrefabs[id - 1];
-        Instantiate(player);
+        GameObject playerPrefab = listPlayersPrefabs[id - 1];
+        GameObject player = Instantiate(playerPrefab);
         GameObject spawnPosition = GameObject.Find("SpawnPosition Player" + (id));
         if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
         else player.transform.position = new Vector3(id-1 * 4, 0, 0);

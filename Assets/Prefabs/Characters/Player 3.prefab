@@ -83,7 +83,7 @@ MonoBehaviour:
   useKeyboard: 0
   infos:
     lifepoints: 100
-  camera: {fileID: 7265544420042797968}
+  cameraObject: {fileID: 5439780670170633275}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   gun: {fileID: 5332687963482355839}
@@ -104,6 +104,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: ed3bd972f89e47e42843b13fe786b1bc, type: 2}
   originalShader: {fileID: 0}
   isHidden: 0
+  obstacleObject: {fileID: 0}
 --- !u!1 &898983992687126218
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,15 +306,15 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 656df576419e5424a9556cce0564fc83, type: 3}
---- !u!4 &7989831281338006423 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
+--- !u!1 &5439780670170633275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5990341080008372450, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 1755292023350011097}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &7265544420042797968 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
+--- !u!4 &7989831281338006423 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 1755292023350011097}
   m_PrefabAsset: {fileID: 0}
