@@ -30,19 +30,19 @@ public class EventManager : MonoBehaviour
     public Material matCircle;
 
     [HideInInspector]
-    public GameObject[] lights;
+    public List<Light> lights = new List<Light>();
     [HideInInspector]
-    public GameObject[] playersLights;
+    public List<Light> playersLights = new List<Light>();
     [HideInInspector]
     public Color originalColor;
     [HideInInspector]
     public float originalIntensity;
-    
+
 
     [Tooltip("in percent up to 100% ( always happen)")]
     [Range(0, 100)]
     public float eventRisk = 0;
-    public float waitTime = 1f;
+    public float timeBetweenCheck = 1f;
     public float coolDown;
 
     // Start is called before the first frame update
@@ -54,13 +54,24 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < eventMeteor.eventTypeRisk; i++) eventTypeProba.Add(EventType.MeteorShower);
         for (int i = 0; i < eventFire.eventTypeRisk; i++) eventTypeProba.Add(EventType.Fire);
 
-        lights = GameObject.FindGameObjectsWithTag("Light");
-        if (lights.Length > 0)
+        GameObject[] gosL = GameObject.FindGameObjectsWithTag("Light");
+
+        foreach (GameObject go in gosL)
         {
-            originalColor = lights[0].GetComponent<Light>().color;
-            originalIntensity = lights[0].GetComponent<Light>().intensity;
+            lights.Add(go.GetComponent<Light>());
         }
-        playersLights = GameObject.FindGameObjectsWithTag("PlayerLight");
+
+
+        if (lights.Count > 0)
+        {
+            originalColor = lights[0].color;
+            originalIntensity = lights[0].intensity;
+        }
+        gosL = GameObject.FindGameObjectsWithTag("PlayerLight");
+        foreach (GameObject go in gosL)
+        {
+            playersLights.Add(go.GetComponent<Light>());
+        }
 
         if (this.GetComponent<EventLight>() == null) eventLScript = this.gameObject.AddComponent<EventLight>();
         if (this.GetComponent<EventMeteor>() == null) eventMScript = this.gameObject.AddComponent<EventMeteor>();
@@ -83,14 +94,14 @@ public class EventManager : MonoBehaviour
         {
             while (!eventActive)
             {
-                yield return new WaitForSeconds(waitTime);
+                yield return new WaitForSeconds(timeBetweenCheck);
                 int i = Random.Range(0, 100);
-              //  Debug.Log("TestRandom :" + i);
+                //  Debug.Log("TestRandom :" + i);
                 if (i < eventRisk) // something happen !
                 {
                     int j = Random.Range(0, eventTypeProba.Count);
                     EventType evt = eventTypeProba[j];
-                 //   Debug.Log("EventType:" + evt);
+                    //   Debug.Log("EventType:" + evt);
                     switch (evt)
                     {
                         case (EventType.LightBreakdown):
@@ -128,24 +139,22 @@ public class EventLight : MonoBehaviour
         EventManager.Instance.eventActive = true;
         infos.eventActive = true;
         StartCoroutine(LightBackActive());
+        SoundPlayer.Instance.Play("WarningLight");
         Debug.Log("LightBreakDown event begin!");
     }
     public void Update()
     {
         if (infos.eventActive)
         {
-            foreach (GameObject l in EventManager.Instance.lights)
+            foreach (Light l in EventManager.Instance.lights)
             {
-                Light light = l.GetComponent<Light>();
-                light.intensity = light.intensity - lightdecreaseSpeed;
-
+                l.intensity = l.intensity - lightdecreaseSpeed;
             }
             if (EventManager.Instance.lights[0].GetComponent<Light>().intensity < 0.5f)
             {
-                foreach (GameObject l in EventManager.Instance.playersLights)
+                foreach (Light l in EventManager.Instance.lights)
                 {
-                    Light light = l.GetComponent<Light>();
-                    light.enabled = true;
+                    l.enabled = true;
                 }
             }
         }
@@ -153,18 +162,16 @@ public class EventLight : MonoBehaviour
     private IEnumerator LightBackActive()
     {
         yield return new WaitForSeconds(infos.eventDuration);
-        foreach (GameObject l in EventManager.Instance.lights)
+        foreach (Light l in EventManager.Instance.lights)
         {
-            Light light = l.GetComponent<Light>();
-            light.intensity = EventManager.Instance.originalIntensity;
+            l.intensity = EventManager.Instance.originalIntensity;
         }
         EventManager.Instance.eventActive = false;
         infos.eventActive = false;
         Debug.Log("LightBreakDown event finish!");
-        foreach (GameObject l in EventManager.Instance.lights)
+        foreach (Light l in EventManager.Instance.lights)
         {
-            Light light = l.GetComponent<Light>();
-            light.enabled = false;
+            l.enabled = false;
         }
     }
 }
@@ -173,11 +180,11 @@ public class EventMeteor : MonoBehaviour
 {
     EventMeteorInfos infos;
     GameObject[] listMeteorAreas;
-    private bool routineActive;  
+    private bool routineActive;
     public void Start()
     {
         infos = EventManager.Instance.eventMeteor;
-        listMeteorAreas = GameObject.FindGameObjectsWithTag("MeteorArea");      
+        listMeteorAreas = GameObject.FindGameObjectsWithTag("MeteorArea");
     }
     public void StartEvent()
     {
@@ -185,9 +192,12 @@ public class EventMeteor : MonoBehaviour
         {
             EventManager.Instance.eventActive = true;
             infos.eventActive = true;
+            StartCoroutine(RedAlertLight());
+            SoundPlayer.Instance.Play("RedAlert");
+            SoundPlayer.Instance.Play("WarningMeteor");
             Debug.Log("Meteor Event Start!");
         }
-        else Debug.Log("No Meteor Area found."); 
+        else Debug.Log("No Meteor Area found.");
     }
 
     public void Update()
@@ -216,7 +226,7 @@ public class EventMeteor : MonoBehaviour
             float maxZ = listMeteorAreas[indexArea].transform.position.z + (listMeteorAreas[indexArea].transform.lossyScale.z / 2);
             float x = Random.Range(minX, maxX);
             float z = Random.Range(minZ, maxZ);
-            SpawnMeteor(new Vector3(x,0,z));
+            SpawnMeteor(new Vector3(x, 0, z));
         }
         infos.eventActive = false;
         EventManager.Instance.eventActive = false;
@@ -230,11 +240,44 @@ public class EventMeteor : MonoBehaviour
     }
     private IEnumerator SpawnMeteorRoutine(Vector3 position)
     {
-        yield return new WaitForSeconds(infos.timeBeforeFall);
         GameObject meteor = Instantiate(infos.meteorPrefab);
         meteor.transform.position = position;
         yield return new WaitForSeconds(4f);
         Destroy(meteor);
+    }
+    private IEnumerator RedAlertLight()
+    {
+        float pulseSpeed = 1.9f;
+        float minIntensity = 0.2f;
+        float maxIntensity = EventManager.Instance.originalIntensity;
+        float targetIntensity = minIntensity;
+        foreach (Light l in EventManager.Instance.lights)
+        {
+            l.color = Color.red;
+        }
+        while (infos.eventActive)
+        {
+            yield return new WaitForSeconds(0.01f);
+            foreach (Light l in EventManager.Instance.lights)
+            {
+                float intensity = Mathf.MoveTowards(l.intensity, targetIntensity, Time.deltaTime * pulseSpeed);
+                if (intensity >= maxIntensity)
+                {
+                    intensity = maxIntensity;
+                    targetIntensity = minIntensity;
+                }
+                else if (intensity <= minIntensity)
+                {
+                    intensity = minIntensity;
+                    targetIntensity = maxIntensity;
+                }
+                l.intensity = intensity;
+            }
+        }
+        foreach (Light l in EventManager.Instance.lights)
+        {
+            l.color = EventManager.Instance.originalColor;
+        }
     }
 }
 public class EventFire : MonoBehaviour
@@ -281,8 +324,6 @@ public class EventMeteorInfos : System.Object
     public int meteorAmount = 10;
     [Range(0.2f, 5f)]
     public float timeBetweenMeteor = 2f;
-    [Range(0.5f, 10f)]
-    public float timeBeforeFall = 2f;
     public int damagesCenter = 45;
     public int damagesBorder = 15;
     public GameObject meteorPrefab;
