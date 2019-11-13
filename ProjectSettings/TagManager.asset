@@ -6,6 +6,8 @@ TagManager:
   tags:
   - projectile
   - Obstacle
+  - Light
+  - PlayerLight
   layers:
   - Default
   - TransparentFX

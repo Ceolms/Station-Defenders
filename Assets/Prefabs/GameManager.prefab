@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5096083401750040200}
   - component: {fileID: 5096083401750040207}
+  - component: {fileID: 1439437368268532251}
+  - component: {fileID: 1691147243}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,3 +50,43 @@ MonoBehaviour:
   - {fileID: 730176921307178992, guid: cf13eb29e9ca91746a229d2541dd1a51, type: 3}
   - {fileID: 730176921307178992, guid: 3ce515ba527d9be4e90e119caf65e194, type: 3}
   - {fileID: 730176921307178992, guid: e1b0d2c3188a4e6488a69aa04ba92082, type: 3}
+  players: []
+  forceSpawnP2: 0
+  forceSpawnP3: 0
+  forceSpawnP4: 0
+--- !u!114 &1439437368268532251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5096083401750040206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb57e6b8650e43469d199f8f654df1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventActive: 0
+  eventLightBreakdown:
+    eventActive: 0
+    eventTypeRisk: 100
+    eventDuration: 10
+  eventMeteor:
+    eventActive: 0
+    eventTypeRisk: 0
+    eventDuration: 10
+  eventFire:
+    eventActive: 0
+    eventTypeRisk: 0
+    eventDuration: 10
+  eventRisk: 0
+  waitTime: 1
+  coolDown: 0
+--- !u!81 &1691147243
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5096083401750040206}
+  m_Enabled: 1

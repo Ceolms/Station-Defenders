@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 474268}
   - component: {fileID: 3343684}
   - component: {fileID: 2354588}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LowPoly Scifi_Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178802}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 23.21599, y: 23.21599, z: 23.215994}
   m_Children:
   - {fileID: 215497514210303101}
   m_Father: {fileID: 0}
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9bb8829d08db79b48982e8b9a8560f40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 215497514210303101}
   - component: {fileID: 3962266097649197063}
   - component: {fileID: 4154940610390142148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GunShootPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
