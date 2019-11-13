@@ -79,7 +79,7 @@ MonoBehaviour:
     eventActive: 0
     eventTypeRisk: 0
     eventDuration: 10
-  eventRisk: 80
+  eventRisk: 0
   waitTime: 1
   coolDown: 0
 --- !u!81 &1691147243
