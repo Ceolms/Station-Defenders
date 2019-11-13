@@ -86,7 +86,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
-  gun: {fileID: 6684165739521121417}
+  gun: {fileID: 5605794181458058943}
   sphereMinimap: {fileID: 1732751418569508464}
 --- !u!114 &5392588538152159313
 MonoBehaviour:
@@ -952,9 +952,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6684165739521121417 stripped
+--- !u!1 &5605794181458058943 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 8749428469163429258, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+  m_CorrespondingSourceObject: {fileID: 7522440322086948796, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}

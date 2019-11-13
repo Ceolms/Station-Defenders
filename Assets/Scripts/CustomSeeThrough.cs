@@ -5,10 +5,15 @@ using UnityEngine;
 public class CustomSeeThrough : MonoBehaviour
 {
     public Shader seeThroughShader;
+    [HideInInspector]
     public Material material;
+    [HideInInspector]
     public Shader originalShader;
+    [HideInInspector]
     private GameObject wallCheckCamera;
+    [HideInInspector]
     public bool isHidden;
+    [HideInInspector]
     public GameObject obstacleObject;
 
     void Start()

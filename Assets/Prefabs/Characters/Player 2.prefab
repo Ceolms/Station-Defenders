@@ -86,7 +86,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
-  gun: {fileID: 6684165739521121417}
+  gun: {fileID: 4077040735411724903}
   sphereMinimap: {fileID: 4439652161510381877}
 --- !u!114 &2446361836499282682
 MonoBehaviour:
@@ -387,6 +387,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 137765890817277724, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d8dfda64987cff5419b3497636a384d6, type: 2}
+    - target: {fileID: 137076081665548408, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d8dfda64987cff5419b3497636a384d6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
 --- !u!4 &2719651428607149103 stripped
@@ -395,9 +405,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6684165739521121417 stripped
+--- !u!1 &4077040735411724903 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 8749428469163429258, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+  m_CorrespondingSourceObject: {fileID: 2106089749076800356, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}

@@ -81,9 +81,23 @@ public class PlayerController : MonoBehaviour
     //Controls scripts -----------------------
     private void OnFireButtonDown(InputActionEventData data)
     {
-        Transform firePosition = gun.transform.GetChild(0);
+        Transform pos = null;
 
-        Instantiate(prefabBullet, firePosition.position, firePosition.rotation);
+        foreach (Transform child in gun.transform)
+        {
+            if (child.name.Equals("GunShootPosition"))
+            {
+                pos = child;
+                break;
+            }
+        }
+        if(pos == null )
+        {
+            return;
+        }
+        GameObject bullet = Instantiate(prefabBullet, pos.position,Quaternion.identity);
+        bullet.transform.forward = character.forward;
+        bullet.GetComponent<BulletController>().canMove = true;
     }
     private void OnMapButtonDown(InputActionEventData data)
     {
