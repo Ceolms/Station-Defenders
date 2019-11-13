@@ -4,10 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - projectile
   - Obstacle
   - Light
   - PlayerLight
+  - MeteorArea
+  - FireArea
+  - Projectile
+  - Alien
   layers:
   - Default
   - TransparentFX

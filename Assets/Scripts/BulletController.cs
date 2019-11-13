@@ -6,7 +6,8 @@ public class BulletController : MonoBehaviour
 {
     private bool impact;
     private Rigidbody rigidbody;
-    private float speed = 60f;
+    public float speed = 60f;
+    public int bulletDamages = 10;
     public GameObject prefabImpact;
     private GameObject impactObj;
     void Start()

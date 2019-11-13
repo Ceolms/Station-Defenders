@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5096083401750040200}
   - component: {fileID: 5096083401750040207}
-  - component: {fileID: 1439437368268532251}
   - component: {fileID: 1691147243}
+  - component: {fileID: 1587115170469573478}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -54,7 +54,15 @@ MonoBehaviour:
   forceSpawnP2: 0
   forceSpawnP3: 0
   forceSpawnP4: 0
---- !u!114 &1439437368268532251
+--- !u!81 &1691147243
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5096083401750040206}
+  m_Enabled: 1
+--- !u!114 &1587115170469573478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,24 +77,27 @@ MonoBehaviour:
   eventActive: 0
   eventLightBreakdown:
     eventActive: 0
-    eventTypeRisk: 100
-    eventDuration: 10
+    eventTypeRisk: 0
+    eventDuration: 30
   eventMeteor:
     eventActive: 0
-    eventTypeRisk: 0
-    eventDuration: 10
+    eventTypeRisk: 100
+    meteorAmount: 5
+    timeBetweenMeteor: 3
+    timeBeforeFall: 2
+    damagesCenter: 45
+    damagesBorder: 15
+    meteorPrefab: {fileID: 1566239723596968, guid: 19fd4b1efb7315c48b3eb7fa0a6ab065,
+      type: 3}
   eventFire:
     eventActive: 0
     eventTypeRisk: 0
-    eventDuration: 10
-  eventRisk: 0
+    eventDuration: 30
+  matCircle: {fileID: 2100000, guid: f674817eace4b384280fabb836195dc3, type: 2}
+  lights: []
+  playersLights: []
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  originalIntensity: 0
+  eventRisk: 100
   waitTime: 1
   coolDown: 0
---- !u!81 &1691147243
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5096083401750040206}
-  m_Enabled: 1

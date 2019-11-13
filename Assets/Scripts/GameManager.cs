@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             if (spawnPosition != null) player1.transform.position = spawnPosition.transform.position;
             else player1.transform.position = new Vector3(0, 0, 0);
 
-            player1.GetComponent<PlayerController>().SetKeyboardEnabled(true);
+            player1.GetComponent<PlayerController>().useKeyboard = true;
             players.Add(player1.GetComponent<PlayerController>());
         }
         else
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i*4, 0, 0);
 
-                player.GetComponent<PlayerController>().SetKeyboardEnabled(false);
+                player.GetComponent<PlayerController>().useKeyboard = false;
                 players.Add(player.GetComponent<PlayerController>());
             } 
         }
