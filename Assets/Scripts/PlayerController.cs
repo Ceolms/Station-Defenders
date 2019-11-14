@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInfos infos;
     public Camera camera;
-    private UiManager uiManager;
+    public UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;

@@ -14,7 +14,8 @@ public enum EventType
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
-    private bool canEventHappen = true;
+    [HideInInspector]
+    public bool canEventHappen = true;
     private bool randomActive;
     private List<EventType> eventTypeProba;
     [HideInInspector] public bool eventActive;
@@ -87,6 +88,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public void StartCooldown()
+    {
+        StartCoroutine(CooldownRoutine());
+    }
+    private IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(coolDown);
+        canEventHappen = true;
+    }
     private IEnumerator TestRandom()
     {
         randomActive = true;
@@ -126,7 +136,6 @@ public class EventLight : MonoBehaviour
 {
     EventLightInfos infos;
 
-
     private float lightdecreaseSpeed = 0.05f;
 
     public void Start()
@@ -137,10 +146,15 @@ public class EventLight : MonoBehaviour
     public void StartEvent()
     {
         EventManager.Instance.eventActive = true;
+        EventManager.Instance.canEventHappen = false;
+        
         infos.eventActive = true;
+        foreach (PlayerController p in GameManager.Instance.players)
+        {
+            p.uiManager.ShowWarningSprite(EventType.LightBreakdown);
+        }
         StartCoroutine(LightBackActive());
         SoundPlayer.Instance.Play("WarningLight");
-        Debug.Log("LightBreakDown event begin!");
     }
     public void Update()
     {
@@ -167,6 +181,7 @@ public class EventLight : MonoBehaviour
             l.intensity = EventManager.Instance.originalIntensity;
         }
         EventManager.Instance.eventActive = false;
+        EventManager.Instance.StartCooldown();
         infos.eventActive = false;
         Debug.Log("LightBreakDown event finish!");
         foreach (Light l in EventManager.Instance.lights)
@@ -192,10 +207,14 @@ public class EventMeteor : MonoBehaviour
         {
             EventManager.Instance.eventActive = true;
             infos.eventActive = true;
+            EventManager.Instance.canEventHappen = false;
+            foreach (PlayerController p in GameManager.Instance.players)
+            {
+                p.uiManager.ShowWarningSprite(EventType.MeteorShower);
+            }
             StartCoroutine(RedAlertLight());
             SoundPlayer.Instance.Play("RedAlert");
-            SoundPlayer.Instance.Play("WarningMeteor");
-            Debug.Log("Meteor Event Start!");
+            SoundPlayer.Instance.Play("WarningMeteor"); 
         }
         else Debug.Log("No Meteor Area found.");
     }
@@ -230,8 +249,8 @@ public class EventMeteor : MonoBehaviour
         }
         infos.eventActive = false;
         EventManager.Instance.eventActive = false;
+        EventManager.Instance.StartCooldown();
         routineActive = false;
-        Debug.Log("Meteor Event End!");
     }
 
     private void SpawnMeteor(Vector3 position)
@@ -292,6 +311,11 @@ public class EventFire : MonoBehaviour
     {
         EventManager.Instance.eventActive = true;
         infos.eventActive = true;
+        EventManager.Instance.canEventHappen = false;
+        foreach (PlayerController p in GameManager.Instance.players)
+        {
+            p.uiManager.ShowWarningSprite(EventType.Fire);
+        }
     }
 
     public void Update()
@@ -300,6 +324,7 @@ public class EventFire : MonoBehaviour
         {
             infos.eventActive = false;
             EventManager.Instance.eventActive = false;
+            EventManager.Instance.StartCooldown();
         }
     }
 }

@@ -36,10 +36,10 @@ public class SoundPlayer : MonoBehaviour
         Sound s = System.Array.Find(soundList, sound => sound.name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
         if (s != null)
         {
-            GameObject emptyGo = new GameObject();
-            GameObject go = Instantiate(emptyGo);
+            GameObject go = new GameObject();
             go.transform.SetParent(this.transform);
             AudioSource aSource = go.AddComponent<AudioSource>();
+            go.name = "Sound : " + s.name;
             s.source = aSource;
             s.source.loop = s.loop;
             s.source.clip = s.clip;

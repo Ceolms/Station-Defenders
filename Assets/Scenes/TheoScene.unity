@@ -493,5 +493,18 @@ PrefabInstance:
       propertyPath: eventMeteor.eventTypeRisk
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
+        type: 3}
+      propertyPath: coolDown
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[0].volume
+      value: 0.103
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[7].volume
+      value: 0.125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
