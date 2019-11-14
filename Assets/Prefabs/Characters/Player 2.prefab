@@ -83,7 +83,7 @@ MonoBehaviour:
   useKeyboard: 0
   infos:
     lifepoints: 100
-  camera: {fileID: 7836843907135980600}
+  camera: {fileID: 0}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   gun: {fileID: 5332687963482355839}
@@ -296,12 +296,12 @@ PrefabInstance:
     - target: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4015205585296981974, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
@@ -314,17 +314,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: cef054392d4d41649917c35c492b12fb,
         type: 3}
+    - target: {fileID: 4793764313934949607, guid: 656df576419e5424a9556cce0564fc83,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4793764313934949607, guid: 656df576419e5424a9556cce0564fc83,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 656df576419e5424a9556cce0564fc83, type: 3}
 --- !u!4 &7419648582498257983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
-    type: 3}
-  m_PrefabInstance: {fileID: 1173885821236024177}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &7836843907135980600 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 1173885821236024177}
   m_PrefabAsset: {fileID: 0}

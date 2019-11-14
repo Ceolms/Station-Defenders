@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730176921307178992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.02, y: -0.356, z: 6.799999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2812000945920147065}
@@ -83,7 +83,7 @@ MonoBehaviour:
   useKeyboard: 0
   infos:
     lifepoints: 100
-  camera: {fileID: 3257167845866190462}
+  cameraObject: {fileID: 187556287425008085}
   character: {fileID: 2719651428607149103}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   gun: {fileID: 5332687963482355839}
@@ -1141,15 +1141,15 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 656df576419e5424a9556cce0564fc83, type: 3}
---- !u!4 &2812000945920147065 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
+--- !u!1 &187556287425008085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5990341080008372450, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 5889479102658765111}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &3257167845866190462 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8973539820599138121, guid: 656df576419e5424a9556cce0564fc83,
+--- !u!4 &2812000945920147065 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
     type: 3}
   m_PrefabInstance: {fileID: 5889479102658765111}
   m_PrefabAsset: {fileID: 0}
