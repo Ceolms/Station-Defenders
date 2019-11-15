@@ -96,16 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         //Position camera to player
         camera.transform.position = character.transform.position + offset;
-        /*
-        //Mesh renderer gun in animation
-        if (animator.GetAnimatorTransitionInfo(0).IsName("Faint_stand_up -> Idle"))
-        {
-            gun.GetComponent<MeshRenderer>().enabled = true;
-        }
-        if (animator.GetAnimatorTransitionInfo(0).IsName("Fainting -> Faint_idle"))
-        {
-            gun.GetComponent<MeshRenderer>().enabled = false;
-        }*/
     }
     //Controls scripts -----------------------
 
