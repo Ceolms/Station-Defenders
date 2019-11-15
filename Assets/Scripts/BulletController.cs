@@ -28,6 +28,10 @@ public class BulletController : MonoBehaviour
             impact = true;
             impactObj = Instantiate(prefabImpact, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
+            if(other.gameObject.tag.Equals("Alien"))
+            {
+                other.transform.GetComponent<AlienCharacteristics>().TakeDamage(bulletDamages);
+            }
         }
     }
 }
