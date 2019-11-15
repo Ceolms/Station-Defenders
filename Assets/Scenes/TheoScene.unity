@@ -476,7 +476,7 @@ PrefabInstance:
     - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
       propertyPath: eventRisk
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
@@ -491,12 +491,17 @@ PrefabInstance:
     - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
       propertyPath: eventMeteor.eventTypeRisk
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}
       propertyPath: coolDown
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
+        type: 3}
+      propertyPath: eventLightBreakdown.eventTypeRisk
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
       propertyPath: soundList.Array.data[0].volume

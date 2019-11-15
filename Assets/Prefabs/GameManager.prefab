@@ -47,7 +47,7 @@ MonoBehaviour:
   soundList:
   - name: RedAlert
     clip: {fileID: 8300000, guid: 873112618e4a7bb4d879faf78fac837e, type: 3}
-    volume: 0.8
+    volume: 0.103
     loop: 0
     isMusic: 0
     source: {fileID: 0}
@@ -89,7 +89,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: WarningMeteor
     clip: {fileID: 8300000, guid: e1100bec01f4fa1478607c7c03c6391a, type: 3}
-    volume: 0.8
+    volume: 0.125
     loop: 0
     isMusic: 0
     source: {fileID: 0}
@@ -171,16 +171,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb57e6b8650e43469d199f8f654df1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canEventHappen: 1
   eventActive: 0
   eventLightBreakdown:
     eventActive: 0
-    eventTypeRisk: 0
+    eventTypeRisk: 50
     eventDuration: 30
   eventMeteor:
     eventActive: 0
-    eventTypeRisk: 100
-    meteorAmount: 5
-    timeBetweenMeteor: 3
+    eventTypeRisk: 50
+    meteorAmount: 25
+    timeBetweenMeteor: 0.34
     damagesCenter: 45
     damagesBorder: 15
     meteorPrefab: {fileID: 1566239723596968, guid: 19fd4b1efb7315c48b3eb7fa0a6ab065,
@@ -196,4 +197,4 @@ MonoBehaviour:
   originalIntensity: 0
   eventRisk: 0
   timeBetweenCheck: 1
-  coolDown: 0
+  coolDown: 10
