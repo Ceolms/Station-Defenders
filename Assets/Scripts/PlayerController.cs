@@ -40,6 +40,9 @@ public class PlayerController : MonoBehaviour
     public GameObject gun;
     public GameObject sphereMinimap;
 
+    //camera position
+    private Vector3 offset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +57,10 @@ public class PlayerController : MonoBehaviour
         player.AddInputEventDelegate(OnDieButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Die");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
-       // StartCoroutine(TestLifeBar());
+        // StartCoroutine(TestLifeBar());
+
+        //camera position
+        offset = camera.transform.position - character.position;
     }
 
     // Update is called once per frame
@@ -72,11 +78,17 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = true;
             animator.SetBool("isRunning", true);
-        }      
+        }
+
         if(infos.lifepoints <= 0)
         {
             isFainting = true;
             animator.SetBool("isFainting", true);
+        }
+        else
+        {
+            isFainting = false;
+            animator.SetBool("isFainting", false);
         }
     }
 
@@ -84,7 +96,24 @@ public class PlayerController : MonoBehaviour
     {
         if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
         if (useKeyboard) RotationKeyboard();
-        else RotationController();
+        else RotationController();        
+    }
+
+    void LateUpdate()
+    {
+        //Position camera to player
+        camera.transform.position = character.transform.position + offset;
+
+        //Mesh renderer gun in animation
+        if (animator.GetAnimatorTransitionInfo(0).IsName("Faint_stand_up -> Idle"))
+        {
+            gun.GetComponent<MeshRenderer>().enabled = true;
+
+        }
+        if (animator.GetAnimatorTransitionInfo(0).IsName("Fainting -> Faint_idle"))
+        {
+            gun.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
 
