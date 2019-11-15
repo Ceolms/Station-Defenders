@@ -1589,8 +1589,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4727539915114094}
   m_AABB:
-    m_Center: {x: -0.000000059604645, y: 0.74731255, z: -0.015936054}
-    m_Extent: {x: 1.027997, y: 0.8501997, z: 0.24453294}
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0.8501997, z: 0}
   m_DirtyAABB: 0
 --- !u!1 &1334549540776926
 GameObject:
@@ -1677,7 +1677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353066611330062}
   m_LocalRotation: {x: 0.46113664, y: -0.5360532, z: -0.46113664, w: 0.5360532}
-  m_LocalPosition: {x: 0, y: 0.8762761, z: 0}
+  m_LocalPosition: {x: 0.34, y: 0.8762761, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4285302683399968}
@@ -3820,6 +3820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4784068991407404}
   - component: {fileID: 95035710751915312}
+  - component: {fileID: 6780279754675885316}
   m_Layer: 9
   m_Name: SM_Chr_SpaceSoldier_Helmet_Male_01
   m_TagString: Untagged
@@ -3882,6 +3883,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &6780279754675885316
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700146612509344}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.79
+  m_Direction: 1
+  m_Center: {x: 0.37, y: 0.97, z: 0}
 --- !u!1 &1715975079138560
 GameObject:
   m_ObjectHideFlags: 0
