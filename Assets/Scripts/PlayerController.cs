@@ -18,9 +18,9 @@ public class PlayerController : MonoBehaviour
     public bool useKeyboard = false;
 
     //movements vars
-    private float moveSpeed = 5f;
-    private float faintSpeed = 0.5f;
-    private float rotationSpeed = 5.0f;
+    private float moveSpeed = 250f;
+    private float faintSpeed = 25f;
+   
     private Vector3 moveVector;
     private Vector3 moveVelocity;
     private Quaternion rotation;
@@ -28,11 +28,11 @@ public class PlayerController : MonoBehaviour
     private bool isFainting;
     private bool isShooting;
     private bool canMove = true;
-    //gameobject vars
+    //GameObject vars
 
     public PlayerInfos infos;
     public Camera camera;
-    private UiManager uiManager;
+    public UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
     public GameObject gun;
     public GameObject sphereMinimap;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = ReInput.players.GetPlayer((int)id);
@@ -51,13 +50,12 @@ public class PlayerController : MonoBehaviour
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
-        player.AddInputEventDelegate(OnDieButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Die");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
        // StartCoroutine(TestLifeBar());
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         GetInput();
@@ -80,56 +78,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    //Controls scripts -----------------------
+    private void OnFireButtonDown(InputActionEventData data)
     {
-        if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
-        if (useKeyboard) RotationKeyboard();
-        else RotationController();
+        Transform pos = null;
+
+        foreach (Transform child in gun.transform)
+        {
+            if (child.name.Equals("GunShootPosition"))
+            {
+                pos = child;
+                break;
+            }
+        }
+        if(pos == null )
+        {
+            return;
+        }
+        GameObject bullet = Instantiate(prefabBullet, pos.position,Quaternion.identity);
+        bullet.transform.forward = character.forward;
+        bullet.GetComponent<BulletController>().canMove = true;
     }
-
-
-    void OnFireButtonDown(InputActionEventData data)
-    {
-        Transform firePosition = gun.transform.GetChild(0);
-
-        Instantiate(prefabBullet, firePosition.position, firePosition.rotation);
-    }
-    void OnMapButtonDown(InputActionEventData data)
+    private void OnMapButtonDown(InputActionEventData data)
     {
         uiManager.TriggerMinimap();
     }
-
-    void OnEmoteButtonDown(InputActionEventData data)
+    private void OnEmoteButtonDown(InputActionEventData data)
     {
         animator.SetTrigger("isAskingHelp");
     }
-
-    void OnDieButtonDown(InputActionEventData data)
-    {
-        StartCoroutine(TestLifeBar());
-    }
-
-    private void RotationKeyboard()
-    {
-        Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
-        Plane ground = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (ground.Raycast(cameraRay, out rayLength))
-        {
-            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-            Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
-            character.rotation = Quaternion.LookRotation(pointToLook);
-            //Debug.Log(character.rotation.y);
-            
-        }
-    }
-
-    float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
-    {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-    }
-
+  
     private void GetInput()
     {
         if(canMove)
@@ -138,16 +116,17 @@ public class PlayerController : MonoBehaviour
             moveVector.z = player.GetAxis("Move Vertical");
         }
     }
-
     private void ProcessInput()
     {
         // Process movement
         if (moveVector.x != 0.0f || moveVector.z != 0.0f)
         {
-            if(!isFainting) moveVelocity = moveVector * moveSpeed;
-            else moveVelocity = moveVector * faintSpeed;
+            if(!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
+            else moveVelocity = moveVector * faintSpeed * Time.deltaTime;
         }
-       // if(!useKeyboard) transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+        if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
+        if (useKeyboard) RotationKeyboard();
+        else RotationController();
     }
     private void RotationController()
     {
@@ -164,21 +143,32 @@ public class PlayerController : MonoBehaviour
             character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
         }
     }
-
-    IEnumerator TestLifeBar()
+    private void RotationKeyboard()
     {
-        for (int i = 100; i > 0; i -= 5)
+        Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
+        Plane ground = new Plane(Vector3.up, Vector3.zero);
+        float rayLength;
+
+        if (ground.Raycast(cameraRay, out rayLength))
         {
-            infos.lifepoints -= 5;
-            uiManager.SetLifebarSize(infos.lifepoints);
-            yield return new WaitForSeconds(0.5f); 
+            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+            Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
+            character.rotation = Quaternion.LookRotation(pointToLook);
+            //Debug.Log(character.rotation.y);        
         }
     }
-    public void SetKeyboardEnabled(bool b)
-    {
-        useKeyboard = b;
-    }
 
+    //Gameplay scripts -----------------------
+    public void TakeDamage(int damages)
+    {
+        Debug.Log("Damages:" + damages);
+        if(infos.lifepoints > 0)
+        {
+            infos.lifepoints -= damages;
+            if (infos.lifepoints < 0) infos.lifepoints = 0;
+            uiManager.SetLifebarSize(infos.lifepoints);
+        }
+    }
 }
 [System.Serializable]
 public class PlayerInfos : System.Object

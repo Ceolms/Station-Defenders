@@ -8,6 +8,11 @@ public class UiManager : MonoBehaviour
     public GameObject UILifebar;
     public GameObject playerNameObject;
     public GameObject minimapObject;
+
+    public GameObject spriteEnergy;
+    public GameObject spriteMeteor;
+    public GameObject spriteFire;
+
     private Image imageOverlayRed;
     private float sizeMaxLife;
     private bool minimapVisible;
@@ -61,5 +66,30 @@ public class UiManager : MonoBehaviour
                 textPlayerName.color = Color.yellow;
                 break;
         }
+    }
+    public void ShowWarningSprite(EventType type)
+    {
+        switch(type)
+        {
+            case EventType.LightBreakdown:
+                StartCoroutine(ShowWarningSpriteRoutine(spriteEnergy));
+                break;
+            case EventType.MeteorShower:
+                StartCoroutine(ShowWarningSpriteRoutine(spriteMeteor));
+                break;
+            case EventType.Fire:
+                StartCoroutine(ShowWarningSpriteRoutine(spriteFire));
+                break;
+        }
+    }
+    private IEnumerator ShowWarningSpriteRoutine(GameObject spriteObj)
+    {
+
+        for(int i = 0; i<  8; i++)
+        {
+            spriteMeteor.SetActive(!spriteMeteor.activeSelf);
+            yield return new WaitForSeconds(0.5f);
+        }
+       
     }
 }
