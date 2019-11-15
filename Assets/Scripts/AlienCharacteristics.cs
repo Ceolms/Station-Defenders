@@ -65,6 +65,7 @@ public class AlienCharacteristics : MonoBehaviour
 
             StartCoroutine(DieAfterAnimation(clip.length));
         }
+    Debug.Log(currentHealth);
         //TODO faire apparaitre la barre de vie des aliens
     }
 }
