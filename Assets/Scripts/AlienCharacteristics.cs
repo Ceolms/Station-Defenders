@@ -6,17 +6,20 @@ using UnityEngine.UI;
 
 public class AlienCharacteristics : MonoBehaviour
 {
-    public float MaxHealthPoint = 100;
+    public float maxHealthPoint = 100;
     private float currentHealth;
-
+    private bool hitCooldown;
     private Animator alienAnimator;
 
     public Slider healthbar;
+    public GameObject alienMesh;
+    public Material material;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = MaxHealthPoint;
+        alienMesh.GetComponent<SkinnedMeshRenderer>().material = new Material(material);
+        currentHealth = maxHealthPoint;
         if (healthbar != null) healthbar.value = calculateHealth();
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
@@ -25,21 +28,8 @@ public class AlienCharacteristics : MonoBehaviour
 
     private float calculateHealth()
     {
-        return currentHealth / MaxHealthPoint;
+        return currentHealth / maxHealthPoint;
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-      if (collision.gameObject.tag.Equals("projectile"))
-      {
-        this.currentHealth--;
-        if (this.currentHealth <= 0)
-        {
-          alienAnimator.SetTrigger("Die");
-          Destroy(this.gameObject.GetComponent<BoxCollider>());
-        }
-      }
-    }*/
 
     private IEnumerator DieAfterAnimation(float duree)
     {
@@ -47,24 +37,40 @@ public class AlienCharacteristics : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void TakeDamage(int damages)
+    public void TakeDamage(float time, int damages)
     {
-        if (currentHealth > 0)
+        if (!hitCooldown)
         {
-            currentHealth -= damages;
-            if (healthbar != null) healthbar.value = calculateHealth();
-            if (currentHealth < 0) currentHealth = 0;
+            StartCoroutine(HitCooldownRoutine(time));
+            if (currentHealth > 0)
+            {
+                currentHealth -= damages;
+                if (healthbar != null) healthbar.value = calculateHealth();
+                if (currentHealth < 0) currentHealth = 0;
+                StartCoroutine(HitEffectRoutine());
+            }
+            if (currentHealth == 0) // if lifePoints <= 0
+            {
+                alienAnimator.SetTrigger("Die");
+                Destroy(this.gameObject.GetComponent<BoxCollider>());
+                var animController = alienAnimator.runtimeAnimatorController;
+                var clip = animController.animationClips.First(a => a.name == "Die");
+                StartCoroutine(DieAfterAnimation(clip.length));
+            }
         }
-        if (currentHealth == 0) // if lifePoints <= 0
-        {
-            alienAnimator.SetTrigger("Die");
-            Destroy(this.gameObject.GetComponent<BoxCollider>());
-
-            var animController = alienAnimator.runtimeAnimatorController;
-            var clip = animController.animationClips.First(a => a.name == "Die");
-
-            StartCoroutine(DieAfterAnimation(clip.length));
-        }
-        //TODO faire apparaitre la barre de vie des aliens
+    }
+    private IEnumerator HitCooldownRoutine(float t)
+    {
+        hitCooldown = true;
+        yield return new WaitForSeconds(t);
+        hitCooldown = false;
+    }
+    private IEnumerator HitEffectRoutine()
+    {
+        alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.white;
     }
 }
+
+

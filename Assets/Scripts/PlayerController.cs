@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public GameObject prefabBullet;
     public GameObject gun;
     public GameObject sphereMinimap;
+    private bool hitCooldown;
 
     //camera position
     private Vector3 offset;
@@ -178,15 +179,26 @@ public class PlayerController : MonoBehaviour
     }
 
     //Gameplay scripts -----------------------
-    public void TakeDamage(int damages)
+    public void TakeDamage(float time, int damages)
     {
-        Debug.Log("Damages:" + damages);
-        if(infos.lifepoints > 0)
+        if(!hitCooldown)
         {
-            infos.lifepoints -= damages;
-            if (infos.lifepoints < 0) infos.lifepoints = 0;
-            uiManager.SetLifebarSize(infos.lifepoints);
-        }
+            StartCoroutine(HitCooldownRoutine(time));
+            if (infos.lifepoints > 0)
+            {
+                infos.lifepoints -= damages;
+                if (infos.lifepoints < 0) infos.lifepoints = 0;
+                uiManager.SetLifebarSize(infos.lifepoints);
+                uiManager.ActiveDamageEffect();
+            }
+        }   
+    }
+
+    private IEnumerator HitCooldownRoutine(float t)
+    {
+        hitCooldown = true;
+        yield return new WaitForSeconds(t);
+        hitCooldown = false;
     }
 }
 [System.Serializable]

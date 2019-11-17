@@ -30,7 +30,7 @@ public class BulletController : MonoBehaviour
             Destroy(this.gameObject);
             if(other.gameObject.tag.Equals("Alien"))
             {
-                other.transform.GetComponent<AlienCharacteristics>().TakeDamage(bulletDamages);
+                other.transform.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Bullet,bulletDamages);
             }
         }
     }

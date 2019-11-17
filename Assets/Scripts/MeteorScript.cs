@@ -40,16 +40,16 @@ public class MeteorScript : MonoBehaviour
                 if(dist <= 1f)
                 {
                     if (hit.gameObject.tag.Equals("Player"))
-                        hit.gameObject.GetComponent<PlayerController>().TakeDamage(EventManager.Instance.eventMeteor.damagesCenter);
+                        hit.gameObject.GetComponent<PlayerController>().TakeDamage(DamageSource.Meteor,EventManager.Instance.eventMeteor.damagesCenter);
                     else if (hit.gameObject.tag.Equals("Alien"))
-                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(EventManager.Instance.eventMeteor.damagesCenter);
+                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesCenter);
                 }
                 else
                 {
                     if (hit.gameObject.tag.Equals("Player"))
-                        hit.gameObject.GetComponent<PlayerController>().TakeDamage(EventManager.Instance.eventMeteor.damagesBorder);
+                        hit.gameObject.GetComponent<PlayerController>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesBorder);
                     else if (hit.gameObject.tag.Equals("Alien"))
-                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(EventManager.Instance.eventMeteor.damagesBorder);
+                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesBorder);
                 }
             }
         }

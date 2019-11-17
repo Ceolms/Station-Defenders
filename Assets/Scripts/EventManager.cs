@@ -2,15 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public enum EventType
-{
-    None,
-    LightBreakdown,
-    MeteorShower,
-    Fire
-}
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
@@ -27,8 +18,6 @@ public class EventManager : MonoBehaviour
     private EventLight eventLScript;
     private EventMeteor eventMScript;
     private EventFire eventFScript;
-
-    public Material matCircle;
 
     [HideInInspector]
     public List<Light> lights = new List<Light>();
@@ -147,7 +136,7 @@ public class EventLight : MonoBehaviour
     {
         EventManager.Instance.eventActive = true;
         EventManager.Instance.canEventHappen = false;
-        
+
         infos.eventActive = true;
         foreach (PlayerController p in GameManager.Instance.players)
         {
@@ -214,7 +203,7 @@ public class EventMeteor : MonoBehaviour
             }
             StartCoroutine(RedAlertLight());
             SoundPlayer.Instance.Play("RedAlert");
-            SoundPlayer.Instance.Play("WarningMeteor"); 
+            SoundPlayer.Instance.Play("WarningMeteor");
         }
         else Debug.Log("No Meteor Area found.");
     }
@@ -302,30 +291,51 @@ public class EventMeteor : MonoBehaviour
 public class EventFire : MonoBehaviour
 {
     EventFireInfos infos;
-
+    GameObject[] listFireAreas;
+    private bool routineActive;
     public void Start()
     {
+        listFireAreas = GameObject.FindGameObjectsWithTag("FireArea");
         infos = EventManager.Instance.eventFire;
     }
     public void StartEvent()
     {
-        EventManager.Instance.eventActive = true;
-        infos.eventActive = true;
-        EventManager.Instance.canEventHappen = false;
-        foreach (PlayerController p in GameManager.Instance.players)
+        if (listFireAreas != null && listFireAreas.Length > 0)
         {
-            p.uiManager.ShowWarningSprite(EventType.Fire);
+            EventManager.Instance.eventActive = true;
+            infos.eventActive = true;
+            EventManager.Instance.canEventHappen = false;
+            foreach (PlayerController p in GameManager.Instance.players)
+            {
+                p.uiManager.ShowWarningSprite(EventType.Fire);
+            }
+            StartCoroutine(SpawnFire());
         }
+        else Debug.Log("No Meteor Area found.");
     }
 
-    public void Update()
+    private IEnumerator SpawnFire()
     {
-        if (infos.eventActive)
-        {
-            infos.eventActive = false;
-            EventManager.Instance.eventActive = false;
-            EventManager.Instance.StartCooldown();
-        }
+        routineActive = true;
+
+        yield return new WaitForSeconds(infos.timeBeforefire);
+        int indexArea = Random.Range(0, listFireAreas.Length);
+        float minX = listFireAreas[indexArea].transform.position.x - (listFireAreas[indexArea].transform.lossyScale.x / 2);
+        float maxX = listFireAreas[indexArea].transform.position.x + (listFireAreas[indexArea].transform.lossyScale.x / 2);
+        float minZ = listFireAreas[indexArea].transform.position.z - (listFireAreas[indexArea].transform.lossyScale.z / 2);
+        float maxZ = listFireAreas[indexArea].transform.position.z + (listFireAreas[indexArea].transform.lossyScale.z / 2);
+        float x = Random.Range(minX, maxX);
+        float z = Random.Range(minZ, maxZ);
+
+        GameObject fire = GameObject.Instantiate(infos.firePrefab);
+        fire.transform.position = new Vector3(x, 0, z);
+        fire.GetComponent<FireScript>().StartFire(infos.eventDuration);
+
+        yield return new WaitForSeconds(infos.eventDuration + 2f);
+        infos.eventActive = false;
+        EventManager.Instance.eventActive = false;
+        EventManager.Instance.StartCooldown();
+        routineActive = false;
     }
 }
 
@@ -361,4 +371,6 @@ public class EventFireInfos : System.Object
     [Range(0, 100)]
     public int eventTypeRisk = 34;
     public float eventDuration = 30f;
+    public float timeBeforefire = 2f;
+    public GameObject firePrefab;
 }

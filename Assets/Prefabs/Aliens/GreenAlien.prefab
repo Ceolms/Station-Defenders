@@ -46,7 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57d65489b6c16e4baebbd1e0f7b2882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifePoints: 30
+  MaxHealthPoint: 100
+  healthbar: {fileID: 0}
+  alienMesh: {fileID: 8890142334142760757}
+  material: {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
 --- !u!65 &6463778234032810639
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,6 +328,12 @@ PrefabInstance:
 --- !u!4 &8892451934247739685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4215789226532830, guid: 7f931d4b5c97d194d8726ddf5acdd440,
+    type: 3}
+  m_PrefabInstance: {fileID: 8891987853993180923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8890142334142760757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1845593574226382, guid: 7f931d4b5c97d194d8726ddf5acdd440,
     type: 3}
   m_PrefabInstance: {fileID: 8891987853993180923}
   m_PrefabAsset: {fileID: 0}

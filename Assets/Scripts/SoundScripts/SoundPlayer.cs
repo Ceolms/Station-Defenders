@@ -40,14 +40,23 @@ public class SoundPlayer : MonoBehaviour
             go.transform.SetParent(this.transform);
             AudioSource aSource = go.AddComponent<AudioSource>();
             go.name = "Sound : " + s.name;
-            s.source = aSource;
-            s.source.loop = s.loop;
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.Play();
+            aSource.clip = s.clip;
+            aSource.loop = s.loop;
+            aSource.volume = s.volume;
+            aSource.Play();
             StartCoroutine(DestroySource(go));
         }
         else  Debug.Log("Sound " + name + " doesn't exist");
+    }
+
+    public void Stop(string name)
+    {
+        GameObject go = GameObject.Find("name");
+        if(go != null)
+        {
+            AudioSource s = go.GetComponent<AudioSource>();
+            if (s != null) s.Stop();
+        }
     }
 
     public void PlayMusic(string name)
