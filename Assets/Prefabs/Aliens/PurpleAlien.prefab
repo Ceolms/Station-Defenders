@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57d65489b6c16e4baebbd1e0f7b2882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealthPoint: 100
+  maxHealthPoint: 100
   healthbar: {fileID: 0}
   alienMesh: {fileID: 2433516009360229906}
   material: {fileID: 2100000, guid: 343efc4e4daa6884fb114514185426c9, type: 2}
@@ -61,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.79, y: 3.07, z: 3.92}
-  m_Center: {x: 0, y: 1.47, z: 0.14}
+  m_Size: {x: 3.55, y: 4.85, z: 3.92}
+  m_Center: {x: 0, y: 2.39, z: 0.14}
 --- !u!114 &7983743835750606180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +92,10 @@ PrefabInstance:
       value: Polygonal Metalon Purple
       objectReference: {fileID: 0}
     - target: {fileID: 1462720695320296, guid: e9a03d46b76afe246a9ffd58d255bb65, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557458575403366, guid: e9a03d46b76afe246a9ffd58d255bb65, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
@@ -184,10 +188,6 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1577995492873918, guid: e9a03d46b76afe246a9ffd58d255bb65, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1557458575403366, guid: e9a03d46b76afe246a9ffd58d255bb65, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}

@@ -28,7 +28,7 @@ public class CustomSeeThrough : MonoBehaviour
         RaycastHit hit;
         Vector3 fromPosition = wallCheckCamera.transform.position;
         Vector3 toPosition = this.transform.position;
-        toPosition = new Vector3(toPosition.x, toPosition.y + 1.5f, toPosition.z);
+        toPosition = new Vector3(toPosition.x, toPosition.y + 1.0f, toPosition.z);
         Vector3 direction = toPosition - fromPosition;
 
         Debug.DrawRay(wallCheckCamera.transform.position, direction);

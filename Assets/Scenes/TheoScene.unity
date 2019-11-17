@@ -189,24 +189,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db491de2586ba3a4bad90ca14b51a273, type: 3}
---- !u!1 &322409005 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4744544157941032909, guid: db491de2586ba3a4bad90ca14b51a273,
-    type: 3}
-  m_PrefabInstance: {fileID: 322409004}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &322409006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322409005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5775400bebcd6418d4732370104442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &326601626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -559,55 +541,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventRisk
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventMeteor.meteorAmount
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventMeteor.timeBetweenMeteor
-      value: 0.34
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventMeteor.eventTypeRisk
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: coolDown
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventLightBreakdown.eventTypeRisk
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventFire.firePrefab
-      value: 
-      objectReference: {fileID: 5960178427660214910, guid: 8791b5689a9043245a66eddd10ad96a9,
-        type: 3}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventFire.eventTypeRisk
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[0].volume
-      value: 0.103
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[7].volume
-      value: 0.125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}

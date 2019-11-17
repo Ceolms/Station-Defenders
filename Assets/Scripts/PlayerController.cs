@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     //movements vars
     private float moveSpeed = 250f;
     private float faintSpeed = 25f;
-   
+
     private Vector3 moveVector;
     private Vector3 moveVelocity;
     private Quaternion rotation;
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         offset = camera.transform.position - character.position;
     }
 
-   
+
     void Update()
     {
         GetInput();
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isRunning", true);
         }
 
-        if(infos.lifepoints <= 0)
+        if (infos.lifepoints <= 0)
         {
             isFainting = true;
             animator.SetBool("isFainting", true);
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+
     void LateUpdate()
     {
         //Position camera to player
@@ -111,11 +111,11 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
-        if(pos == null )
+        if (pos == null)
         {
             return;
         }
-        GameObject bullet = Instantiate(prefabBullet, pos.position,Quaternion.identity);
+        GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
         bullet.transform.forward = character.forward;
         bullet.GetComponent<BulletController>().canMove = true;
     }
@@ -127,10 +127,10 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("isAskingHelp");
     }
-  
+
     private void GetInput()
     {
-        if(canMove)
+        if (canMove)
         {
             moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
             moveVector.z = player.GetAxis("Move Vertical");
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         // Process movement
         if (moveVector.x != 0.0f || moveVector.z != 0.0f)
         {
-            if(!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
+            if (!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
             else moveVelocity = moveVector * faintSpeed * Time.deltaTime;
         }
         if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
     }
     private void RotationController()
     {
-        float h1 = player.GetAxis("Look Horizontal"); 
+        float h1 = player.GetAxis("Look Horizontal");
         float v1 = player.GetAxis("Look Vertical");
         if (h1 == 0f && v1 == 0f)
         {
@@ -165,6 +165,7 @@ public class PlayerController : MonoBehaviour
     }
     private void RotationKeyboard()
     {
+        /*
         Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
         Plane ground = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
@@ -175,13 +176,25 @@ public class PlayerController : MonoBehaviour
             Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
             character.rotation = Quaternion.LookRotation(pointToLook);
             //Debug.Log(character.rotation.y);        
+        }*/
+        RaycastHit hit;
+        var layerMask = 1 << LayerMask.NameToLayer("MouseLayer");
+        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+
+            Vector3 pointToLook = hit.point;
+            Debug.DrawLine(ray.origin, pointToLook, Color.red);
+            pointToLook.y = character.transform.position.y;
+            character.transform.LookAt(pointToLook);
+
         }
     }
 
     //Gameplay scripts -----------------------
     public void TakeDamage(float time, int damages)
     {
-        if(!hitCooldown)
+        if (!hitCooldown)
         {
             StartCoroutine(HitCooldownRoutine(time));
             if (infos.lifepoints > 0)
@@ -191,7 +204,7 @@ public class PlayerController : MonoBehaviour
                 uiManager.SetLifebarSize(infos.lifepoints);
                 uiManager.ActiveDamageEffect();
             }
-        }   
+        }
     }
 
     private IEnumerator HitCooldownRoutine(float t)

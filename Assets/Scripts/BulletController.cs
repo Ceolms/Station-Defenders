@@ -21,7 +21,6 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collision");
 
         if (!impact)
         {

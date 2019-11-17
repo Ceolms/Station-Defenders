@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57d65489b6c16e4baebbd1e0f7b2882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealthPoint: 100
+  maxHealthPoint: 100
   healthbar: {fileID: 0}
   alienMesh: {fileID: 8890142334142760757}
   material: {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
@@ -61,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.79, y: 3.07, z: 3.92}
-  m_Center: {x: 0, y: 1.47, z: 0.14}
+  m_Size: {x: 3.55, y: 4.85, z: 3.92}
+  m_Center: {x: 0, y: 2.39, z: 0.14}
 --- !u!114 &7365438261946985556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +92,10 @@ PrefabInstance:
       value: Polygonal Metalon Green
       objectReference: {fileID: 0}
     - target: {fileID: 1783563462218004, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845593574226382, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
@@ -138,10 +142,6 @@ PrefabInstance:
     - target: {fileID: 4215789226532830, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845593574226382, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1730320634250614, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
       propertyPath: m_Layer

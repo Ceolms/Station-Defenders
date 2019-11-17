@@ -175,11 +175,11 @@ MonoBehaviour:
   eventActive: 0
   eventLightBreakdown:
     eventActive: 0
-    eventTypeRisk: 50
+    eventTypeRisk: 0
     eventDuration: 30
   eventMeteor:
     eventActive: 0
-    eventTypeRisk: 50
+    eventTypeRisk: 0
     meteorAmount: 25
     timeBetweenMeteor: 0.34
     damagesCenter: 45
@@ -188,9 +188,11 @@ MonoBehaviour:
       type: 3}
   eventFire:
     eventActive: 0
-    eventTypeRisk: 0
+    eventTypeRisk: 8
     eventDuration: 30
-  matCircle: {fileID: 2100000, guid: f674817eace4b384280fabb836195dc3, type: 2}
+    timeBeforefire: 2
+    firePrefab: {fileID: 5960178427660214910, guid: 8791b5689a9043245a66eddd10ad96a9,
+      type: 3}
   lights: []
   playersLights: []
   originalColor: {r: 0, g: 0, b: 0, a: 0}

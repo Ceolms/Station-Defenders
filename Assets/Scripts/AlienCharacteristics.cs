@@ -68,7 +68,7 @@ public class AlienCharacteristics : MonoBehaviour
     private IEnumerator HitEffectRoutine()
     {
         alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.white;
     }
 }
