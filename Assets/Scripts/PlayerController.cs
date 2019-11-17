@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
+        player.AddInputEventDelegate(OnGrenadeButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Grenade");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
         // StartCoroutine(TestLifeBar());
@@ -102,22 +103,26 @@ public class PlayerController : MonoBehaviour
 
     void OnFireButtonDown(InputActionEventData data)
     {
-        Transform pos = null;
-        foreach (Transform child in gun.transform)
+        if (canMove)
         {
-            if (child.name.Equals("GunShootPosition"))
+            Transform pos = null;
+            foreach (Transform child in gun.transform)
             {
-                pos = child;
-                break;
+                if (child.name.Equals("GunShootPosition"))
+                {
+                    pos = child;
+                    break;
+                }
             }
+            if (pos == null)
+            {
+                return;
+            }
+            GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
+            bullet.transform.forward = character.forward;
+            bullet.GetComponent<BulletController>().canMove = true;
         }
-        if (pos == null)
-        {
-            return;
-        }
-        GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
-        bullet.transform.forward = character.forward;
-        bullet.GetComponent<BulletController>().canMove = true;
+
     }
     private void OnMapButtonDown(InputActionEventData data)
     {
@@ -125,7 +130,26 @@ public class PlayerController : MonoBehaviour
     }
     private void OnEmoteButtonDown(InputActionEventData data)
     {
-        animator.SetTrigger("isAskingHelp");
+        if (canMove)
+        {
+            animator.SetBool("isRunning", false);
+            moveVector = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
+            StartCoroutine(CanMoveRoutine(1f));
+            animator.SetTrigger("isAskingHelp");
+        }
+    }
+    private void OnGrenadeButtonDown(InputActionEventData data)
+    {
+        if (canMove)
+        {
+            animator.SetBool("isRunning", false);
+            moveVector = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
+            StartCoroutine(CanMoveRoutine(1f));
+            
+            // throw grenade
+        }
     }
 
     private void GetInput()
@@ -138,15 +162,20 @@ public class PlayerController : MonoBehaviour
     }
     private void ProcessInput()
     {
-        // Process movement
-        if (moveVector.x != 0.0f || moveVector.z != 0.0f)
+
+        if (canMove)
         {
-            if (!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
-            else moveVelocity = moveVector * faintSpeed * Time.deltaTime;
+            if (moveVector.x != 0.0f || moveVector.z != 0.0f)
+            {
+                if (!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
+                else moveVelocity = moveVector * faintSpeed * Time.deltaTime;
+            }
+            if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
+            if (useKeyboard) RotationKeyboard();
+            else RotationController();
         }
-        if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
-        if (useKeyboard) RotationKeyboard();
-        else RotationController();
+
+
     }
     private void RotationController()
     {
@@ -165,29 +194,15 @@ public class PlayerController : MonoBehaviour
     }
     private void RotationKeyboard()
     {
-        /*
-        Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
-        Plane ground = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (ground.Raycast(cameraRay, out rayLength))
-        {
-            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-            Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
-            character.rotation = Quaternion.LookRotation(pointToLook);
-            //Debug.Log(character.rotation.y);        
-        }*/
         RaycastHit hit;
         var layerMask = 1 << LayerMask.NameToLayer("MouseLayer");
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-
             Vector3 pointToLook = hit.point;
             Debug.DrawLine(ray.origin, pointToLook, Color.red);
             pointToLook.y = character.transform.position.y;
             character.transform.LookAt(pointToLook);
-
         }
     }
 
@@ -212,6 +227,12 @@ public class PlayerController : MonoBehaviour
         hitCooldown = true;
         yield return new WaitForSeconds(t);
         hitCooldown = false;
+    }
+    private IEnumerator CanMoveRoutine(float t)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(t);
+        canMove = true;
     }
 }
 [System.Serializable]

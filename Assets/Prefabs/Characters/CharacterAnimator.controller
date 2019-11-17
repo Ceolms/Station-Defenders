@@ -182,7 +182,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Emote_CC
-  m_Speed: 1
+  m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3660464006666852653}
@@ -375,16 +375,16 @@ AnimatorStateMachine:
     m_Position: {x: 230, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4702689458754380385}
-    m_Position: {x: 330, y: -450, z: 0}
+    m_Position: {x: 240, y: -310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5214956209633439343}
-    m_Position: {x: 810, y: -370, z: 0}
+    m_Position: {x: 720, y: -230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1235138826313476258}
-    m_Position: {x: 500, y: -260, z: 0}
+    m_Position: {x: 410, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9131374397243229854}
-    m_Position: {x: 500, y: -360, z: 0}
+    m_Position: {x: 410, y: -220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -452,7 +452,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.14969695
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.51230174
   m_HasExitTime: 0
@@ -615,11 +615,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.5
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -923,7 +923,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.20045452
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.30454555
   m_HasExitTime: 0
@@ -951,11 +951,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.88095236
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
