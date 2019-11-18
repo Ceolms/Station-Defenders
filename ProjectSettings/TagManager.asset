@@ -12,6 +12,7 @@ TagManager:
   - Projectile
   - Alien
   - Core
+  - AlienSpawn
   layers:
   - Default
   - TransparentFX
@@ -28,8 +29,6 @@ TagManager:
   - MouseLayer
   - NoPlayerCollide
   - Faint
-  - 
-  - 
   - 
   - 
   - 

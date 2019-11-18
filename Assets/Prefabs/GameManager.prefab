@@ -219,22 +219,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a116e8f0fcb864c856db6c5b52c310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  greenAlien: {fileID: 1395759818056972909, guid: 83b4524b36fa49e40bd42517011a4941,
+    type: 3}
+  purpleAlien: {fileID: 1395759818056972909, guid: 544bba5ba3e24ee4da722f1ee80461c2,
+    type: 3}
+  redAlien: {fileID: 1395759818056972909, guid: d63ef99ca4492a7459183790a2f4ab60,
+    type: 3}
   waves:
-  - name: Green Alien
-    enemy: {fileID: 2151225065865421994, guid: 83b4524b36fa49e40bd42517011a4941, type: 3}
-    count: 5
+  - greenAlienCount: 5
+    purpleAlienCount: 0
+    redAlienCount: 0
     rate: 1
-  - name: Purple Alien
-    enemy: {fileID: 2151225065865421994, guid: 544bba5ba3e24ee4da722f1ee80461c2, type: 3}
-    count: 3
-    rate: 1.5
-  - name: Boss Alien
-    enemy: {fileID: 2151225065865421994, guid: d63ef99ca4492a7459183790a2f4ab60, type: 3}
-    count: 2
-    rate: 2
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   timeBetweenWaves: 5
   waveCountdown: 1

@@ -62,9 +62,10 @@ public class GrenadeScript : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         //boom
-        Debug.Log("boom");
         GameObject explosion = Instantiate(explosionPrefab);
+        explosion.transform.position = this.transform.position;
         yield return new WaitForSeconds(0.5f);
+        Explosion(explosion.transform.position);
         Destroy(explosion);
         Destroy(this.gameObject);
     }
