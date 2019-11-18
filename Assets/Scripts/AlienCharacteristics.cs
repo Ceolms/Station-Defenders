@@ -12,7 +12,6 @@ public class AlienCharacteristics : MonoBehaviour
     void Start()
     {
       alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
-      alienAnimator.SetTrigger("Smash Attack");
     }
 
   private void OnCollisionEnter(Collision collision)
