@@ -11,13 +11,19 @@ public class WaveSpawner : MonoBehaviour
   public class Wave
   {
     public string name;
-    public Transform enemy;
-    public int count;
+    public int greenAlienCount;
+    public int purpleAlienCount;
+    public int redAlienCount;
     public float rate;
   }
 
-  public Wave[] waves;
-  private int nextWave = 0;
+  public Transform greenAlien;
+  public Transform purpleAlien;
+  public Transform redAlien;
+
+  public List<Wave> waves = new List<Wave>();
+  private IEnumerator<Wave> wavesEnum;
+  private int index;
 
   public Transform[] spawnPoints;
 
@@ -31,7 +37,7 @@ public class WaveSpawner : MonoBehaviour
   private void Start()
   {
 
-    if (waves.Length == 0)
+    if (waves.Count == 0)
     {
       Debug.LogError("No waves referenced");
     }
@@ -42,6 +48,8 @@ public class WaveSpawner : MonoBehaviour
     }
 
     waveCountdown = timeBetweenWaves;
+    wavesEnum = waves.GetEnumerator();
+    index = 0;
   }
 
   private void Update()
@@ -64,8 +72,9 @@ public class WaveSpawner : MonoBehaviour
     {
       if(state != SpawnState.SPAWNING)
       {
-        // Start spawning wave
-        StartCoroutine(SpawnWave(waves[nextWave]));
+        wavesEnum.MoveNext();
+        index++;
+        StartCoroutine(SpawnWave(wavesEnum.Current));
       }
     }
     else
@@ -74,6 +83,7 @@ public class WaveSpawner : MonoBehaviour
     }
   }
 
+  
   void WaveCompleted()
   {
     Debug.Log("Wave Completed!");
@@ -81,16 +91,15 @@ public class WaveSpawner : MonoBehaviour
     state = SpawnState.COUNTING;
     waveCountdown = timeBetweenWaves;
 
-    if(nextWave+1 > waves.Length - 1)
+    if (index == waves.Count)
     {
-      nextWave = 0;
+      wavesEnum.Reset();
+      index = 0;
       Debug.Log("All Waves Complete! Looping...");
     }
-    else
-    {
-      nextWave++;
-    }
   }
+  
+  
 
   bool EnemyIsAlive()
   {
@@ -112,9 +121,21 @@ public class WaveSpawner : MonoBehaviour
     state = SpawnState.SPAWNING;
 
     // spawn
-    for (int i = 0; i < wave.count; i++)
+    for (int i = 0; i < wave.greenAlienCount; i++)
     {
-      SpawnEnemy(wave.enemy);
+      SpawnEnemy(greenAlien);
+      yield return new WaitForSeconds(1f / wave.rate);
+    }
+
+    for (int i = 0; i < wave.purpleAlienCount; i++)
+    {
+      SpawnEnemy(purpleAlien);
+      yield return new WaitForSeconds(1f / wave.rate);
+    }
+
+    for (int i = 0; i < wave.redAlienCount; i++)
+    {
+      SpawnEnemy(redAlien);
       yield return new WaitForSeconds(1f / wave.rate);
     }
 
