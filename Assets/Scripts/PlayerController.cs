@@ -18,9 +18,9 @@ public class PlayerController : MonoBehaviour
     public bool useKeyboard = false;
 
     //movements vars
-    private float moveSpeed = 5f;
-    private float faintSpeed = 0.5f;
-    private float rotationSpeed = 5.0f;
+    private float moveSpeed = 250f;
+    private float faintSpeed = 25f;
+
     private Vector3 moveVector;
     private Vector3 moveVelocity;
     private Quaternion rotation;
@@ -28,17 +28,24 @@ public class PlayerController : MonoBehaviour
     private bool isFainting;
     private bool isShooting;
     private bool canMove = true;
-    //gameobject vars
+    //GameObject vars
 
     public PlayerInfos infos;
-    public Camera camera;
-    private UiManager uiManager;
+    [HideInInspector] public Camera camera;
+    [HideInInspector] public UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
-    public GameObject prefabBullet;
+
     public GameObject gun;
     public GameObject sphereMinimap;
+    public GameObject prefabBullet;
+    public GameObject grenadePrefab;
+    private bool hitCooldown;
+    private int grenadeCount = 300;
+
+    //camera position
+    private Vector3 offset;
 
     // Start is called before the first frame update
     void Start()
@@ -51,13 +58,16 @@ public class PlayerController : MonoBehaviour
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
-        player.AddInputEventDelegate(OnDieButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Die");
+        player.AddInputEventDelegate(OnGrenadeButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Grenade");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
-       // StartCoroutine(TestLifeBar());
+        // StartCoroutine(TestLifeBar());
+
+        //camera position
+        offset = camera.transform.position - character.position;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         GetInput();
@@ -72,113 +82,170 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = true;
             animator.SetBool("isRunning", true);
-        }      
-        if(infos.lifepoints <= 0)
+        }
+
+        if (infos.lifepoints <= 0)
         {
             isFainting = true;
             animator.SetBool("isFainting", true);
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
-        if (useKeyboard) RotationKeyboard();
-        else RotationController();
-    }
-
-
-    void OnFireButtonDown(InputActionEventData data)
-    {
-        Transform firePosition = gun.transform.GetChild(0);
-
-        Instantiate(prefabBullet, firePosition.position, firePosition.rotation);
-    }
-    void OnMapButtonDown(InputActionEventData data)
-    {
-        uiManager.TriggerMinimap();
-    }
-
-    void OnEmoteButtonDown(InputActionEventData data)
-    {
-        animator.SetTrigger("isAskingHelp");
-    }
-
-    void OnDieButtonDown(InputActionEventData data)
-    {
-        StartCoroutine(TestLifeBar());
-    }
-
-    private void RotationKeyboard()
-    {
-        Ray cameraRay = camera.ScreenPointToRay(Input.mousePosition);
-        Plane ground = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (ground.Raycast(cameraRay, out rayLength))
+        else
         {
-            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-            Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
-            character.rotation = Quaternion.LookRotation(pointToLook);
-            //Debug.Log(character.rotation.y);
-            
+            isFainting = false;
+            animator.SetBool("isFainting", false);
         }
     }
 
-    float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+
+    void LateUpdate()
     {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+        //Position camera to player
+        camera.transform.position = character.transform.position + offset;
+    }
+    //Controls scripts -----------------------
+
+    void OnFireButtonDown(InputActionEventData data)
+    {
+        if (canMove)
+        {
+            Transform pos = null;
+            foreach (Transform child in gun.transform)
+            {
+                if (child.name.Equals("GunShootPosition"))
+                {
+                    pos = child;
+                    break;
+                }
+            }
+            if (pos == null)
+            {
+                return;
+            }
+            GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
+            bullet.transform.forward = character.forward;
+            bullet.GetComponent<BulletController>().canMove = true;
+        }
+
+    }
+    private void OnMapButtonDown(InputActionEventData data)
+    {
+        uiManager.TriggerMinimap();
+    }
+    private void OnEmoteButtonDown(InputActionEventData data)
+    {
+        if (canMove)
+        {
+            animator.SetBool("isRunning", false);
+            moveVector = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
+            StartCoroutine(CanMoveRoutine(1f));
+            animator.SetTrigger("isAskingHelp");
+        }
+    }
+    private void OnGrenadeButtonDown(InputActionEventData data)
+    {
+        if (canMove && grenadeCount > 0)
+        {
+            GameObject grenade = Instantiate(grenadePrefab);
+            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, character);
+            animator.SetBool("isRunning", false);
+            animator.SetTrigger("isThrowingGrenade");
+            moveVector = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
+            StartCoroutine(CanMoveRoutine(1f));
+            grenadeCount -= 1;
+        }
     }
 
     private void GetInput()
     {
-        if(canMove)
+        if (canMove)
         {
             moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
             moveVector.z = player.GetAxis("Move Vertical");
         }
     }
-
     private void ProcessInput()
     {
-        // Process movement
-        if (moveVector.x != 0.0f || moveVector.z != 0.0f)
+
+        if (canMove)
         {
-            if(!isFainting) moveVelocity = moveVector * moveSpeed;
-            else moveVelocity = moveVector * faintSpeed;
+            if (moveVector.x != 0.0f || moveVector.z != 0.0f)
+            {
+                if (!isFainting) moveVelocity = moveVector * moveSpeed * Time.deltaTime;
+                else moveVelocity = moveVector * faintSpeed * Time.deltaTime;
+            }
+            if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
+            if (useKeyboard) RotationKeyboard();
+            else RotationController();
         }
-       // if(!useKeyboard) transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+
+
     }
     private void RotationController()
     {
-        float h1 = player.GetAxis("Look Horizontal"); 
-        float v1 = player.GetAxis("Look Vertical");
-        if (h1 == 0f && v1 == 0f)
+        if (canMove)
         {
-            Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
-            if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
-                character.transform.forward = facingrotation;
+            float h1 = player.GetAxis("Look Horizontal");
+            float v1 = player.GetAxis("Look Vertical");
+            if (h1 == 0f && v1 == 0f)
+            {
+                Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
+                if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
+                    character.transform.forward = facingrotation;
+            }
+            else
+            {
+                character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
+            }
         }
-        else
+
+    }
+    private void RotationKeyboard()
+    {
+        if (canMove)
         {
-            character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
+            RaycastHit hit;
+            var layerMask = 1 << LayerMask.NameToLayer("MouseLayer");
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                Vector3 pointToLook = hit.point;
+                //Debug.DrawLine(ray.origin, pointToLook, Color.red);
+                pointToLook.y = character.transform.position.y;
+                character.transform.LookAt(pointToLook);
+            }
         }
     }
 
-    IEnumerator TestLifeBar()
+    //Gameplay scripts -----------------------
+    public void TakeDamage(float time, int damages)
     {
-        for (int i = 100; i > 0; i -= 5)
+        if (!hitCooldown)
         {
-            infos.lifepoints -= 5;
-            uiManager.SetLifebarSize(infos.lifepoints);
-            yield return new WaitForSeconds(0.5f); 
+            StartCoroutine(HitCooldownRoutine(time));
+            if (infos.lifepoints > 0)
+            {
+                infos.lifepoints -= damages;
+                if (infos.lifepoints < 0) infos.lifepoints = 0;
+                uiManager.SetLifebarSize(infos.lifepoints);
+                uiManager.ActiveDamageEffect();
+            }
         }
     }
-    public void SetKeyboardEnabled(bool b)
-    {
-        useKeyboard = b;
-    }
 
+    private IEnumerator HitCooldownRoutine(float t)
+    {
+        hitCooldown = true;
+        yield return new WaitForSeconds(t);
+        hitCooldown = false;
+    }
+    private IEnumerator CanMoveRoutine(float t)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(t);
+        canMove = true;
+    }
 }
 [System.Serializable]
 public class PlayerInfos : System.Object

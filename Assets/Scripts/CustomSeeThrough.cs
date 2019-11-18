@@ -5,10 +5,15 @@ using UnityEngine;
 public class CustomSeeThrough : MonoBehaviour
 {
     public Shader seeThroughShader;
+    [HideInInspector]
     public Material material;
+    [HideInInspector]
     public Shader originalShader;
+    [HideInInspector]
     private GameObject wallCheckCamera;
+    [HideInInspector]
     public bool isHidden;
+    [HideInInspector]
     public GameObject obstacleObject;
 
     void Start()
@@ -23,10 +28,10 @@ public class CustomSeeThrough : MonoBehaviour
         RaycastHit hit;
         Vector3 fromPosition = wallCheckCamera.transform.position;
         Vector3 toPosition = this.transform.position;
-        toPosition = new Vector3(toPosition.x, toPosition.y + 1.5f, toPosition.z);
+        toPosition = new Vector3(toPosition.x, toPosition.y + 1.0f, toPosition.z);
         Vector3 direction = toPosition - fromPosition;
 
-        Debug.DrawRay(wallCheckCamera.transform.position, direction);
+        //Debug.DrawRay(wallCheckCamera.transform.position, direction);
         if (Physics.Raycast(wallCheckCamera.transform.position, direction, out hit))
         {
             if (hit.collider.gameObject.tag.Equals("Obstacle"))
