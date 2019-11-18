@@ -265,6 +265,7 @@ public class PlayerController : MonoBehaviour
     // Test //
     public void IsAttacked(int damage)
     {
+        Debug.Log("hit");
         infos.lifepoints -= damage;
         uiManager.SetLifebarSize(infos.lifepoints);
     }
