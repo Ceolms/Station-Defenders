@@ -96,6 +96,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (isMoving) rigidbody.velocity = moveVelocity; else rigidbody.velocity = Vector3.zero;
+        if (useKeyboard) RotationKeyboard();
+        else RotationController();        
+
+        if(infos.lifepoints <= 0)
+        {
+            character.gameObject.layer = LayerMask.NameToLayer("Faint");
+        }
+        else
+        {
+            character.gameObject.layer = LayerMask.NameToLayer("Movings");
+        }
+    }
 
     void LateUpdate()
     {
@@ -246,6 +261,14 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(t);
         canMove = true;
     }
+    
+    // Test //
+    public void IsAttacked(int damage)
+    {
+        infos.lifepoints -= damage;
+        uiManager.SetLifebarSize(infos.lifepoints);
+    }
+
 }
 [System.Serializable]
 public class PlayerInfos : System.Object

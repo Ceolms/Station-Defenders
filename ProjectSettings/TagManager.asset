@@ -11,6 +11,7 @@ TagManager:
   - FireArea
   - Projectile
   - Alien
+  - Core
   layers:
   - Default
   - TransparentFX
@@ -26,6 +27,8 @@ TagManager:
   - MiniMap
   - MouseLayer
   - NoPlayerCollide
+  - Faint
+  - 
   - 
   - 
   - 
