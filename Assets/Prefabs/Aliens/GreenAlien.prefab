@@ -421,7 +421,7 @@ MonoBehaviour:
   maxHealthPoint: 100
   damages: 0
   speed: 0
-  healthbar: {fileID: 0}
+  healthbar: {fileID: 1500305258}
   alienMesh: {fileID: 8890142334142760757}
   material: {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
 --- !u!65 &6463778234032810639

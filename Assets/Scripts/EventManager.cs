@@ -155,9 +155,9 @@ public class EventLight : MonoBehaviour
             }
             if (EventManager.Instance.lights[0].GetComponent<Light>().intensity < 0.5f)
             {
-                foreach (Light l in EventManager.Instance.lights)
+                foreach (PlayerController p in GameManager.Instance.players)
                 {
-                    l.enabled = true;
+                    p.GetComponentInChildren<Light>().enabled = true;
                 }
             }
         }
@@ -168,6 +168,10 @@ public class EventLight : MonoBehaviour
         foreach (Light l in EventManager.Instance.lights)
         {
             l.intensity = EventManager.Instance.originalIntensity;
+        }
+        foreach (PlayerController p in GameManager.Instance.players)
+        {
+            p.GetComponentInChildren<Light>().enabled = false;
         }
         EventManager.Instance.eventActive = false;
         EventManager.Instance.StartCooldown();

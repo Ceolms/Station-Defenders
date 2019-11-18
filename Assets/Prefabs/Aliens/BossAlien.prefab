@@ -417,7 +417,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 100
-  healthbar: {fileID: 0}
+  damages: 0
+  speed: 0
+  healthbar: {fileID: 2032777040}
   alienMesh: {fileID: 8379669035441413761}
   material: {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}
 --- !u!65 &6937179300048990658

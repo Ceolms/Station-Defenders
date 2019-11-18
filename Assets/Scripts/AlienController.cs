@@ -55,7 +55,7 @@ public class AlienController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(bestTarget.transform.position);
+        if(bestTarget != null ) agent.SetDestination(bestTarget.transform.position);
 
         if (agent.remainingDistance <= agent.stoppingDistance)
         {

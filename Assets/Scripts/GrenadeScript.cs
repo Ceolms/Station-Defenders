@@ -40,7 +40,6 @@ public class GrenadeScript : MonoBehaviour
     }
     private IEnumerator GrenadeRoutine()
     {
-        Debug.Log("Throwing grenade !");
         //animation 
         yield return new WaitForSeconds(1.25f);
         isInHand = false;
@@ -50,7 +49,6 @@ public class GrenadeScript : MonoBehaviour
         this.GetComponent<Rigidbody>().AddForce(((directionForward * 0.4f) + (directionFUp * 0.4f)) * throwForce);
         yield return new WaitForSeconds(0.3f);
         this.transform.gameObject.layer = LayerMask.NameToLayer("Default");
-
         // blip blip
         Light l = this.GetComponentInChildren<Light>();
         for(int i = 0; i < countdown; i++)
