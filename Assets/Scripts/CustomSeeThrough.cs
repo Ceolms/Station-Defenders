@@ -31,7 +31,7 @@ public class CustomSeeThrough : MonoBehaviour
         toPosition = new Vector3(toPosition.x, toPosition.y + 1.0f, toPosition.z);
         Vector3 direction = toPosition - fromPosition;
 
-        Debug.DrawRay(wallCheckCamera.transform.position, direction);
+        //Debug.DrawRay(wallCheckCamera.transform.position, direction);
         if (Physics.Raycast(wallCheckCamera.transform.position, direction, out hit))
         {
             if (hit.collider.gameObject.tag.Equals("Obstacle"))

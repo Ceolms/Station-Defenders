@@ -31,15 +31,18 @@ public class PlayerController : MonoBehaviour
     //GameObject vars
 
     public PlayerInfos infos;
-    public Camera camera;
-    public UiManager uiManager;
+    [HideInInspector] public Camera camera;
+    [HideInInspector] public UiManager uiManager;
     private Rigidbody rigidbody;
     public Transform character;
     private Animator animator;
-    public GameObject prefabBullet;
+
     public GameObject gun;
     public GameObject sphereMinimap;
+    public GameObject prefabBullet;
+    public GameObject grenadePrefab;
     private bool hitCooldown;
+    private int grenadeCount = 300;
 
     //camera position
     private Vector3 offset;
@@ -141,14 +144,16 @@ public class PlayerController : MonoBehaviour
     }
     private void OnGrenadeButtonDown(InputActionEventData data)
     {
-        if (canMove)
+        if (canMove && grenadeCount > 0)
         {
+            GameObject grenade = Instantiate(grenadePrefab);
+            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, character);
             animator.SetBool("isRunning", false);
+            animator.SetTrigger("isThrowingGrenade");
             moveVector = Vector3.zero;
             rigidbody.velocity = Vector3.zero;
             StartCoroutine(CanMoveRoutine(1f));
-            
-            // throw grenade
+            grenadeCount -= 1;
         }
     }
 
@@ -179,30 +184,37 @@ public class PlayerController : MonoBehaviour
     }
     private void RotationController()
     {
-        float h1 = player.GetAxis("Look Horizontal");
-        float v1 = player.GetAxis("Look Vertical");
-        if (h1 == 0f && v1 == 0f)
+        if (canMove)
         {
-            Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
-            if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
-                character.transform.forward = facingrotation;
+            float h1 = player.GetAxis("Look Horizontal");
+            float v1 = player.GetAxis("Look Vertical");
+            if (h1 == 0f && v1 == 0f)
+            {
+                Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
+                if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
+                    character.transform.forward = facingrotation;
+            }
+            else
+            {
+                character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
+            }
         }
-        else
-        {
-            character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
-        }
+
     }
     private void RotationKeyboard()
     {
-        RaycastHit hit;
-        var layerMask = 1 << LayerMask.NameToLayer("MouseLayer");
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if (canMove)
         {
-            Vector3 pointToLook = hit.point;
-            Debug.DrawLine(ray.origin, pointToLook, Color.red);
-            pointToLook.y = character.transform.position.y;
-            character.transform.LookAt(pointToLook);
+            RaycastHit hit;
+            var layerMask = 1 << LayerMask.NameToLayer("MouseLayer");
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                Vector3 pointToLook = hit.point;
+                //Debug.DrawLine(ray.origin, pointToLook, Color.red);
+                pointToLook.y = character.transform.position.y;
+                character.transform.LookAt(pointToLook);
+            }
         }
     }
 

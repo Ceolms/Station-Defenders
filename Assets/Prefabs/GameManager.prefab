@@ -93,6 +93,12 @@ MonoBehaviour:
     loop: 0
     isMusic: 0
     source: {fileID: 0}
+  - name: blip
+    clip: {fileID: 8300000, guid: 53629583eae2c64498fdf2168bdfe961, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
   musicList: []
   sourceMusique: {fileID: 0}
   multiplier: 1

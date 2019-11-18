@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public static EventManager Instance;
+    public static EventManager Instance { get; private set; }
     [HideInInspector]
     public bool canEventHappen = true;
     private bool randomActive;

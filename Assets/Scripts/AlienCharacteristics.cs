@@ -23,7 +23,6 @@ public class AlienCharacteristics : MonoBehaviour
         if (healthbar != null) healthbar.value = calculateHealth();
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
-        alienAnimator.SetTrigger("Smash Attack");
     }
 
     private float calculateHealth()

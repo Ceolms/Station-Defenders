@@ -71,9 +71,11 @@ MonoBehaviour:
   camera: {fileID: 0}
   uiManager: {fileID: 0}
   character: {fileID: 2719651428607149103}
-  prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   gun: {fileID: 4077040735411724903}
   sphereMinimap: {fileID: 4439652161510381877}
+  prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
+  grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
+    type: 3}
 --- !u!114 &2446361836499282682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,12 +219,12 @@ PrefabInstance:
     - target: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.7
+      value: 7.09
       objectReference: {fileID: 0}
     - target: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.6
+      value: -4.071
       objectReference: {fileID: 0}
     - target: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
