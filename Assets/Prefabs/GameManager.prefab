@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 5096083401750040200}
   - component: {fileID: 5096083401750040207}
   - component: {fileID: 1587115170469573478}
+  - component: {fileID: 483666610}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -206,3 +207,34 @@ MonoBehaviour:
   eventRisk: 0
   timeBetweenCheck: 1
   coolDown: 10
+--- !u!114 &483666610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5096083401750040206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a116e8f0fcb864c856db6c5b52c310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - name: Green Alien
+    enemy: {fileID: 2151225065865421994, guid: 83b4524b36fa49e40bd42517011a4941, type: 3}
+    count: 5
+    rate: 1
+  - name: Purple Alien
+    enemy: {fileID: 2151225065865421994, guid: 544bba5ba3e24ee4da722f1ee80461c2, type: 3}
+    count: 3
+    rate: 1.5
+  - name: Boss Alien
+    enemy: {fileID: 2151225065865421994, guid: d63ef99ca4492a7459183790a2f4ab60, type: 3}
+    count: 2
+    rate: 2
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  timeBetweenWaves: 5
+  waveCountdown: 1
