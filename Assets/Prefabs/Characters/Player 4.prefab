@@ -68,14 +68,16 @@ MonoBehaviour:
   useKeyboard: 0
   infos:
     lifepoints: 100
+    maxLifepoints: 100
   camera: {fileID: 0}
   uiManager: {fileID: 0}
   character: {fileID: 2719651428607149103}
   gun: {fileID: 5605794181458058943}
   sphereMinimap: {fileID: 1732751418569508464}
-  prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
+  prefabBullet: {fileID: 177564, guid: cab9a2db004456f49a99007c81783e2c, type: 3}
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
+  healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
 --- !u!114 &5392588538152159313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4655844840031599208
 RectTransform:
   m_ObjectHideFlags: 0

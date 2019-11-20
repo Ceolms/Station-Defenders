@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &205760030309937278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53,7 +53,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4997442275874877788}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -174,6 +174,9 @@ MonoBehaviour:
   useKeyboard: 0
   infos:
     lifepoints: 100
+    maxLifepoints: 100
+    grenadeCount: 100
+    healPerFrame: 0.2
   camera: {fileID: 0}
   uiManager: {fileID: 0}
   character: {fileID: 6288649568445246312}
@@ -182,6 +185,7 @@ MonoBehaviour:
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
+  healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
 --- !u!114 &8225453402513937591
 MonoBehaviour:
   m_ObjectHideFlags: 0

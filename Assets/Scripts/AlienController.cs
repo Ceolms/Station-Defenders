@@ -145,7 +145,7 @@ public class AlienController : MonoBehaviour
         //Sync damage and animation
         if (hit && isAttacking)
         {
-            bestTarget.GetComponent<PlayerController>().IsAttacked(damage);
+            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,damage);
             hit = false;
         }
         
