@@ -18,12 +18,18 @@ public class AlienCharacteristics : MonoBehaviour
     public GameObject alienMesh;
     public Material material;
 
+    private bool ShowHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         alienMesh.GetComponent<SkinnedMeshRenderer>().material = new Material(material);
         currentHealth = maxHealthPoint;
         if (healthbar != null) healthbar.value = calculateHealth();
+
+      ShowHealth = false;
+      DisplayHealthBar();
+      
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
     }
@@ -41,6 +47,9 @@ public class AlienCharacteristics : MonoBehaviour
 
     public void TakeDamage(float time, int damages)
     {
+        //ShowHealth = true;
+        StartCoroutine(Test());
+
         if (!hitCooldown)
         {
             StartCoroutine(HitCooldownRoutine(time));
@@ -73,6 +82,20 @@ public class AlienCharacteristics : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.white;
     }
+
+    private IEnumerator Test()
+    {
+      ShowHealth = true;
+      DisplayHealthBar();
+      yield return new WaitForSeconds(0.2f);
+      ShowHealth = false;
+      DisplayHealthBar();
+  }
+
+  private void DisplayHealthBar()
+  {
+    healthbar.gameObject.SetActive(ShowHealth);
+  }
 }
 
 
