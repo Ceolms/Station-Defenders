@@ -26,9 +26,7 @@ public class AlienController : MonoBehaviour
     private Animator anim;
     [HideInInspector]
     public bool hit;
-
-    //Damage /!\ TEMPORAIRE /!\
-    private int damage = 10;
+    private int damages;
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +42,7 @@ public class AlienController : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         //Get core
         core = GameObject.FindGameObjectWithTag("Core");
-
+        damages = this.GetComponent<AlienCharacteristics>().damages;
     }
 
     void FixedUpdate()
@@ -145,7 +143,7 @@ public class AlienController : MonoBehaviour
         //Sync damage and animation
         if (hit && isAttacking)
         {
-            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,damage);
+            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,damages);
             hit = false;
         }
         
@@ -162,12 +160,8 @@ public class AlienController : MonoBehaviour
 
             // Function - Attack the core 
             // *** //
-
-
-            
+            core.GetComponent<Core>().TakeDamage(damages);
         }
-        
-
     }
 
     IEnumerator animAttackDelay()
