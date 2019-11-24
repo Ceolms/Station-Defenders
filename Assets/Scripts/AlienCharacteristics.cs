@@ -12,6 +12,7 @@ public class AlienCharacteristics : MonoBehaviour
     private float currentHealth;
     private bool hitCooldown;
     private Animator alienAnimator;
+    private Quaternion initRotation;
 
 
     public Slider healthbar;
@@ -29,12 +30,19 @@ public class AlienCharacteristics : MonoBehaviour
 
       ShowHealth = false;
       DisplayHealthBar();
+
+      initRotation = healthbar.transform.rotation;
       
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
     }
 
-    private float calculateHealth()
+  private void LateUpdate()
+  {
+    healthbar.transform.rotation = initRotation;
+  }
+
+  private float calculateHealth()
     {
         return currentHealth / maxHealthPoint;
     }
@@ -87,7 +95,7 @@ public class AlienCharacteristics : MonoBehaviour
     {
       ShowHealth = true;
       DisplayHealthBar();
-      yield return new WaitForSeconds(0.2f);
+      yield return new WaitForSeconds(0.5f);
       ShowHealth = false;
       DisplayHealthBar();
   }
