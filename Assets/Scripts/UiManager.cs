@@ -15,6 +15,7 @@ public class UiManager : MonoBehaviour
     public GameObject spriteFire;
     public GameObject damageEffectPanel;
     public GameObject gameoverPanel;
+    public GameObject textGrenade;
 
     private Image imageOverlayRed;
     private float sizeMaxLife;
@@ -88,6 +89,13 @@ public class UiManager : MonoBehaviour
                 break;
         }
     }
+
+    public void SetGrenadeCount(int n)
+    {
+        textGrenade.GetComponent<Text>().text = n.ToString();
+        if (n > 0) textGrenade.GetComponent<Text>().color = Color.white;
+        else textGrenade.GetComponent<Text>().color = Color.red;
+    }
     public void ShowWarningSprite(EventType type)
     {
         switch(type)
@@ -119,7 +127,6 @@ public class UiManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         damageEffectPanel.SetActive(false);
     }
-
     private IEnumerator ShowGameOverPanel()
     {
         gameoverPanel.SetActive(true);

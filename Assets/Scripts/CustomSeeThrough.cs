@@ -34,7 +34,7 @@ public class CustomSeeThrough : MonoBehaviour
         Debug.DrawRay(wallCheckCamera.transform.position, direction);
         if (Physics.Raycast(wallCheckCamera.transform.position, direction, out hit))
         {
-            if (hit.collider.gameObject.tag.Equals("Obstacle"))
+            if (hit.collider.gameObject.tag.Equals("Obstacle") || hit.collider.gameObject.tag.Equals("Core"))
             {
                 isHidden = true;
                 material.shader = seeThroughShader;

@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour
     private bool impact;
     public float speed = 1f;
     public int bulletDamages = 10;
-    public bool canMove;
+    [HideInInspector] public bool canMove;
     public GameObject prefabImpact;
     private GameObject impactObj;
 

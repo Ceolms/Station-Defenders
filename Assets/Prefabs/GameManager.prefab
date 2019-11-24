@@ -95,7 +95,25 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: blip
     clip: {fileID: 8300000, guid: 53629583eae2c64498fdf2168bdfe961, type: 3}
-    volume: 1
+    volume: 0.879
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: ExplosionGrenade
+    clip: {fileID: 8300000, guid: 97b5c1622f61cc0428c9c4942115cf0b, type: 3}
+    volume: 0.638
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: ExplosionMeteor
+    clip: {fileID: 8300000, guid: 67690d6d572151c428d265ed64e60c47, type: 3}
+    volume: 0.5
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: SwooshMeteor
+    clip: {fileID: 8300000, guid: 5fb1cd2a7577bcc40bba38524ddc401d, type: 3}
+    volume: 0.1
     loop: 0
     isMusic: 0
     source: {fileID: 0}
@@ -183,11 +201,11 @@ MonoBehaviour:
   eventLightBreakdown:
     eventActive: 0
     eventTypeRisk: 33
-    eventDuration: 30
+    eventDuration: 20
   eventMeteor:
     eventActive: 0
     eventTypeRisk: 33
-    meteorAmount: 60
+    meteorAmount: 44
     timeBetweenMeteor: 0.34
     damagesCenter: 45
     damagesBorder: 15
@@ -204,8 +222,8 @@ MonoBehaviour:
   playersLights: []
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   originalIntensity: 0
-  eventRisk: 10
-  timeBetweenCheck: 2
+  eventRisk: 0
+  timeBetweenCheck: 1
   coolDown: 10
 --- !u!114 &483666610
 MonoBehaviour:
@@ -226,7 +244,7 @@ MonoBehaviour:
   redAlien: {fileID: 1395759818056972909, guid: d63ef99ca4492a7459183790a2f4ab60,
     type: 3}
   waves:
-  - greenAlienCount: 5
+  - greenAlienCount: 1
     purpleAlienCount: 0
     redAlienCount: 0
     rate: 1

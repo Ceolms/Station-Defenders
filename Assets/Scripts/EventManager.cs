@@ -125,8 +125,8 @@ public class EventLight : MonoBehaviour
 {
     EventLightInfos infos;
 
-    private float lightdecreaseSpeed = 0.05f;
-
+    private float lightdecreaseSpeed = 0.025f;
+    private bool isIncreasing;
     public void Start()
     {
         infos = EventManager.Instance.eventLightBreakdown;
@@ -138,6 +138,7 @@ public class EventLight : MonoBehaviour
         EventManager.Instance.canEventHappen = false;
 
         infos.eventActive = true;
+        EventManager.Instance.originalIntensity = EventManager.Instance.lights[0].intensity;
         foreach (PlayerController p in GameManager.Instance.players)
         {
             p.uiManager.ShowWarningSprite(EventType.LightBreakdown);
@@ -161,26 +162,35 @@ public class EventLight : MonoBehaviour
                 }
             }
         }
+        if (isIncreasing)
+        {
+            foreach (Light l in EventManager.Instance.lights)
+            {
+                l.intensity = l.intensity + lightdecreaseSpeed;
+            }
+
+            if (EventManager.Instance.lights[EventManager.Instance.lights.Count - 1].intensity >= EventManager.Instance.originalIntensity)
+                isIncreasing = false;
+
+            if (EventManager.Instance.lights[0].GetComponent<Light>().intensity < 0.5f)
+            {
+                foreach (PlayerController p in GameManager.Instance.players)
+                {
+                    p.GetComponentInChildren<Light>().enabled = false;
+
+                }
+            }
+
+        }
     }
     private IEnumerator LightBackActive()
     {
         yield return new WaitForSeconds(infos.eventDuration);
-        foreach (Light l in EventManager.Instance.lights)
-        {
-            l.intensity = EventManager.Instance.originalIntensity;
-        }
-        foreach (PlayerController p in GameManager.Instance.players)
-        {
-            p.GetComponentInChildren<Light>().enabled = false;
-        }
+        isIncreasing = true;
         EventManager.Instance.eventActive = false;
         EventManager.Instance.StartCooldown();
         infos.eventActive = false;
         Debug.Log("LightBreakDown event finish!");
-        foreach (Light l in EventManager.Instance.lights)
-        {
-            l.enabled = false;
-        }
     }
 }
 

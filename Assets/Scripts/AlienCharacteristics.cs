@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class AlienCharacteristics : MonoBehaviour
 {
     public float maxHealthPoint = 100;
-    public int damages;
-    public int speed;
+    public int damages = 10;
+    public int speed = 1;
     private float currentHealth;
     private bool hitCooldown;
     private Animator alienAnimator;

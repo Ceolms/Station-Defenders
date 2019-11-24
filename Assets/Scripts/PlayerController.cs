@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool isFainting;
     private bool isShooting;
     private bool canMove = true;
+    private bool isHealing;
     //GameObject vars
 
     public PlayerInfos infos;
@@ -41,8 +42,10 @@ public class PlayerController : MonoBehaviour
     public GameObject sphereMinimap;
     public GameObject prefabBullet;
     public GameObject grenadePrefab;
+    public GameObject healParticlePrefab;
+    private GameObject healParticle;
     private bool hitCooldown;
-    private int grenadeCount = 300;
+    
 
     //camera position
     private Vector3 offset;
@@ -53,18 +56,22 @@ public class PlayerController : MonoBehaviour
         player = ReInput.players.GetPlayer((int)id);
         rigidbody = GetComponent<Rigidbody>();
         camera = this.GetComponentInChildren<Camera>();
+        infos.lifepoints = infos.maxLifepoints;
         uiManager = camera.transform.GetComponent<UiManager>();
         animator = character.GetComponent<Animator>();
         player.AddInputEventDelegate(OnFireButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Shoot");
         player.AddInputEventDelegate(OnMapButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Map");
         player.AddInputEventDelegate(OnEmoteButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Emote");
         player.AddInputEventDelegate(OnGrenadeButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Grenade");
+        player.AddInputEventDelegate(OnHealButtonDown, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, "Heal");
+        player.AddInputEventDelegate(OnHealButtonUp, UpdateLoopType.Update, InputActionEventType.ButtonJustReleased, "Heal");
         uiManager.SetName(id);
         sphereMinimap.SetActive(true);
         // StartCoroutine(TestLifeBar());
 
         //camera position
         offset = camera.transform.position - character.position;
+        uiManager.SetGrenadeCount(infos.grenadeCount);
     }
 
 
@@ -89,10 +96,21 @@ public class PlayerController : MonoBehaviour
             isFainting = true;
             animator.SetBool("isFainting", true);
         }
-        else
+        if(isHealing)
         {
-            isFainting = false;
-            animator.SetBool("isFainting", false);
+            Collider[] colliders = Physics.OverlapSphere(this.transform.position, 5.2f);
+            foreach (Collider hit in colliders)
+            {
+                if (hit.transform.parent != null  && hit.transform.parent.tag.Equals("Player"))
+                {
+                   
+                    PlayerController p = hit.transform.parent.gameObject.GetComponent<PlayerController>();
+                    if(p.isFainting)
+                    {
+                        p.Heal(infos.healPerFrame);
+                    }
+                }
+            }
         }
     }
 
@@ -157,9 +175,31 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("isAskingHelp");
         }
     }
+    private void OnHealButtonDown(InputActionEventData data)
+    {
+        animator.SetBool("isRunning", false);
+        moveVector = Vector3.zero;
+        rigidbody.velocity = Vector3.zero;
+        canMove = false;
+        isHealing = true;
+        animator.SetBool("isHealing",true);
+        animator.SetTrigger("beginHeal");
+        healParticle = GameObject.Instantiate(healParticlePrefab);
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y+0.1f, transform.position.z);
+        healParticle.transform.position = pos;
+
+    }
+    private void OnHealButtonUp(InputActionEventData data)
+    {
+        animator.SetBool("isHealing", false);
+        isHealing = false;
+        StartCoroutine(CanMoveRoutine(1f));
+        Destroy(healParticle);
+        healParticle = null;
+    }
     private void OnGrenadeButtonDown(InputActionEventData data)
     {
-        if (canMove && grenadeCount > 0)
+        if (canMove && infos.grenadeCount > 0)
         {
             GameObject grenade = Instantiate(grenadePrefab);
             grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, character);
@@ -168,7 +208,8 @@ public class PlayerController : MonoBehaviour
             moveVector = Vector3.zero;
             rigidbody.velocity = Vector3.zero;
             StartCoroutine(CanMoveRoutine(1f));
-            grenadeCount -= 1;
+            infos.grenadeCount -= 1;
+            uiManager.SetGrenadeCount(infos.grenadeCount);
         }
     }
 
@@ -176,7 +217,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
+            moveVector.x = player.GetAxis("Move Horizontal");
             moveVector.z = player.GetAxis("Move Vertical");
         }
     }
@@ -243,7 +284,7 @@ public class PlayerController : MonoBehaviour
             {
                 infos.lifepoints -= damages;
                 if (infos.lifepoints < 0) infos.lifepoints = 0;
-                uiManager.SetLifebarSize(infos.lifepoints);
+                uiManager.SetLifebarSize((int)infos.lifepoints);
                 uiManager.ActiveDamageEffect();
             }
         }
@@ -266,12 +307,28 @@ public class PlayerController : MonoBehaviour
     public void IsAttacked(int damage)
     {
         infos.lifepoints -= damage;
-        uiManager.SetLifebarSize(infos.lifepoints);
+        uiManager.SetLifebarSize((int)infos.lifepoints);
+    }
+    public void Heal(float amount)
+    {
+       
+        this.infos.lifepoints += amount;
+        Debug.Log("healing : " + infos.lifepoints);
+        uiManager.SetLifebarSize((int)infos.lifepoints);
+        if (infos.lifepoints >= infos.maxLifepoints) 
+        {
+            infos.lifepoints = infos.maxLifepoints;
+            isFainting = false;
+            animator.SetBool("isFainting", false);
+        }
     }
 
 }
 [System.Serializable]
 public class PlayerInfos : System.Object
 {
-    public int lifepoints = 100;
+    public float lifepoints;
+    public float maxLifepoints = 100f;
+    public int grenadeCount = 100;
+    [HideInInspector] public float healPerFrame = 0.2f;
 }
