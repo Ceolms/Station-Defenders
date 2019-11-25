@@ -214,7 +214,7 @@ MonoBehaviour:
   eventFire:
     eventActive: 0
     eventTypeRisk: 33
-    eventDuration: 30
+    eventDuration: 15
     timeBeforefire: 2
     firePrefab: {fileID: 5960178427660214910, guid: 8791b5689a9043245a66eddd10ad96a9,
       type: 3}
@@ -222,7 +222,7 @@ MonoBehaviour:
   playersLights: []
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   originalIntensity: 0
-  eventRisk: 0
+  eventRisk: 10
   timeBetweenCheck: 1
   coolDown: 10
 --- !u!114 &483666610
@@ -244,7 +244,7 @@ MonoBehaviour:
   redAlien: {fileID: 1395759818056972909, guid: d63ef99ca4492a7459183790a2f4ab60,
     type: 3}
   waves:
-  - greenAlienCount: 1
+  - greenAlienCount: 10
     purpleAlienCount: 0
     redAlienCount: 0
     rate: 1

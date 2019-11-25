@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-
-    public enum SpawnState { SPAWNING, WAITING, COUNTING };
-
     [System.Serializable]
     public class Wave
     {

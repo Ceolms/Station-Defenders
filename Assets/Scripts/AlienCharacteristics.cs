@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AlienCharacteristics : MonoBehaviour
 {
+
     public float maxHealthPoint = 100;
     public int damages = 10;
     public int speed = 1;
@@ -14,11 +15,10 @@ public class AlienCharacteristics : MonoBehaviour
     private Animator alienAnimator;
     private Quaternion initRotation;
 
-
     public Slider healthbar;
     public GameObject alienMesh;
     public Material material;
-
+    public ScoreID scoreType;
     private bool ShowHealth;
 
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class AlienCharacteristics : MonoBehaviour
         if (healthbar != null) healthbar.value = calculateHealth();
 
       ShowHealth = false;
-      DisplayHealthBar();
+      healthbar.gameObject.SetActive(ShowHealth);
 
       initRotation = healthbar.transform.rotation;
       
@@ -53,10 +53,12 @@ public class AlienCharacteristics : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void TakeDamage(float time, int damages)
+    public void TakeDamage(PlayerID id, int damages)
     {
         //ShowHealth = true;
-        StartCoroutine(Test());
+        StartCoroutine(ShowHealthRoutine());
+
+        float time = 0.1f;
 
         if (!hitCooldown)
         {
@@ -70,6 +72,22 @@ public class AlienCharacteristics : MonoBehaviour
             }
             if (currentHealth == 0) // if lifePoints <= 0
             {
+                switch(id)
+                {
+                    case (PlayerID.Player1):
+                        GameManager.Instance.players[0].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player2):
+                        GameManager.Instance.players[1].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player3):
+                        GameManager.Instance.players[2].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player4):
+                        GameManager.Instance.players[3].scoreList.Add(scoreType);
+                        break;
+                }
+
                 alienAnimator.SetTrigger("Die");
                 Destroy(this.gameObject.GetComponent<BoxCollider>());
                 var animController = alienAnimator.runtimeAnimatorController;
@@ -91,19 +109,14 @@ public class AlienCharacteristics : MonoBehaviour
         alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
-    private IEnumerator Test()
+    private IEnumerator ShowHealthRoutine()
     {
       ShowHealth = true;
-      DisplayHealthBar();
-      yield return new WaitForSeconds(0.5f);
+        healthbar.gameObject.SetActive(ShowHealth);
+        yield return new WaitForSeconds(0.5f);
       ShowHealth = false;
-      DisplayHealthBar();
-  }
-
-  private void DisplayHealthBar()
-  {
-    healthbar.gameObject.SetActive(ShowHealth);
-  }
+        healthbar.gameObject.SetActive(ShowHealth);
+    }
 }
 
 

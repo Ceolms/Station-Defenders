@@ -57,14 +57,14 @@ public class MeteorScript : MonoBehaviour
                     if (hit.gameObject.tag.Equals("Player"))
                         hit.gameObject.GetComponent<PlayerController>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesCenter);
                     else if (hit.gameObject.tag.Equals("Alien"))
-                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesCenter);
+                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(PlayerID.NotPlayer, EventManager.Instance.eventMeteor.damagesCenter);
                 }
                 else
                 {
                     if (hit.gameObject.tag.Equals("Player"))
                         hit.gameObject.GetComponent<PlayerController>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesBorder);
                     else if (hit.gameObject.tag.Equals("Alien"))
-                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Meteor, EventManager.Instance.eventMeteor.damagesBorder);
+                        hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(PlayerID.NotPlayer, EventManager.Instance.eventMeteor.damagesBorder);
                 }
             }
         }
@@ -76,10 +76,13 @@ public class MeteorScript : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(this.transform.position, soundRadius);
         foreach (Collider hit in colliders)
         {
-            if (hit.transform.parent.tag.Equals("Player"))
+            if(hit.transform.parent != null)
             {
-                SoundPlayer.Instance.Play("SwooshMeteor");
-                break;
+                if (hit.transform.parent.tag.Equals("Player"))
+                {
+                    SoundPlayer.Instance.Play("SwooshMeteor");
+                    break;
+                }
             }
         }
     }

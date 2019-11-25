@@ -496,6 +496,7 @@ MonoBehaviour:
   healthbar: {fileID: 2032777040}
   alienMesh: {fileID: 8379669035441413761}
   material: {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}
+  scoreType: 50
 --- !u!65 &6937179300048990658
 BoxCollider:
   m_ObjectHideFlags: 0

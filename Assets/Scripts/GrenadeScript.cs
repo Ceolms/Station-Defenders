@@ -16,7 +16,7 @@ public class GrenadeScript : MonoBehaviour
     private Vector3 directionFUp;
     private int countdown = 3;
     private float throwForce = 600f;
-
+    [HideInInspector] public PlayerID owner;
     // Update is called once per frame
     void Update()
     {
@@ -74,11 +74,11 @@ public class GrenadeScript : MonoBehaviour
                 float dist = Vector3.Distance(hit.transform.position, explosionPos);
                 if (dist <= 1f)
                 {
-                    hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Grenade, damagesCenter);
+                    hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(owner, damagesCenter);
                 }
                 else
                 {
-                    hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Grenade, damagesEdge);
+                    hit.gameObject.GetComponent<AlienCharacteristics>().TakeDamage(owner, damagesEdge);
                 }
             }
             else if (hit.transform.parent != null && hit.transform.parent.tag.Equals("Player"))

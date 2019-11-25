@@ -53,36 +53,38 @@ public class AlienController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(bestTarget != null ) agent.SetDestination(bestTarget.transform.position);
+        if(GameManager.Instance.gameRunning)
+        {
+            if (bestTarget != null) agent.SetDestination(bestTarget.transform.position);
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
-        {
-            isMoving = false;
-        }
-        else
-        {
-            isMoving = true;
-        }
-
-        if (isMoving)
-        {
-            anim.SetBool("Walk Forward", true);
-            
-        }
-        else
-        {
-            anim.SetBool("Walk Forward", false);
-            agent.velocity = Vector3.zero;
-            if (targetIsPlayer)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                AttackPlayer();
+                isMoving = false;
             }
             else
             {
-                AttackCore();
+                isMoving = true;
+            }
+
+            if (isMoving)
+            {
+                anim.SetBool("Walk Forward", true);
+
+            }
+            else
+            {
+                anim.SetBool("Walk Forward", false);
+                agent.velocity = Vector3.zero;
+                if (targetIsPlayer)
+                {
+                    AttackPlayer();
+                }
+                else
+                {
+                    AttackCore();
+                }
             }
         }
-
     }
 
     private void GetClosestEnemy()

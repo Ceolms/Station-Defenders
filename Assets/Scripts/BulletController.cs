@@ -10,6 +10,7 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public bool canMove;
     public GameObject prefabImpact;
     private GameObject impactObj;
+    [HideInInspector] public PlayerID owner;
 
     void Update()
     {
@@ -21,7 +22,6 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-
         if (!impact)
         {
             impact = true;
@@ -29,7 +29,7 @@ public class BulletController : MonoBehaviour
             Destroy(this.gameObject);
             if(other.gameObject.tag.Equals("Alien"))
             {
-                other.transform.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Bullet,bulletDamages);
+                other.transform.GetComponent<AlienCharacteristics>().TakeDamage(owner,bulletDamages);
             }
         }
     }
