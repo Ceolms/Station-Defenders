@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class AlienCharacteristics : MonoBehaviour
 {
     public float maxHealthPoint = 100;
     public int damages;
     public int speed;
-    private float currentHealth;
+    public float currentHealth;
     private bool hitCooldown;
     private Animator alienAnimator;
 
