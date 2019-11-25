@@ -92,7 +92,7 @@ public class PanelScoreScript : MonoBehaviour
         textScoreTotal.gameObject.SetActive(true);
         for (int i = 0; i <= scoreTotal; i++)
         {
-            textScoreTotal.text = i + " * " + ScoreID.alienBoss;
+            textScoreTotal.text = i.ToString();
             yield return new WaitForSeconds(0.02f);
         }
     }

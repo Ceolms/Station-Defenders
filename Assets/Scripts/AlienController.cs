@@ -13,7 +13,7 @@ public class AlienController : MonoBehaviour
     }
 
     //Constants
-    private static float CORE_PRIORITY = 1f;
+    private static float CORE_PRIORITY = 0.3f;
     private static float PLAYERS_PRIORITY = 0.7f;
 
     //Agent
@@ -165,6 +165,7 @@ public class AlienController : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("Attacking core");
                     AttackCore();
                 }
             }
@@ -175,6 +176,7 @@ public class AlienController : MonoBehaviour
     {
         if(priority.Equals(Priority.CORE))
         {
+            Debug.Log("priority : core");
             bestTarget = core;
             agent.stoppingDistance = 3;
             targetIsPlayer = false;
@@ -255,7 +257,7 @@ public class AlienController : MonoBehaviour
         //Sync damage and animation
         if (hit && isAttacking)
         {
-            bestTarget.GetComponent<PlayerController>().IsAttacked(ac.damages);
+            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,ac.damages);
             hit = false;
         }
         
@@ -264,8 +266,10 @@ public class AlienController : MonoBehaviour
 
     public void AttackCore()
     {
+        Debug.Log("isAttacking"  + isAttacking);
         if (!isAttacking)
         {
+            Debug.Log("Attacking Core");
             isAttacking = true;
 
             StartCoroutine(animAttackDelay());

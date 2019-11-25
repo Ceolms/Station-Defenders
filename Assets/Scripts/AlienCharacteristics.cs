@@ -10,8 +10,9 @@ public class AlienCharacteristics : MonoBehaviour
 
     public float maxHealthPoint = 100;
     public int damages = 10;
-    public int speed = 1;
-    private float currentHealth;
+    public int speed = 2;
+    [HideInInspector]
+    public float currentHealth;
     private bool hitCooldown;
     private Animator alienAnimator;
     private Quaternion initRotation;

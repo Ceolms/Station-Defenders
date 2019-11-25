@@ -119,7 +119,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 969891f67fbfb154b954b42a8eacc517, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7a5837e38b0dbf44cb2de0884c409373, type: 2}
 --- !u!1001 &322409004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,7 +190,7 @@ PrefabInstance:
     - target: {fileID: 2248946797301359827, guid: db491de2586ba3a4bad90ca14b51a273,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2265149639013707441, guid: db491de2586ba3a4bad90ca14b51a273,
         type: 3}
@@ -201,6 +201,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6268011377886783914, guid: db491de2586ba3a4bad90ca14b51a273,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.94
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db491de2586ba3a4bad90ca14b51a273, type: 3}
@@ -512,6 +517,19 @@ PrefabInstance:
         type: 3}
       propertyPath: coolDown
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
+        type: 3}
+      propertyPath: timeBetweenCheck
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[0].rate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[1].rate
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}

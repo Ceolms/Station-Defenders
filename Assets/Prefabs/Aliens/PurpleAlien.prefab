@@ -87,8 +87,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 70
-  damages: 0
-  speed: 0
+  damages: 10
+  speed: 2
   currentHealth: 0
   healthbar: {fileID: 7297634874580490308}
   alienMesh: {fileID: 2433516009360229906}
