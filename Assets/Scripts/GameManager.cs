@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
+    private bool worldPanelVisible;
+    public bool gameRunning { get; private set; }
     void Awake()
     {
         Instance = this;
@@ -21,10 +23,31 @@ public class GameManager : MonoBehaviour
         if (forceSpawnP3) ForceSpawn(3);
         if (forceSpawnP4) ForceSpawn(4);
         IntializeSplitScreen();
+        gameRunning = true;
     }
 
     private void Update()
-    {   
+    {
+        if(!worldPanelVisible)
+        {
+            bool allPlayersdown = true;
+            foreach (PlayerController p in players)
+            {
+                if (!p.isFainting) allPlayersdown = false;
+            }
+            if (allPlayersdown || GameObject.Find("Core").GetComponent<Core>().currentHealth <= 0)
+            {
+                foreach (PlayerController p in players)
+                {
+                    p.isMoving = false;
+                    p.animator.SetBool("isRunning", false);
+                }
+                gameRunning = false;
+                worldPanelVisible = true;
+                if (allPlayersdown) players[0].uiManager.GameOverScreen(GameOverType.PlayersDown);
+                else players[0].uiManager.GameOverScreen(GameOverType.CoreDestroyed);    
+            }   
+        }    
     }
     /// <summary>
     /// Check the number of controllers connected and spawn a player for each of them .

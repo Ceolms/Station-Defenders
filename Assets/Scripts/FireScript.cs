@@ -74,7 +74,7 @@ public class FireScript : MonoBehaviour
             }
             else if (collision.gameObject.tag.Equals("Alien"))
             {
-                collision.transform.GetComponent<AlienCharacteristics>().TakeDamage(DamageSource.Fire, damagesPerSeconds);
+                collision.transform.GetComponent<AlienCharacteristics>().TakeDamage(PlayerID.NotPlayer, damagesPerSeconds);
             }
         }
     }

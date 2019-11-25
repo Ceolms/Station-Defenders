@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using Rewired;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+
 
 public class UiManager : MonoBehaviour
 {
@@ -14,28 +17,39 @@ public class UiManager : MonoBehaviour
     public GameObject spriteMeteor;
     public GameObject spriteFire;
     public GameObject damageEffectPanel;
-    public GameObject gameoverPanel;
+    public GameObject textGrenade;
 
+    public GameObject worldPanel;
+    public GameObject textGameOver;
+    public GameObject imageButton;
+
+    public List<GameObject> prefabsScorePanel;
+
+    public Sprite spriteA;
+    public Sprite spriteEnter;
+    [HideInInspector] public PlayerID owner;
     private Image imageOverlayRed;
     private float sizeMaxLife;
     private float sizeMaxLifeCore;
     private bool minimapVisible;
+    private List<PanelScoreScript> listePanelsScores;
     void Awake()
     {
         sizeMaxLife = UILifebar.transform.localScale.x;
         sizeMaxLifeCore = UICoreLifebar.transform.localScale.x;
         imageOverlayRed = UILifebar.transform.Find("BarRedOverlay").GetComponent<Image>();
+        listePanelsScores = new List<PanelScoreScript>();
     }
 
     public void SetLifebarSize(int percent)
     {
-        if(imageOverlayRed == null) UILifebar.transform.Find("BarRedOverlay").GetComponent<Image>();
+        if (imageOverlayRed == null) UILifebar.transform.Find("BarRedOverlay").GetComponent<Image>();
         float scale = sizeMaxLife / 100;
 
         UILifebar.transform.localScale = new Vector2(scale * percent, UILifebar.transform.localScale.y);
-        if(percent < 40)
+        if (percent < 40)
         {
-            imageOverlayRed.color =  new Color(255, 0, 0, 0.5f);
+            imageOverlayRed.color = new Color(255, 0, 0, 0.5f);
         }
         else
         {
@@ -55,9 +69,9 @@ public class UiManager : MonoBehaviour
         StartCoroutine(ShowDamagePanel());
     }
 
-    public void GameOverScreen()
+    public void GameOverScreen(GameOverType t)
     {
-        StartCoroutine(ShowGameOverPanel());
+        StartCoroutine(ShowGameOverPanel(t));
     }
     public void TriggerMinimap()
     {
@@ -66,7 +80,7 @@ public class UiManager : MonoBehaviour
     }
 
     public void SetName(PlayerID id)
-    { 
+    {
         Text textPlayerName = playerNameObject.GetComponent<Text>();
         switch (id)
         {
@@ -88,9 +102,16 @@ public class UiManager : MonoBehaviour
                 break;
         }
     }
+
+    public void SetGrenadeCount(int n)
+    {
+        textGrenade.GetComponent<Text>().text = n.ToString();
+        if (n > 0) textGrenade.GetComponent<Text>().color = Color.white;
+        else textGrenade.GetComponent<Text>().color = Color.red;
+    }
     public void ShowWarningSprite(EventType type)
     {
-        switch(type)
+        switch (type)
         {
             case EventType.LightBreakdown:
                 StartCoroutine(ShowWarningSpriteRoutine(spriteEnergy));
@@ -106,12 +127,12 @@ public class UiManager : MonoBehaviour
     private IEnumerator ShowWarningSpriteRoutine(GameObject spriteObj)
     {
 
-        for(int i = 0; i<  8; i++)
+        for (int i = 0; i < 8; i++)
         {
             spriteObj.SetActive(!spriteObj.activeSelf);
             yield return new WaitForSeconds(0.5f);
         }
-       
+
     }
     private IEnumerator ShowDamagePanel()
     {
@@ -119,15 +140,58 @@ public class UiManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         damageEffectPanel.SetActive(false);
     }
-
-    private IEnumerator ShowGameOverPanel()
+    private IEnumerator ShowGameOverPanel(GameOverType t)
     {
-        gameoverPanel.SetActive(true);
-        Image img = gameoverPanel.GetComponent<Image>();
-        while(img.color.a < 1)
+        yield return new WaitForSeconds(0f);
+        Debug.Log("Game Over");
+        worldPanel.SetActive(true);
+        textGameOver.SetActive(true);
+        Image img = worldPanel.GetComponent<Image>();
+        while (img.color.a < 1)
         {
-            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.01f);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.02f);
+            Text textGO = textGameOver.GetComponent<Text>();
+            textGO.color = new Color(textGO.color.r, textGO.color.g, textGO.color.b, textGO.color.a + 0.02f);
             yield return new WaitForSeconds(0.1f);
+        }
+
+        worldPanel.transform.GetChild(1).gameObject.SetActive(true);
+        worldPanel.transform.GetChild(2).gameObject.SetActive(true);
+
+        if (ReInput.controllers.Joysticks.Count == 0) imageButton.GetComponent<Image>().sprite = spriteEnter;
+        else imageButton.GetComponent<Image>().sprite = spriteA;
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < GameManager.Instance.players.Count; i++)
+        {
+            Debug.Log("Spawning Panel" + GameManager.Instance.players.Count);
+            GameObject panel = Instantiate(prefabsScorePanel[i]);
+            panel.transform.parent = worldPanel.transform.GetChild(2).transform;
+            listePanelsScores.Add(panel.GetComponent<PanelScoreScript>());
+            listePanelsScores[i].player = GameManager.Instance.players[i];
+            listePanelsScores[i].ShowPanel();
+        }
+        if (GameManager.Instance.players.Count == 1)
+        {
+            listePanelsScores[0].transform.position = GameObject.Find("PositionSolo").transform.position;
+        }
+        else if (GameManager.Instance.players.Count == 2)
+        {
+            listePanelsScores[0].transform.position = GameObject.Find("Position2").transform.position;
+            listePanelsScores[1].transform.position = GameObject.Find("Position3").transform.position;
+        }
+        else if (GameManager.Instance.players.Count == 2)
+        {
+            listePanelsScores[0].transform.position = GameObject.Find("Position1").transform.position;
+            listePanelsScores[1].transform.position = GameObject.Find("Position2").transform.position;
+            listePanelsScores[2].transform.position = GameObject.Find("Position3").transform.position;
+        }
+        else
+        {
+            listePanelsScores[0].transform.position = GameObject.Find("Position1").transform.position;
+            listePanelsScores[1].transform.position = GameObject.Find("Position2").transform.position;
+            listePanelsScores[2].transform.position = GameObject.Find("Position3").transform.position;
+            listePanelsScores[3].transform.position = GameObject.Find("Position4").transform.position;
         }
     }
 }

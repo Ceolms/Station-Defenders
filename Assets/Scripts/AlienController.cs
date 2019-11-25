@@ -26,9 +26,7 @@ public class AlienController : MonoBehaviour
     private Animator anim;
     [HideInInspector]
     public bool hit;
-
-    //Damage /!\ TEMPORAIRE /!\
-    private int damage = 10;
+    private int damages;
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +42,7 @@ public class AlienController : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         //Get core
         core = GameObject.FindGameObjectWithTag("Core");
-
+        damages = this.GetComponent<AlienCharacteristics>().damages;
     }
 
     void FixedUpdate()
@@ -55,36 +53,38 @@ public class AlienController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(bestTarget != null ) agent.SetDestination(bestTarget.transform.position);
+        if(GameManager.Instance.gameRunning)
+        {
+            if (bestTarget != null) agent.SetDestination(bestTarget.transform.position);
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
-        {
-            isMoving = false;
-        }
-        else
-        {
-            isMoving = true;
-        }
-
-        if (isMoving)
-        {
-            anim.SetBool("Walk Forward", true);
-            
-        }
-        else
-        {
-            anim.SetBool("Walk Forward", false);
-            agent.velocity = Vector3.zero;
-            if (targetIsPlayer)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                AttackPlayer();
+                isMoving = false;
             }
             else
             {
-                AttackCore();
+                isMoving = true;
+            }
+
+            if (isMoving)
+            {
+                anim.SetBool("Walk Forward", true);
+
+            }
+            else
+            {
+                anim.SetBool("Walk Forward", false);
+                agent.velocity = Vector3.zero;
+                if (targetIsPlayer)
+                {
+                    AttackPlayer();
+                }
+                else
+                {
+                    AttackCore();
+                }
             }
         }
-
     }
 
     private void GetClosestEnemy()
@@ -145,7 +145,7 @@ public class AlienController : MonoBehaviour
         //Sync damage and animation
         if (hit && isAttacking)
         {
-            bestTarget.GetComponent<PlayerController>().IsAttacked(damage);
+            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,damages);
             hit = false;
         }
         
@@ -162,12 +162,8 @@ public class AlienController : MonoBehaviour
 
             // Function - Attack the core 
             // *** //
-
-
-            
+            core.GetComponent<Core>().TakeDamage(damages);
         }
-        
-
     }
 
     IEnumerator animAttackDelay()

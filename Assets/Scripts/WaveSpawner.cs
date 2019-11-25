@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-
-    public enum SpawnState { SPAWNING, WAITING, COUNTING };
-
     [System.Serializable]
     public class Wave
     {
@@ -87,7 +84,7 @@ public class WaveSpawner : MonoBehaviour
 
     void WaveCompleted()
     {
-        Debug.Log("Wave Completed!");
+       // Debug.Log("Wave Completed!");
 
         state = SpawnState.COUNTING;
         waveCountdown = timeBetweenWaves;
@@ -96,7 +93,7 @@ public class WaveSpawner : MonoBehaviour
         {
             wavesEnum.Reset();
             index = 0;
-            Debug.Log("All Waves Complete! Looping...");
+           // Debug.Log("All Waves Complete! Looping...");
         }
     }
 
@@ -146,7 +143,7 @@ public class WaveSpawner : MonoBehaviour
 
     void SpawnEnemy(GameObject enemy)
     {
-        Debug.Log("Spawning enemy : " + enemy.name);
+       // Debug.Log("Spawning enemy : " + enemy.name);
 
         GameObject sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(enemy, sp.transform.position, sp.transform.rotation);
