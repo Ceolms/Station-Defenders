@@ -13,8 +13,8 @@ public class AlienController : MonoBehaviour
     }
 
     //Constants
-    private static float CORE_PRIORITY = 0.3f;
-    private static float PLAYERS_PRIORITY = 0.7f;
+    private static float CORE_PRIORITY = 0.7f;
+    private static float PLAYERS_PRIORITY = 0.3f;
 
     //Agent
     private NavMeshAgent agent;
@@ -33,6 +33,7 @@ public class AlienController : MonoBehaviour
     private bool isAttacking;
     private bool isDead;
     private bool hasCollision;
+    private bool isPlayingDeadAnim;
     private GameObject pCollision;
     private Priority priority;
 
@@ -40,7 +41,6 @@ public class AlienController : MonoBehaviour
     private Animator anim;
     [HideInInspector]
     public bool hit;
-    private int damages;
 
     //Characteristics
     AlienCharacteristics ac;
@@ -66,13 +66,12 @@ public class AlienController : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         //Get core
         core = GameObject.FindGameObjectWithTag("Core");
-        damages = this.GetComponent<AlienCharacteristics>().damages;
 
 
         //Priority
-        float rdm = Random.Range(0f,1f);
+        float rdm = Random.Range(0f, 1f);
 
-        if(rdm <= CORE_PRIORITY)
+        if (rdm <= CORE_PRIORITY)
         {
             priority = Priority.CORE;
         }
@@ -86,43 +85,55 @@ public class AlienController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(agent.enabled) GetClosestEnemy();
+        if (agent.enabled) GetClosestEnemy();
     }
 
     // Update is called once per frame
     void Update()
-    {   
+    {
 
-        if(ac.currentHealth <= 0)
+        if (ac.currentHealth <= 0)
         {
             isMoving = false;
             isDead = true;
         }
 
-        if(agent.enabled && bestTarget != null && !isDead) agent.SetDestination(bestTarget.transform.position);
+        if (agent.enabled && bestTarget != null && !isDead) agent.SetDestination(bestTarget.transform.position);
 
-
-        if (Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance && !isDead)
+        if(!isDead)
         {
-            isMoving = false;
-            agent.enabled = false;
-            obstacle.enabled = true;
+            if (Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
+            {
+                isMoving = false;
+                agent.enabled = false;
+                obstacle.enabled = true;
+            }
+            else
+            {
+                isMoving = true;
+                obstacle.enabled = false;
+                agent.enabled = true;
+            }
         }
         else
         {
-            isMoving = true;
-            obstacle.enabled = false;
-            agent.enabled = true;
+            if (agent.enabled)
+            {
+                agent.velocity = Vector3.zero;
+                agent.speed = 0;
+                agent.isStopped = true;
+                agent.enabled = false;
+                obstacle.enabled = false;
+            }
+         
+            if(! isPlayingDeadAnim)
+            {
+                isPlayingDeadAnim = true;
+                anim.SetTrigger("Die");
+            }
         }
-        
 
-        if (isDead)
-        {
-            agent.velocity = Vector3.zero;
-            agent.speed = 0;
-        }
 
-      
 
         if (isMoving)
         {
@@ -136,54 +147,34 @@ public class AlienController : MonoBehaviour
                 agent.ResetPath();
             }*/
         }
-        else if(!isMoving && !isDead)
+        else if (!isMoving && !isDead)
         {
             anim.SetBool("Walk Forward", false);
 
-            if(agent.enabled) agent.velocity = Vector3.zero;
+            if (agent.enabled) agent.velocity = Vector3.zero;
             if (targetIsPlayer)
             {
-                isMoving = false;
+                AttackPlayer();
             }
             else
             {
-                isMoving = true;
-            }
-
-            if (isMoving)
-            {
-                anim.SetBool("Walk Forward", true);
-
-            }
-            else
-            {
-                anim.SetBool("Walk Forward", false);
-                agent.velocity = Vector3.zero;
-                if (targetIsPlayer)
-                {
-                    AttackPlayer();
-                }
-                else
-                {
-                    Debug.Log("Attacking core");
-                    AttackCore();
-                }
+                AttackCore();
             }
         }
+
     }
 
     private void GetClosestEnemy()
     {
-        if(priority.Equals(Priority.CORE))
+        if (priority.Equals(Priority.CORE))
         {
-            Debug.Log("priority : core");
             bestTarget = core;
             agent.stoppingDistance = 3;
             targetIsPlayer = false;
-            
+
         }
 
-        else if(priority.Equals(Priority.PLAYERS))
+        else if (priority.Equals(Priority.PLAYERS))
         {
             currentPosition = transform.position;
 
@@ -251,33 +242,35 @@ public class AlienController : MonoBehaviour
             isAttacking = true;
 
             StartCoroutine(animAttackDelay());
-            
+
         }
 
         //Sync damage and animation
         if (hit && isAttacking)
         {
-            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien,ac.damages);
+            bestTarget.GetComponent<PlayerController>().TakeDamage(DamageSource.Alien, ac.damages);
             hit = false;
         }
-        
+
 
     }
 
     public void AttackCore()
     {
-        Debug.Log("isAttacking"  + isAttacking);
         if (!isAttacking)
         {
-            Debug.Log("Attacking Core");
             isAttacking = true;
 
             StartCoroutine(animAttackDelay());
 
             // Function - Attack the core 
             // *** //
-            core.GetComponent<Core>().TakeDamage(damages);
+            core.GetComponent<Core>().TakeDamage(ac.damages);
+
+
         }
+
+
     }
 
     IEnumerator animAttackDelay()

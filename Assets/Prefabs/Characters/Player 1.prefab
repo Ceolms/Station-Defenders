@@ -150,7 +150,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8708270546944985271}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -172,6 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   useKeyboard: 0
+  isMoving: 0
+  isFainting: 0
   infos:
     lifepoints: 100
     maxLifepoints: 100
@@ -180,12 +182,14 @@ MonoBehaviour:
   camera: {fileID: 0}
   uiManager: {fileID: 0}
   character: {fileID: 6288649568445246312}
+  animator: {fileID: 0}
   gun: {fileID: 4553185391667491320}
   sphereMinimap: {fileID: 4997442275874877788}
   prefabBullet: {fileID: 177564, guid: d43c8b7e0966af84e979d4299c0a667e, type: 3}
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
   healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
+  scoreList: 
 --- !u!114 &8225453402513937591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +277,11 @@ PrefabInstance:
     - target: {fileID: 8556164176625409870, guid: 656df576419e5424a9556cce0564fc83,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043499540037107149, guid: 656df576419e5424a9556cce0564fc83,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

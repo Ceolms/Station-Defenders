@@ -30,30 +30,26 @@ public class AlienCharacteristics : MonoBehaviour
         currentHealth = maxHealthPoint;
         if (healthbar != null) healthbar.value = calculateHealth();
 
-      ShowHealth = false;
-      healthbar.gameObject.SetActive(ShowHealth);
+        ShowHealth = false;
+        healthbar.gameObject.SetActive(ShowHealth);
 
-      initRotation = healthbar.transform.rotation;
-      
+        initRotation = healthbar.transform.rotation;
+
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
     }
 
-  private void LateUpdate()
-  {
-    healthbar.transform.rotation = initRotation;
-  }
+    private void LateUpdate()
+    {
+        healthbar.transform.rotation = initRotation;
+    }
 
-  private float calculateHealth()
+    private float calculateHealth()
     {
         return currentHealth / maxHealthPoint;
     }
 
-    private IEnumerator DieAfterAnimation(float duree)
-    {
-        yield return new WaitForSeconds(duree - 0.15f);
-        Destroy(this.gameObject);
-    }
+
 
     public void TakeDamage(PlayerID id, int damages)
     {
@@ -74,7 +70,8 @@ public class AlienCharacteristics : MonoBehaviour
             }
             if (currentHealth == 0) // if lifePoints <= 0
             {
-                switch(id)
+
+                switch (id)
                 {
                     case (PlayerID.Player1):
                         GameManager.Instance.players[0].scoreList.Add(scoreType);
@@ -90,13 +87,19 @@ public class AlienCharacteristics : MonoBehaviour
                         break;
                 }
 
-                alienAnimator.SetTrigger("Die");
+
                 Destroy(this.gameObject.GetComponent<BoxCollider>());
                 var animController = alienAnimator.runtimeAnimatorController;
                 var clip = animController.animationClips.First(a => a.name == "Die");
                 StartCoroutine(DieAfterAnimation(clip.length));
             }
         }
+    }
+
+    private IEnumerator DieAfterAnimation(float duree)
+    {
+        yield return new WaitForSeconds(duree - 0.15f);
+        Destroy(this.gameObject);
     }
     private IEnumerator HitCooldownRoutine(float t)
     {
@@ -113,10 +116,10 @@ public class AlienCharacteristics : MonoBehaviour
 
     private IEnumerator ShowHealthRoutine()
     {
-      ShowHealth = true;
+        ShowHealth = true;
         healthbar.gameObject.SetActive(ShowHealth);
         yield return new WaitForSeconds(0.5f);
-      ShowHealth = false;
+        ShowHealth = false;
         healthbar.gameObject.SetActive(ShowHealth);
     }
 }
