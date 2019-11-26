@@ -1790,6 +1790,7 @@ MonoBehaviour:
   imageButton: {fileID: 7775097569456955765}
   prefabsScorePanel:
   - {fileID: 2715964248078437975, guid: c23e8c827c9549947b4ad22d8f1c4237, type: 3}
+  - {fileID: 2715964248078437975, guid: 92543ae4ceec7cf4a8325e5a0776d86b, type: 3}
   spriteA: {fileID: 21300000, guid: 585da63d9d3f3ac46a6cbee8a3784165, type: 3}
   spriteEnter: {fileID: 21300000, guid: 88cc173b76f5abc4996cea8316d249ac, type: 3}
   owner: 0

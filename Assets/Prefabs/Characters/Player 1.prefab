@@ -177,7 +177,7 @@ MonoBehaviour:
   infos:
     lifepoints: 100
     maxLifepoints: 100
-    grenadeCount: 100
+    grenadeCount: 3
     healPerFrame: 0.2
   camera: {fileID: 0}
   uiManager: {fileID: 0}

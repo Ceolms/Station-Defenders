@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class AlienController : MonoBehaviour
 {
 
-    enum Priority
+    public enum Priority
     {
         CORE,
         PLAYERS,
@@ -35,7 +35,7 @@ public class AlienController : MonoBehaviour
     private bool hasCollision;
     private bool isPlayingDeadAnim;
     private GameObject pCollision;
-    private Priority priority;
+    public Priority priority;
 
     //Animator
     private Animator anim;
@@ -102,7 +102,7 @@ public class AlienController : MonoBehaviour
 
         if(!isDead)
         {
-            if (Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
+            if (agent != null && bestTarget != null && Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
             {
                 isMoving = false;
                 agent.enabled = false;

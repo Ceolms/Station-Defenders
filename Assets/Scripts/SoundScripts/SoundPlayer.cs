@@ -19,6 +19,7 @@ public class SoundPlayer : MonoBehaviour
     [HideInInspector]
     public float musicMultiplier = 1f;
 
+    private bool isPlayerMusic;
     void Awake()
     {
         Instance = this;
@@ -31,6 +32,16 @@ public class SoundPlayer : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if(!isPlayerMusic && musicList.Length >0)
+        {
+            int r = Random.Range(0, musicList.Length);
+            {
+                PlayMusic(musicList[r].name);
+            }
+        }
+    }
     public void Play(string name)
     {
         Sound s = System.Array.Find(soundList, sound => sound.name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));

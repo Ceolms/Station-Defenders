@@ -86,6 +86,7 @@ public class PanelScoreScript : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
 
+
         scoreTotal = (countAlienGreen * (int)ScoreID.alienGreen) + (countAlienPurple * (int)ScoreID.alienPurple) 
             + (countAlienRed * (int)ScoreID.alienBoss) + (countRes * (int)ScoreID.resurrection);
 
