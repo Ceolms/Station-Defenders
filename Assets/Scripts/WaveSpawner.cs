@@ -124,19 +124,19 @@ public class WaveSpawner : MonoBehaviour
         {
             
             SpawnEnemy(greenAlien);
-            yield return new WaitForSeconds(1f / wave.rate);
+            yield return new WaitForSeconds(wave.rate);
         }
 
         for (int i = 0; i < wave.purpleAlienCount; i++)
         {
             SpawnEnemy(purpleAlien);
-            yield return new WaitForSeconds(1f / wave.rate);
+            yield return new WaitForSeconds(wave.rate);
         }
 
         for (int i = 0; i < wave.redAlienCount; i++)
         {
             SpawnEnemy(redAlien);
-            yield return new WaitForSeconds(1f / wave.rate);
+            yield return new WaitForSeconds(wave.rate);
         }
         //Debug.Log("Spawning Alien");
         state = SpawnState.WAITING;
