@@ -10,8 +10,6 @@ public class SoundPlayer : MonoBehaviour
 
     public Sound[] musicList;
 
-    public AudioSource sourceMusique;
-
     [HideInInspector]
     public float multiplier = 1f;
     [HideInInspector]
@@ -83,7 +81,6 @@ public class SoundPlayer : MonoBehaviour
             else so = this.GetComponent<AudioSource>();
 
             s.source = so;
-            s.source = sourceMusique;
             s.source.loop = s.loop;
             s.source.clip = s.clip;
             s.source.volume = s.volume;
