@@ -23,7 +23,6 @@ public class GrenadeScript : MonoBehaviour
         if (isInHand && hand != null) this.transform.position = hand.position;
     }
 
-
     public void Throw(Transform h, Transform c)
     {
         hand = h;

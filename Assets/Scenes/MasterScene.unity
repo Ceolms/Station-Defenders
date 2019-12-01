@@ -500,6 +500,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
       propertyPath: soundList.Array.data[9].volume
       value: 0.5
       objectReference: {fileID: 0}
@@ -526,6 +530,38 @@ PrefabInstance:
     - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
       propertyPath: soundList.Array.data[3].volume
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[11].name
+      value: ScoreCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f3eb7883d9bc126428b6b0a7d59ae99b, type: 3}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[11].volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[4].name
+      value: AllCrewDown
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[5].name
+      value: DefendTheCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[6].name
+      value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[7].name
+      value: NewAlienWave
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: soundList.Array.data[11].loop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5096083401750040207, guid: 7797569eac780db459b6d705fdf4e90c,
         type: 3}

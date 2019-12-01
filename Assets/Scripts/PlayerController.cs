@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public GameObject healParticlePrefab;
     private GameObject healParticle;
     private bool hitCooldown;
-
+    public int score;
     public List<ScoreID> scoreList;
 
     //camera position

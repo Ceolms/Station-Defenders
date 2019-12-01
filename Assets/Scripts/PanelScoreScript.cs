@@ -11,12 +11,6 @@ public class PanelScoreScript : MonoBehaviour
     int countAlienPurple;
     int countAlienRed;
     int countRes;
-    int scoreTotal;
-
-    int valAG = (int)ScoreID.alienGreen;
-    int valAp = (int)ScoreID.alienPurple;
-    int valAR = (int)ScoreID.alienBoss;
-    int valRes = (int)ScoreID.resurrection;
 
     public Text textScoreAlienGreen;
     public Text textScoreAlienPurple;
@@ -56,45 +50,57 @@ public class PanelScoreScript : MonoBehaviour
     {
         textScoreAlienGreen.gameObject.SetActive(true);
         textAlienGreen.gameObject.SetActive(true);
-        for(int i = 0; i <= countAlienGreen; i++)
+        bool isMax = true;
+        player.score = (countAlienGreen * (int)ScoreID.alienGreen) + (countAlienPurple * (int)ScoreID.alienPurple)
+           + (countAlienRed * (int)ScoreID.alienBoss) + (countRes * (int)ScoreID.resurrection);
+        foreach (PlayerController p in GameManager.Instance.players)
         {
-            textScoreAlienGreen.text = i + " * " + ScoreID.alienGreen;
+             if (p.score > player.score) isMax = false;   
+        }
+        int scoreAlienGreen = (int)ScoreID.alienGreen;
+        for (int i = 0; i <= countAlienGreen; i++)
+        {
+            textScoreAlienGreen.text = i + " * " + scoreAlienGreen;
             yield return new WaitForSeconds(0.2f);
         }
 
         textScoreAlienPurple.gameObject.SetActive(true);
         textAlienPurple.gameObject.SetActive(true);
+        int scoreAlienPurple = (int)ScoreID.alienPurple;
         for (int i = 0; i <= countAlienPurple; i++)
         {
-            textScoreAlienPurple.text = i + " * " + ScoreID.alienPurple;
+            textScoreAlienPurple.text = i + " * " + scoreAlienPurple.ToString();
             yield return new WaitForSeconds(0.2f);
         }
 
         textScoreAlienRed.gameObject.SetActive(true);
         textAlienRed.gameObject.SetActive(true);
+        int scoreAlienRed = (int)ScoreID.alienBoss;
         for (int i = 0; i <= countAlienRed; i++)
         {
-            textScoreAlienRed.text = i + " * " + ScoreID.alienBoss;
+            textScoreAlienRed.text = i + " * " + scoreAlienRed.ToString();
             yield return new WaitForSeconds(0.2f);
         }
 
         textRes.gameObject.SetActive(true);
         textScoreRes.gameObject.SetActive(true);
+        int scoreRes = (int)ScoreID.resurrection;
         for (int i = 0; i <= countRes; i++)
         {
-            textScoreRes.text = i + " * " + ScoreID.alienBoss;
+            textScoreRes.text = i + " * " + scoreRes.ToString();
             yield return new WaitForSeconds(0.2f);
-        }
-
-
-        scoreTotal = (countAlienGreen * (int)ScoreID.alienGreen) + (countAlienPurple * (int)ScoreID.alienPurple) 
-            + (countAlienRed * (int)ScoreID.alienBoss) + (countRes * (int)ScoreID.resurrection);
+        } 
 
         textScoreTotal.gameObject.SetActive(true);
-        for (int i = 0; i <= scoreTotal; i++)
+        if (isMax) SoundPlayer.Instance.Play("ScoreCount");
+        for (int i = 0; i <= player.score; i++)
         {
-            textScoreTotal.text = i.ToString();
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.01f);
+            textScoreTotal.text = i.ToString();  
+        }
+        if (isMax)
+        {
+            SoundPlayer.Instance.Stop("ScoreCount");
         }
     }
 }
