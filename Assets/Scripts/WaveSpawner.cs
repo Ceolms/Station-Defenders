@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-
-    public enum SpawnState { SPAWNING, WAITING, COUNTING };
-
     [System.Serializable]
     public class Wave
     {
@@ -75,6 +72,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 wavesEnum.MoveNext();
                 index++;
+                //Debug.Log("Starting Wave : " + index);
                 StartCoroutine(SpawnWave(wavesEnum.Current));
             }
         }
@@ -87,7 +85,7 @@ public class WaveSpawner : MonoBehaviour
 
     void WaveCompleted()
     {
-       // Debug.Log("Wave Completed!");
+      // Debug.Log("Wave Completed!");
 
         state = SpawnState.COUNTING;
         waveCountdown = timeBetweenWaves;
@@ -96,7 +94,7 @@ public class WaveSpawner : MonoBehaviour
         {
             wavesEnum.Reset();
             index = 0;
-           // Debug.Log("All Waves Complete! Looping...");
+         //  Debug.Log("All Waves Complete! Looping...");
         }
     }
 
@@ -119,10 +117,12 @@ public class WaveSpawner : MonoBehaviour
     IEnumerator SpawnWave(Wave wave)
     {
         state = SpawnState.SPAWNING;
-
+       // Debug.Log("Start Wave");
+       // Debug.Log("GreenAliens:" + wave.greenAlienCount);
         // spawn
         for (int i = 0; i < wave.greenAlienCount; i++)
         {
+            
             SpawnEnemy(greenAlien);
             yield return new WaitForSeconds(1f / wave.rate);
         }
@@ -138,7 +138,7 @@ public class WaveSpawner : MonoBehaviour
             SpawnEnemy(redAlien);
             yield return new WaitForSeconds(1f / wave.rate);
         }
-
+        //Debug.Log("Spawning Alien");
         state = SpawnState.WAITING;
 
         yield break;
@@ -146,8 +146,8 @@ public class WaveSpawner : MonoBehaviour
 
     void SpawnEnemy(GameObject enemy)
     {
-       // Debug.Log("Spawning enemy : " + enemy.name);
-
+        //Debug.Log("Spawning enemy : " + enemy.name);
+     
         GameObject sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(enemy, sp.transform.position, sp.transform.rotation);
     }

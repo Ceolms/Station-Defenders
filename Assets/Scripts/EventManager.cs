@@ -6,7 +6,7 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
     [HideInInspector]
-    public bool canEventHappen = true;
+    public bool canEventHappen;
     private bool randomActive;
     private List<EventType> eventTypeProba;
     [HideInInspector] public bool eventActive;
@@ -45,12 +45,11 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < eventFire.eventTypeRisk; i++) eventTypeProba.Add(EventType.Fire);
 
         GameObject[] gosL = GameObject.FindGameObjectsWithTag("Light");
-
+        canEventHappen = false;
         foreach (GameObject go in gosL)
         {
             lights.Add(go.GetComponent<Light>());
         }
-
 
         if (lights.Count > 0)
         {
@@ -66,12 +65,14 @@ public class EventManager : MonoBehaviour
         if (this.GetComponent<EventLight>() == null) eventLScript = this.gameObject.AddComponent<EventLight>();
         if (this.GetComponent<EventMeteor>() == null) eventMScript = this.gameObject.AddComponent<EventMeteor>();
         if (this.GetComponent<EventFire>() == null) eventFScript = this.gameObject.AddComponent<EventFire>();
+
+        StartCooldown();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!eventActive && canEventHappen && !randomActive)
+        if (!eventActive && canEventHappen && !randomActive && GameManager.Instance.gameRunning)
         {
             StartCoroutine(TestRandom());
         }
@@ -93,27 +94,30 @@ public class EventManager : MonoBehaviour
         {
             while (!eventActive)
             {
-                yield return new WaitForSeconds(timeBetweenCheck);
-                int i = Random.Range(0, 100);
-                //  Debug.Log("TestRandom :" + i);
-                if (i < eventRisk) // something happen !
+                if(GameManager.Instance.gameRunning)
                 {
-                    int j = Random.Range(0, eventTypeProba.Count);
-                    EventType evt = eventTypeProba[j];
-                    //   Debug.Log("EventType:" + evt);
-                    switch (evt)
+                    yield return new WaitForSeconds(timeBetweenCheck);
+                    int i = Random.Range(0, 100);
+                    //  Debug.Log("TestRandom :" + i);
+                    if (i < eventRisk) // something happen !
                     {
-                        case (EventType.LightBreakdown):
-                            eventLScript.StartEvent();
-                            break;
-                        case (EventType.MeteorShower):
-                            eventMScript.StartEvent();
-                            break;
-                        case (EventType.Fire):
-                            eventFScript.StartEvent();
-                            break;
+                        int j = Random.Range(0, eventTypeProba.Count);
+                        EventType evt = eventTypeProba[j];
+                        //   Debug.Log("EventType:" + evt);
+                        switch (evt)
+                        {
+                            case (EventType.LightBreakdown):
+                                eventLScript.StartEvent();
+                                break;
+                            case (EventType.MeteorShower):
+                                eventMScript.StartEvent();
+                                break;
+                            case (EventType.Fire):
+                                eventFScript.StartEvent();
+                                break;
+                        }
                     }
-                }
+                } 
             }
         }
         randomActive = false;
@@ -324,6 +328,7 @@ public class EventFire : MonoBehaviour
                 p.uiManager.ShowWarningSprite(EventType.Fire);
             }
             StartCoroutine(SpawnFire());
+            SoundPlayer.Instance.Play("WarningFire");
         }
         else Debug.Log("No Meteor Area found.");
     }
@@ -349,6 +354,7 @@ public class EventFire : MonoBehaviour
         infos.eventActive = false;
         EventManager.Instance.eventActive = false;
         EventManager.Instance.StartCooldown();
+        Destroy(fire);
         routineActive = false;
     }
 }

@@ -440,9 +440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1000
-  shakeDuration: 0
-  shakeAmount: 0.7
-  decreaseFactor: 1
 --- !u!1001 &5096083403441149284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510,102 +507,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: timeBetweenCheck
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventLightBreakdown.eventTypeRisk
-      value: 33
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventFire.eventTypeRisk
-      value: 33
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventLightBreakdown.eventDuration
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: coolDown
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventMeteor.eventTypeRisk
-      value: 33
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventRisk
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1587115170469573478, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: eventMeteor.meteorAmount
-      value: 44
-      objectReference: {fileID: 0}
     - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
       propertyPath: waves.Array.data[0].greenAlienCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: waves.Array.data[0].purpleAlienCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.size
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[9].name
-      value: ExplosionGrenade
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[9].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 97b5c1622f61cc0428c9c4942115cf0b, type: 3}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[9].volume
-      value: 0.638
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[10].name
-      value: ExplosionMeteor
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[10].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 67690d6d572151c428d265ed64e60c47, type: 3}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[10].volume
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[11].name
-      value: SwooshMeteor
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[11].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 5fb1cd2a7577bcc40bba38524ddc401d, type: 3}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[11].volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
-      propertyPath: soundList.Array.data[8].volume
-      value: 0.879
-      objectReference: {fileID: 0}
-    - target: {fileID: 5096083401750040207, guid: 7797569eac780db459b6d705fdf4e90c,
-        type: 3}
-      propertyPath: forceSpawnP2
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}

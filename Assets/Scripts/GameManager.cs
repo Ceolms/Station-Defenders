@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
+    private bool worldPanelVisible;
+    public bool gameRunning { get; private set; }
     void Awake()
     {
         Instance = this;
@@ -21,10 +23,39 @@ public class GameManager : MonoBehaviour
         if (forceSpawnP3) ForceSpawn(3);
         if (forceSpawnP4) ForceSpawn(4);
         IntializeSplitScreen();
+        gameRunning = true;
     }
 
     private void Update()
-    {   
+    {
+        if (!worldPanelVisible)
+        {
+            bool allPlayersdown = true;
+            foreach (PlayerController p in players)
+            {
+                if (!p.isFainting) allPlayersdown = false;
+            }
+            if (allPlayersdown || GameObject.Find("Core").GetComponent<Core>().currentHealth <= 0)
+            {
+                foreach (PlayerController p in players)
+                {
+                    p.isMoving = false;
+                    p.animator.SetBool("isRunning", false);
+                }
+                gameRunning = false;
+                worldPanelVisible = true;
+                if (allPlayersdown)
+                {
+                    players[0].uiManager.GameOverScreen(GameOverType.PlayersDown);
+                   
+                }
+                else
+                {
+                    players[0].uiManager.GameOverScreen(GameOverType.CoreDestroyed);
+                    SoundPlayer.Instance.Play("GameOver");
+                }
+            }
+        }
     }
     /// <summary>
     /// Check the number of controllers connected and spawn a player for each of them .
@@ -32,7 +63,28 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void InitializePlayers()
     {
-        if(ReInput.controllers.Joysticks.Count == 0)
+        if (PlayerPrefs.GetInt("nbPlayers") > 0)
+        {
+            for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
+            {
+                Player p = ReInput.players.Players[i];
+                Joystick j = ReInput.controllers.Joysticks[i];
+                p.controllers.AddController(j, true);
+
+                GameObject playerPrefab = listPlayersPrefabs[i];
+                GameObject player = Instantiate(playerPrefab);
+
+                string spawnS = "SpawnPosition Player" + (i + 1).ToString();
+                GameObject spawnPosition = GameObject.Find(spawnS);
+                if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
+                else player.transform.position = new Vector3(i * 4, 0, 0);
+
+                player.GetComponent<PlayerController>().useKeyboard = false;
+                players.Add(player.GetComponent<PlayerController>());
+            }
+            return;
+        }
+        if (ReInput.controllers.Joysticks.Count == 0)
         {
             GameObject player1Prefab = listPlayersPrefabs[0];
             GameObject player1 = Instantiate(player1Prefab);
@@ -46,11 +98,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i < ReInput.controllers.Joysticks.Count;i++)
+            for (int i = 0; i < ReInput.controllers.Joysticks.Count; i++)
             {
                 Player p = ReInput.players.Players[i];
                 Joystick j = ReInput.controllers.Joysticks[i];
-                p.controllers.AddController(j,true);
+                p.controllers.AddController(j, true);
 
                 GameObject playerPrefab = listPlayersPrefabs[i];
                 GameObject player = Instantiate(playerPrefab);
@@ -58,11 +110,11 @@ public class GameManager : MonoBehaviour
                 string spawnS = "SpawnPosition Player" + (i + 1).ToString();
                 GameObject spawnPosition = GameObject.Find(spawnS);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
-                else player.transform.position = new Vector3(i*4, 0, 0);
+                else player.transform.position = new Vector3(i * 4, 0, 0);
 
                 player.GetComponent<PlayerController>().useKeyboard = false;
                 players.Add(player.GetComponent<PlayerController>());
-            } 
+            }
         }
     }
     /// <summary>
@@ -70,7 +122,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void IntializeSplitScreen()
     {
-        if(players.Count == 1)
+        if (players.Count == 1)
         {
             Camera cp1 = players[0].GetComponentInChildren<Camera>();
             cp1.rect = new Rect(0, 0, 1, 1);
@@ -109,14 +161,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// For debug purpose , add a player without controller.
     /// </summary>
-    void ForceSpawn(int id )
+    void ForceSpawn(int id)
     {
         GameObject playerPrefab = listPlayersPrefabs[id - 1];
         GameObject player = Instantiate(playerPrefab);
         GameObject spawnPosition = GameObject.Find("SpawnPosition Player" + (id));
         if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
-        else player.transform.position = new Vector3(id-1 * 4, 0, 0);
+        else player.transform.position = new Vector3(id - 1 * 4, 0, 0);
         players.Add(player.GetComponent<PlayerController>());
     }
- 
+
 }

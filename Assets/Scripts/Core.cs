@@ -5,7 +5,8 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
     public int maxHealthPoint = 1000;
-    private int currentHealth;
+    [HideInInspector]
+    public int currentHealth;
     private bool anim;
     private bool left = true;
     GameObject coreMesh;
@@ -24,14 +25,6 @@ public class Core : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth == 0) // if lifePoints <= 0
-        {
-            Debug.Log("Game Over");
-            foreach(PlayerController p in GameManager.Instance.players)
-            {
-                p.uiManager.GameOverScreen();
-            }
-        }
         if(anim)
         {
             if (shakeDuration > 0)
@@ -56,7 +49,7 @@ public class Core : MonoBehaviour
     {
         if(damages >0)
         {
-            Debug.Log("Core take damage :" + damages);
+            //Debug.Log("Core take damage :" + damages);
             if (currentHealth > 0)
             {
                 currentHealth -= damages;

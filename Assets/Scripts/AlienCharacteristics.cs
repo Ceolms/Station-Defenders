@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class AlienCharacteristics : MonoBehaviour
 {
+
     public float maxHealthPoint = 100;
     public int damages = 10;
-    public int speed = 1;
-    private float currentHealth;
+    public int speed = 2;
+    [HideInInspector]
+    public float currentHealth;
     private bool hitCooldown;
     private Animator alienAnimator;
     private Quaternion initRotation;
 
-
     public Slider healthbar;
     public GameObject alienMesh;
     public Material material;
-
+    public ScoreID scoreType;
     private bool ShowHealth;
 
     // Start is called before the first frame update
@@ -28,35 +30,33 @@ public class AlienCharacteristics : MonoBehaviour
         currentHealth = maxHealthPoint;
         if (healthbar != null) healthbar.value = calculateHealth();
 
-      ShowHealth = false;
-      DisplayHealthBar();
+        ShowHealth = false;
+        healthbar.gameObject.SetActive(ShowHealth);
 
-      initRotation = healthbar.transform.rotation;
-      
+        initRotation = healthbar.transform.rotation;
+
 
         alienAnimator = this.transform.GetChild(0).GetComponent<Animator>();
     }
 
-  private void LateUpdate()
-  {
-    healthbar.transform.rotation = initRotation;
-  }
+    private void LateUpdate()
+    {
+        healthbar.transform.rotation = initRotation;
+    }
 
-  private float calculateHealth()
+    private float calculateHealth()
     {
         return currentHealth / maxHealthPoint;
     }
 
-    private IEnumerator DieAfterAnimation(float duree)
-    {
-        yield return new WaitForSeconds(duree - 0.15f);
-        Destroy(this.gameObject);
-    }
 
-    public void TakeDamage(float time, int damages)
+
+    public void TakeDamage(PlayerID id, int damages)
     {
         //ShowHealth = true;
-        StartCoroutine(Test());
+        StartCoroutine(ShowHealthRoutine());
+
+        float time = 0.1f;
 
         if (!hitCooldown)
         {
@@ -70,13 +70,36 @@ public class AlienCharacteristics : MonoBehaviour
             }
             if (currentHealth == 0) // if lifePoints <= 0
             {
-                alienAnimator.SetTrigger("Die");
+
+                switch (id)
+                {
+                    case (PlayerID.Player1):
+                        GameManager.Instance.players[0].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player2):
+                        GameManager.Instance.players[1].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player3):
+                        GameManager.Instance.players[2].scoreList.Add(scoreType);
+                        break;
+                    case (PlayerID.Player4):
+                        GameManager.Instance.players[3].scoreList.Add(scoreType);
+                        break;
+                }
+
+
                 Destroy(this.gameObject.GetComponent<BoxCollider>());
                 var animController = alienAnimator.runtimeAnimatorController;
                 var clip = animController.animationClips.First(a => a.name == "Die");
                 StartCoroutine(DieAfterAnimation(clip.length));
             }
         }
+    }
+
+    private IEnumerator DieAfterAnimation(float duree)
+    {
+        yield return new WaitForSeconds(duree - 0.15f);
+        Destroy(this.gameObject);
     }
     private IEnumerator HitCooldownRoutine(float t)
     {
@@ -91,19 +114,14 @@ public class AlienCharacteristics : MonoBehaviour
         alienMesh.GetComponent<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
-    private IEnumerator Test()
+    private IEnumerator ShowHealthRoutine()
     {
-      ShowHealth = true;
-      DisplayHealthBar();
-      yield return new WaitForSeconds(0.5f);
-      ShowHealth = false;
-      DisplayHealthBar();
-  }
-
-  private void DisplayHealthBar()
-  {
-    healthbar.gameObject.SetActive(ShowHealth);
-  }
+        ShowHealth = true;
+        healthbar.gameObject.SetActive(ShowHealth);
+        yield return new WaitForSeconds(0.5f);
+        ShowHealth = false;
+        healthbar.gameObject.SetActive(ShowHealth);
+    }
 }
 
 

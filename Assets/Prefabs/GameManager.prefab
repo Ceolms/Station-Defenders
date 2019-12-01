@@ -45,75 +45,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundList:
-  - name: RedAlert
-    clip: {fileID: 8300000, guid: 873112618e4a7bb4d879faf78fac837e, type: 3}
-    volume: 0.103
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: GameOver_Crew
-    clip: {fileID: 8300000, guid: f980d610ec6a83b40835b841064b0231, type: 3}
-    volume: 1
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: DefendTheCore
-    clip: {fileID: 8300000, guid: f06b272914e98eb41af24b0c8a0f2063, type: 3}
-    volume: 1
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: GameOver_Core
-    clip: {fileID: 8300000, guid: b098928815958d54e96878a5fd02bd3d, type: 3}
-    volume: 1
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: NewAlienWave
-    clip: {fileID: 8300000, guid: 6a8a807326163f44992f45cd151318c0, type: 3}
-    volume: 1
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: WarningFire
-    clip: {fileID: 8300000, guid: 91a70819cd64bf045939a49dc96c1e7c, type: 3}
-    volume: 0.8
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: WarningLight
-    clip: {fileID: 8300000, guid: 07917bc6fa09e0b41b8dd1d98bb43c44, type: 3}
-    volume: 0.8
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
-  - name: WarningMeteor
-    clip: {fileID: 8300000, guid: e1100bec01f4fa1478607c7c03c6391a, type: 3}
-    volume: 0.125
-    loop: 0
-    isMusic: 0
-    source: {fileID: 0}
   - name: blip
     clip: {fileID: 8300000, guid: 53629583eae2c64498fdf2168bdfe961, type: 3}
-    volume: 0.879
+    volume: 0.7
     loop: 0
     isMusic: 0
     source: {fileID: 0}
   - name: ExplosionGrenade
     clip: {fileID: 8300000, guid: 97b5c1622f61cc0428c9c4942115cf0b, type: 3}
-    volume: 0.638
+    volume: 0.7
     loop: 0
     isMusic: 0
     source: {fileID: 0}
   - name: ExplosionMeteor
     clip: {fileID: 8300000, guid: 67690d6d572151c428d265ed64e60c47, type: 3}
-    volume: 0.5
+    volume: 0.7
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  - name: SwooshMeteor
-    clip: {fileID: 8300000, guid: 5fb1cd2a7577bcc40bba38524ddc401d, type: 3}
-    volume: 0.1
+  - name: RedAlert
+    clip: {fileID: 8300000, guid: 873112618e4a7bb4d879faf78fac837e, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: f980d610ec6a83b40835b841064b0231, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: f06b272914e98eb41af24b0c8a0f2063, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: b098928815958d54e96878a5fd02bd3d, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 6a8a807326163f44992f45cd151318c0, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: WarningFire
+    clip: {fileID: 8300000, guid: 91a70819cd64bf045939a49dc96c1e7c, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: WarningMeteor
+    clip: {fileID: 8300000, guid: e1100bec01f4fa1478607c7c03c6391a, type: 3}
+    volume: 0.7
+    loop: 0
+    isMusic: 0
+    source: {fileID: 0}
+  - name: WarningLight
+    clip: {fileID: 8300000, guid: 07917bc6fa09e0b41b8dd1d98bb43c44, type: 3}
+    volume: 0.7
     loop: 0
     isMusic: 0
     source: {fileID: 0}
@@ -196,24 +190,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb57e6b8650e43469d199f8f654df1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canEventHappen: 1
+  canEventHappen: 0
   eventActive: 0
   eventLightBreakdown:
     eventActive: 0
-    eventTypeRisk: 33
-    eventDuration: 20
+    eventTypeRisk: 34
+    eventDuration: 30
   eventMeteor:
     eventActive: 0
-    eventTypeRisk: 33
-    meteorAmount: 44
-    timeBetweenMeteor: 0.34
+    eventTypeRisk: 34
+    meteorAmount: 10
+    timeBetweenMeteor: 2
     damagesCenter: 45
     damagesBorder: 15
     meteorPrefab: {fileID: 1566239723596968, guid: 19fd4b1efb7315c48b3eb7fa0a6ab065,
       type: 3}
   eventFire:
     eventActive: 0
-    eventTypeRisk: 33
+    eventTypeRisk: 34
     eventDuration: 30
     timeBeforefire: 2
     firePrefab: {fileID: 5960178427660214910, guid: 8791b5689a9043245a66eddd10ad96a9,
@@ -222,9 +216,9 @@ MonoBehaviour:
   playersLights: []
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   originalIntensity: 0
-  eventRisk: 0
-  timeBetweenCheck: 1
-  coolDown: 10
+  eventRisk: 5
+  timeBetweenCheck: 5
+  coolDown: 20
 --- !u!114 &483666610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +241,6 @@ MonoBehaviour:
   - greenAlienCount: 1
     purpleAlienCount: 0
     redAlienCount: 0
-    rate: 1
+    rate: 8
   timeBetweenWaves: 5
-  waveCountdown: 1
+  waveCountdown: 0

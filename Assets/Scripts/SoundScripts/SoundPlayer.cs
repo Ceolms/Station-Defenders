@@ -8,17 +8,14 @@ public class SoundPlayer : MonoBehaviour
 
     public Sound[] soundList;
 
-
     public Sound[] musicList;
-
-
-    public AudioSource sourceMusique;
 
     [HideInInspector]
     public float multiplier = 1f;
     [HideInInspector]
     public float musicMultiplier = 1f;
 
+    private bool isPlayingMusic;
     void Awake()
     {
         Instance = this;
@@ -28,9 +25,18 @@ public class SoundPlayer : MonoBehaviour
 
         UpdateVolume();
         UpdateMusicVolume();
-
     }
 
+    private void Update()
+    {
+        if(!isPlayingMusic && musicList.Length >0)
+        {
+            int r = Random.Range(0, musicList.Length);
+            {
+                PlayMusic(musicList[r].name);
+            }
+        }
+    }
     public void Play(string name)
     {
         Sound s = System.Array.Find(soundList, sound => sound.name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
@@ -39,7 +45,7 @@ public class SoundPlayer : MonoBehaviour
             GameObject go = new GameObject();
             go.transform.SetParent(this.transform);
             AudioSource aSource = go.AddComponent<AudioSource>();
-            go.name = "Sound : " + s.name;
+            go.name = s.name;
             aSource.clip = s.clip;
             aSource.loop = s.loop;
             aSource.volume = s.volume;
@@ -54,8 +60,10 @@ public class SoundPlayer : MonoBehaviour
         GameObject go = GameObject.Find("name");
         if(go != null)
         {
+            Debug.Log("Destroyin" + go.name);
             AudioSource s = go.GetComponent<AudioSource>();
             if (s != null) s.Stop();
+            Destroy(go);
         }
     }
 
@@ -64,10 +72,24 @@ public class SoundPlayer : MonoBehaviour
         Sound s = System.Array.Find(musicList, sound => sound.name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
         if (s != null)
         {
-            s.source = sourceMusique;
+            AudioSource so;
+
+            if (this.GetComponent<AudioSource>() == null)
+            {
+                so = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+            }
+            else so = this.GetComponent<AudioSource>();
+
+            s.source = so;
             s.source.loop = s.loop;
             s.source.clip = s.clip;
             s.source.volume = s.volume;
+            s.source.Play();
+            isPlayingMusic = true;
+            if(!s.source.loop)
+            {
+                StartCoroutine(EndMusic(s.clip.length));
+            }
         }
         else Debug.Log("Sound " + name + " doesn't exist");
     }
@@ -87,5 +109,10 @@ public class SoundPlayer : MonoBehaviour
     {
         yield return new WaitForSeconds(10);
         Destroy(go);
+    }
+    private IEnumerator EndMusic(float t)
+    {
+        yield return new WaitForSeconds(t + 2f);
+        isPlayingMusic = false;
     }
 }
