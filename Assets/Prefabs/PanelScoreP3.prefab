@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1374284265807017462}
   - component: {fileID: 1037715553630489286}
   m_Layer: 9
-  m_Name: PanelScore 1
+  m_Name: PanelScoreP3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6992d2b18de824246aba1c8b717cf110, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d4ac018197ea68478b78ebaca9767d6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.04726863, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.6415094, b: 0.06467412, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -336,7 +336,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Player 1
+  m_Text: Player 3
 --- !u!1 &5573317322366861823
 GameObject:
   m_ObjectHideFlags: 0

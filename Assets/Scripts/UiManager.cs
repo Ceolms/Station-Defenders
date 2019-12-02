@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class UiManager : MonoBehaviour
 {
     public GameObject UILifebar;
@@ -147,14 +145,22 @@ public class UiManager : MonoBehaviour
         worldPanel.SetActive(true);
         textGameOver.SetActive(true);
         Image img = worldPanel.GetComponent<Image>();
-        while (img.color.a < 1)
+        while (img.color.a < 0.3f)
         {
-            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.02f);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.05f);
             Text textGO = textGameOver.GetComponent<Text>();
-            textGO.color = new Color(textGO.color.r, textGO.color.g, textGO.color.b, textGO.color.a + 0.02f);
+            textGO.color = new Color(textGO.color.r, textGO.color.g, textGO.color.b, textGO.color.a + 0.05f);
             yield return new WaitForSeconds(0.1f);
         }
-
+        if (t == GameOverType.PlayersDown) SoundPlayer.Instance.Play("AllCrewDown");
+        while (img.color.a < 1)
+        {
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.05f);
+            Text textGO = textGameOver.GetComponent<Text>();
+            textGO.color = new Color(textGO.color.r, textGO.color.g, textGO.color.b, textGO.color.a + 0.05f);
+            yield return new WaitForSeconds(0.1f);
+        }
+        
         worldPanel.transform.GetChild(1).gameObject.SetActive(true);
         worldPanel.transform.GetChild(2).gameObject.SetActive(true);
 
