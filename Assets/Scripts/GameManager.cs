@@ -67,10 +67,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
             {
-                Player p = ReInput.players.Players[i];
-                Joystick j = ReInput.controllers.Joysticks[i];
-                p.controllers.AddController(j, true);
-
                 GameObject playerPrefab = listPlayersPrefabs[i];
                 GameObject player = Instantiate(playerPrefab);
 
@@ -84,7 +80,7 @@ public class GameManager : MonoBehaviour
             }
             return;
         }
-        if (ReInput.controllers.Joysticks.Count == 0)
+        else if (ReInput.controllers.Joysticks.Count == 0)
         {
             GameObject player1Prefab = listPlayersPrefabs[0];
             GameObject player1 = Instantiate(player1Prefab);

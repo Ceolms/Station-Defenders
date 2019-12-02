@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class UiManager : MonoBehaviour
 {
     public GameObject UILifebar;

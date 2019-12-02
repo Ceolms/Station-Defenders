@@ -622,7 +622,10 @@ MonoBehaviour:
       _name: System
       _descriptiveName: System
       _startPlaying: 1
-      _defaultJoystickMaps: []
+      _defaultJoystickMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
       _defaultMouseMaps: []
       _defaultKeyboardMaps: []
       _defaultCustomControllerMaps: []
@@ -840,10 +843,10 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
-    - _id: 11
-      _name: Validate
+    - _id: 12
+      _name: Join
       _type: 1
-      _descriptiveName: Validate
+      _descriptiveName: Join
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
@@ -858,7 +861,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 0000000001000000030000000400000005000000060000000700000008000000090000000a0000000b000000
+        actionIds: 0000000001000000030000000400000005000000060000000700000008000000090000000a0000000c000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -1026,9 +1029,9 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 11
+        _actionId: 12
         _elementType: 1
-        _elementIdentifierId: 4
+        _elementIdentifierId: 15
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
@@ -1144,13 +1147,24 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 11
+        _actionId: 12
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
         _keyboardKeyCode: 13
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 12
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 106
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
@@ -1178,7 +1192,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 7
-    actionIdCounter: 12
+    actionIdCounter: 13
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1
