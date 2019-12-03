@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-
 public class PlayerController : MonoBehaviour
 {
     //inputs vars
@@ -43,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public GameObject grenadePrefab;
     public GameObject healParticlePrefab;
     private GameObject healParticle;
+    private Transform shootPositon;
     private bool hitCooldown;
     public int score;
     public List<ScoreID> scoreList;
@@ -74,6 +74,15 @@ public class PlayerController : MonoBehaviour
         //camera position
         offset = camera.transform.position - character.position;
         uiManager.SetGrenadeCount(infos.grenadeCount);
+
+        foreach (Transform child in gun.transform)
+        {
+            if (child.name.Equals("GunShootPosition"))
+            {
+                shootPositon = child;
+                break;
+            }
+        }
     }
 
 
@@ -147,25 +156,17 @@ public class PlayerController : MonoBehaviour
 
     void OnFireButtonDown(InputActionEventData data)
     {
+        
         if (canMove && GameManager.Instance.gameRunning)
         {
-            Transform pos = null;
-            foreach (Transform child in gun.transform)
-            {
-                if (child.name.Equals("GunShootPosition"))
-                {
-                    pos = child;
-                    break;
-                }
-            }
-            if (pos == null)
-            {
-                return;
-            }
-            GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
+            GameObject bullet = Instantiate(prefabBullet, shootPositon.position, Quaternion.identity);
             bullet.transform.forward = character.forward;
             bullet.GetComponent<BulletController>().canMove = true;
             bullet.GetComponent<BulletController>().owner = id;
+        }
+        else
+        {
+            Debug.Log("can't move");
         }
 
     }

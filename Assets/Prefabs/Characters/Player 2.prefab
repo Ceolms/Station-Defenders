@@ -77,12 +77,14 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   character: {fileID: 2719651428607149103}
   animator: {fileID: 0}
-  gun: {fileID: 4077040735411724903}
+  gun: {fileID: 5605794181458058943}
   sphereMinimap: {fileID: 4439652161510381877}
   prefabBullet: {fileID: 177564, guid: 34c909e8c9d662547804d5ccfa59680f, type: 3}
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
   healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
+  shootPositon: {fileID: 0}
+  score: 0
   scoreList: 
 --- !u!114 &2446361836499282682
 MonoBehaviour:
@@ -388,6 +390,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 44d979c7f120a344eb0cd26345ca2fc8, type: 2}
+    - target: {fileID: 95035710751915312, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed by
+        Humanoid clips.\n\tTransform 'Neck'\n\tTransform 'Elbow_R'\n\tTransform 'Neck'\n\tTransform
+        'UpperLeg_R'\n\tTransform 'Shoulder_L'\n\tTransform 'Shoulder_R'\n\tTransform
+        'Elbow_R'\n\tTransform 'UpperLeg_R'\n\tTransform 'Shoulder_L'\n\tTransform
+        'Shoulder_R'\n\tFrom animation clip 'Salute'"
+      objectReference: {fileID: 0}
     - target: {fileID: 4148348421364542, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.526
@@ -500,11 +512,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6780279754675885316, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
-        type: 3}
-      propertyPath: m_Center.x
-      value: 0.03
-      objectReference: {fileID: 0}
     - target: {fileID: 137765890817277724, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -515,6 +522,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d8dfda64987cff5419b3497636a384d6, type: 2}
+    - target: {fileID: 6780279754675885316, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
 --- !u!4 &2719651428607149103 stripped
@@ -523,9 +535,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4077040735411724903 stripped
+--- !u!1 &5605794181458058943 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2106089749076800356, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+  m_CorrespondingSourceObject: {fileID: 7522440322086948796, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
     type: 3}
   m_PrefabInstance: {fileID: 2715348991772659971}
   m_PrefabAsset: {fileID: 0}

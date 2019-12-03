@@ -177,7 +177,7 @@ MonoBehaviour:
   infos:
     lifepoints: 100
     maxLifepoints: 100
-    grenadeCount: 3
+    grenadeCount: 10
     healPerFrame: 0.2
   camera: {fileID: 0}
   uiManager: {fileID: 0}
@@ -189,6 +189,7 @@ MonoBehaviour:
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
   healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
+  score: 0
   scoreList: 
 --- !u!114 &8225453402513937591
 MonoBehaviour:

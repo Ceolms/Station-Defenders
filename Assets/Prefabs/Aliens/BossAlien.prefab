@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 150
-  damages: 10
+  damages: 30
   speed: 2
   currentHealth: 0
   healthbar: {fileID: 2032777040}
@@ -565,6 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a7857f9b5e9bd49a6987841e8db1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 0
   hit: 0
 --- !u!208 &7224694908654018975
 NavMeshObstacle:
@@ -582,6 +583,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &114118142036698142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8379101317642979375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6439fd6503fc7474cb72540897bebe57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8380230067220373077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -589,6 +602,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2151225065865421994}
     m_Modifications:
+    - target: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+      propertyPath: m_Name
+      value: Polygonal Metalon Red
+      objectReference: {fileID: 0}
     - target: {fileID: 4444695180855720, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -636,10 +653,6 @@ PrefabInstance:
     - target: {fileID: 1722177269563604, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
       propertyPath: m_Layer
       value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
-      propertyPath: m_Name
-      value: Polygonal Metalon Red
       objectReference: {fileID: 0}
     - target: {fileID: 1272420548603170, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
       propertyPath: m_Layer
@@ -832,6 +845,12 @@ GameObject:
 --- !u!4 &8377615279136708605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4444695180855720, guid: f88c6ad57910d8648807bcf0c131f49d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8380230067220373077}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8379101317642979375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d,
     type: 3}
   m_PrefabInstance: {fileID: 8380230067220373077}
   m_PrefabAsset: {fileID: 0}

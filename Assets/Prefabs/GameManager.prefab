@@ -111,8 +111,13 @@ MonoBehaviour:
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  musicList: []
-  sourceMusique: {fileID: 0}
+  musicList:
+  - name: Scene Music
+    clip: {fileID: 8300000, guid: 033585d75f9b94544a5affa565416dfb, type: 3}
+    volume: 0.5
+    loop: 1
+    isMusic: 0
+    source: {fileID: 0}
   multiplier: 1
   musicMultiplier: 1
 --- !u!81 &1115350586
@@ -238,9 +243,9 @@ MonoBehaviour:
   redAlien: {fileID: 1395759818056972909, guid: d63ef99ca4492a7459183790a2f4ab60,
     type: 3}
   waves:
-  - greenAlienCount: 1
+  - greenAlienCount: 3
     purpleAlienCount: 0
     redAlienCount: 0
-    rate: 8
+    rate: 0.5
   timeBetweenWaves: 5
   waveCountdown: 0

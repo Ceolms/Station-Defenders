@@ -427,7 +427,7 @@ MonoBehaviour:
   healthbar: {fileID: 1500305258}
   alienMesh: {fileID: 8890142334142760757}
   material: {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
-  scoreType: 0
+  scoreType: 10
 --- !u!65 &6463778234032810639
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -492,6 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a7857f9b5e9bd49a6987841e8db1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 0
   hit: 0
 --- !u!208 &2254358203346935936
 NavMeshObstacle:
@@ -601,15 +602,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2151225065865421994}
     m_Modifications:
-    - target: {fileID: 1845593574226382, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 1783563462218004, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
       propertyPath: m_Name
       value: Polygonal Metalon Green
       objectReference: {fileID: 0}
     - target: {fileID: 1783563462218004, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845593574226382, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}

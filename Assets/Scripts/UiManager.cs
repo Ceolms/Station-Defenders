@@ -175,6 +175,7 @@ public class UiManager : MonoBehaviour
             panel.transform.parent = worldPanel.transform.GetChild(2).transform;
             listePanelsScores.Add(panel.GetComponent<PanelScoreScript>());
             listePanelsScores[i].player = GameManager.Instance.players[i];
+            Debug.Log("showing screen of : player" + i);
             listePanelsScores[i].ShowPanel();
         }
         if (GameManager.Instance.players.Count == 1)
