@@ -187,7 +187,7 @@ public class UiManager : MonoBehaviour
             listePanelsScores[0].transform.position = GameObject.Find("Position2").transform.position;
             listePanelsScores[1].transform.position = GameObject.Find("Position3").transform.position;
         }
-        else if (GameManager.Instance.players.Count == 2)
+        else if (GameManager.Instance.players.Count == 3)
         {
             listePanelsScores[0].transform.position = GameObject.Find("Position1").transform.position;
             listePanelsScores[1].transform.position = GameObject.Find("Position2").transform.position;

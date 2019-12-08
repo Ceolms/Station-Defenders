@@ -33,6 +33,7 @@ Transform:
   - {fileID: 7419648582498257983}
   - {fileID: 2719651428607149103}
   - {fileID: 3860572759687912779}
+  - {fileID: 7040817167518820589}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -44,7 +45,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730176921307178992}
   serializedVersion: 2
-  m_Mass: 20
+  m_Mass: 40
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -71,7 +72,7 @@ MonoBehaviour:
   infos:
     lifepoints: 100
     maxLifepoints: 100
-    grenadeCount: 10
+    grenadeCount: 3
     healPerFrame: 0.2
   camera: {fileID: 0}
   uiManager: {fileID: 0}
@@ -83,7 +84,6 @@ MonoBehaviour:
   grenadePrefab: {fileID: 5158277587385423196, guid: c7406a51ffe90fa478a9f150ac8fa130,
     type: 3}
   healParticlePrefab: {fileID: 100002, guid: 5a882c0d622c706449b183c5243eb32f, type: 3}
-  shootPositon: {fileID: 0}
   score: 0
   scoreList: 
 --- !u!114 &2446361836499282682
@@ -209,6 +209,36 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4279632127
+--- !u!1 &5769486590792807622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7040817167518820589}
+  m_Layer: 9
+  m_Name: FacingDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7040817167518820589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769486590792807622}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2368051286888801155}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1173885821236024177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -512,6 +542,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6780279754675885316, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 137765890817277724, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -522,11 +557,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d8dfda64987cff5419b3497636a384d6, type: 2}
-    - target: {fileID: 6780279754675885316, guid: 82d337d63a4f4e84dae853a5dcdfb7a8,
-        type: 3}
-      propertyPath: m_Center.x
-      value: 0.03
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82d337d63a4f4e84dae853a5dcdfb7a8, type: 3}
 --- !u!4 &2719651428607149103 stripped

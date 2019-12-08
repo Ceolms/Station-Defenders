@@ -90,12 +90,22 @@ public class WaveSpawner : MonoBehaviour
         state = SpawnState.COUNTING;
         waveCountdown = timeBetweenWaves;
 
+        foreach(PlayerController p in GameManager.Instance.players)
+        {
+            p.infos.grenadeCount = 3;
+            p.uiManager.SetGrenadeCount(p.infos.grenadeCount);
+        }
         if (index == waves.Count)
         {
             wavesEnum.Reset();
             index = 0;
-         //  Debug.Log("All Waves Complete! Looping...");
+         //  TODO WIN
         }
+        else
+        {
+            //TODO next wave text
+        }
+
     }
 
 

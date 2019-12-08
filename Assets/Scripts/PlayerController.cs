@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isShooting;
     private bool canMove = true;
     private bool isHealing;
+    private Transform facingDirection;
     //GameObject vars
 
     public PlayerInfos infos;
@@ -83,11 +84,20 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+        foreach (Transform child in this.transform)
+        {
+            if (child.name.Equals("FacingDirection"))
+            {
+                facingDirection = child;
+                break;
+            }
+        }
     }
 
 
     void Update()
     {
+        Debug.DrawRay(facingDirection.position, facingDirection.forward);
         if (GameManager.Instance.gameRunning)
         {
             GetInput();
@@ -156,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
     void OnFireButtonDown(InputActionEventData data)
     {
-        
+
         if (canMove && GameManager.Instance.gameRunning)
         {
             GameObject bullet = Instantiate(prefabBullet, shootPositon.position, Quaternion.identity);
@@ -217,7 +227,7 @@ public class PlayerController : MonoBehaviour
         if (canMove && GameManager.Instance.gameRunning && infos.grenadeCount > 0)
         {
             GameObject grenade = Instantiate(grenadePrefab);
-            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, character);
+            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, facingDirection);
             grenade.GetComponent<GrenadeScript>().owner = id;
             animator.SetBool("isRunning", false);
             animator.SetTrigger("isThrowingGrenade");
@@ -271,11 +281,15 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
                 if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
+                {
                     character.transform.forward = facingrotation;
+                    facingDirection.forward = facingrotation;
+                }
             }
             else
             {
                 character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
+                facingDirection.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f);
             }
         }
 
@@ -293,6 +307,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.DrawLine(ray.origin, pointToLook, Color.red);
                 pointToLook.y = character.transform.position.y;
                 character.transform.LookAt(pointToLook);
+                facingDirection.LookAt(pointToLook);
             }
         }
     }

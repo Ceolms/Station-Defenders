@@ -57,35 +57,29 @@ public class PanelScoreScript : MonoBehaviour
                     break;
             }
         }
-        PanelRoutine();
+        //PanelRoutine();
        
-       // StartCoroutine(PanelRoutine());
+        StartCoroutine(PanelRoutine());
     }
 
-    private void PanelRoutine()
+    private IEnumerator PanelRoutine()
     {
         isStarted = true;
         textScoreAlienGreen.gameObject.SetActive(true);
         textAlienGreen.gameObject.SetActive(true);
-        bool isMax = true;
         int scoreAlienGreen = (int)ScoreID.alienGreen;
         int scoreAlienPurple = (int)ScoreID.alienPurple;
         int scoreAlienRed = (int)ScoreID.alienBoss;
         int scoreRes = (int)ScoreID.resurrection;
 
-
         player.score = (countAlienGreen * scoreAlienGreen) + (countAlienPurple * scoreAlienPurple)
            + (countAlienRed * scoreAlienRed) + (countRes * scoreRes);
-        foreach (PlayerController p in GameManager.Instance.players)
-        {
-             if (p.score > player.score) isMax = false;   
-        }
+        Pair<PlayerID, int> pair = new Pair<PlayerID, int>(player.id, player.score);
+     
         for (int i = 0; i <= countAlienGreen; i++)
         {
             textScoreAlienGreen.text = i + " * " + scoreAlienGreen;
-           // yield return new WaitForSeconds(0.2f);
         }
-        Debug.Log("Green OK");
         textScoreAlienPurple.gameObject.SetActive(true);
         textAlienPurple.gameObject.SetActive(true);
 
@@ -93,7 +87,7 @@ public class PanelScoreScript : MonoBehaviour
         {
             textScoreAlienPurple.text = i + " * " + scoreAlienPurple.ToString();
         }
-        Debug.Log("Purple OK");
+ 
         textScoreAlienRed.gameObject.SetActive(true);
         textAlienRed.gameObject.SetActive(true);
 
@@ -101,7 +95,6 @@ public class PanelScoreScript : MonoBehaviour
         {
             textScoreAlienRed.text = i + " * " + scoreAlienRed.ToString();
         }
-        Debug.Log("RED OK");
         textRes.gameObject.SetActive(true);
         textScoreRes.gameObject.SetActive(true);
 
@@ -109,18 +102,14 @@ public class PanelScoreScript : MonoBehaviour
         {
             textScoreRes.text = i + " * " + scoreRes.ToString();
         }
-        Debug.Log("RES OK");
         textScoreTotal.gameObject.SetActive(true);
-        if (isMax) SoundPlayer.Instance.Play("ScoreCount");
+
+        GameManager.Instance.listScores.Add(pair);
         for (int i = 0; i <= player.score; i++)
         {
-            // yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.01f);
             textScoreTotal.text = "Score : " + i.ToString();  
         }
-        Debug.Log("Score OK");
-        if (isMax)
-        {
-            SoundPlayer.Instance.Stop("ScoreCount");
-        }
+        GameManager.Instance.listScores.Remove(pair);
     }
 }

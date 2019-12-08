@@ -8,16 +8,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public List<GameObject> listPlayersPrefabs;
     public List<PlayerController> players;
+    public List<Pair<PlayerID, int>> listScores;
     // Start is called before the first frame update
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
     private bool worldPanelVisible;
+    private bool isPlayingScoreCount;
     public bool gameRunning { get; private set; }
     void Awake()
     {
         Instance = this;
         players = new List<PlayerController>();
+        listScores = new List<Pair<PlayerID, int>>();
         InitializePlayers();
         if (forceSpawnP2) ForceSpawn(2);
         if (forceSpawnP3) ForceSpawn(3);
@@ -55,6 +58,16 @@ public class GameManager : MonoBehaviour
                     SoundPlayer.Instance.Play("GameOver");
                 }
             }
+        }
+        if(listScores.Count == players.Count && !isPlayingScoreCount)
+        {
+            SoundPlayer.Instance.Play("ScoreCount");
+            isPlayingScoreCount = true;
+        }
+        if(isPlayingScoreCount && listScores.Count == 0)
+        {
+            Debug.Log("stop count");
+            SoundPlayer.Instance.Stop("ScoreCount");
         }
     }
     /// <summary>
@@ -167,4 +180,23 @@ public class GameManager : MonoBehaviour
         players.Add(player.GetComponent<PlayerController>());
     }
 
+}
+public class Pair<T1, T2>
+{
+    public T1 First { get; private set; }
+    public T2 Second { get; private set; }
+    internal Pair(T1 first, T2 second)
+    {
+        First = first;
+        Second = second;
+    }
+}
+
+public static class Pair
+{
+    public static Pair<T1, T2> New<T1, T2>(T1 first, T2 second)
+    {
+        var tuple = new Pair<T1, T2>(first, second);
+        return tuple;
+    }
 }

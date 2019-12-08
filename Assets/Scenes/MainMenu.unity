@@ -694,7 +694,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_Name
-      value: Settings
+      value: HowTo
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -814,7 +814,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_Text
-      value: Settings
+      value: How To Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 05a81c3d5091440058129444d28322f3, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 05a81c3d5091440058129444d28322f3, type: 3}
+      propertyPath: m_Color.b
+      value: 0.54901963
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a81c3d5091440058129444d28322f3, type: 3}
@@ -1301,11 +1309,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoldierPreviewP1
       objectReference: {fileID: 0}
-    - target: {fileID: 2550950513253160278, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2553609888722442970, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1361,28 +1364,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2553609888722442970, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 133.05415
-      objectReference: {fileID: 0}
-    - target: {fileID: 2553609888722442970, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 133.05415
-      objectReference: {fileID: 0}
-    - target: {fileID: 2553609888722442970, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 133.05415
-      objectReference: {fileID: 0}
-    - target: {fileID: 9041157932214065906, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9041157932214065906, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac1dbc04ee7ed34dad4e9ccaac73a07, type: 3}
 --- !u!4 &339235881 stripped
 Transform:
@@ -4225,6 +4207,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286178493}
   m_CullTransparentMesh: 0
+--- !u!1 &1321967174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1321967177}
+  - component: {fileID: 1321967176}
+  m_Layer: 0
+  m_Name: SoundSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1321967176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321967174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a573172dae70d44aca0874fa04cc74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: 1
+  soundList:
+  - name: MenuTheme
+    clip: {fileID: 8300000, guid: ace7c7fcc4f4cac47b84d669dfe9bc16, type: 3}
+    volume: 0.7
+    loop: 1
+    isMusic: 0
+    source: {fileID: 0}
+  musicList:
+  - name: Scene Music
+    clip: {fileID: 8300000, guid: 033585d75f9b94544a5affa565416dfb, type: 3}
+    volume: 0.5
+    loop: 1
+    isMusic: 0
+    source: {fileID: 0}
+  multiplier: 1
+  musicMultiplier: 1
+--- !u!4 &1321967177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321967174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.3820071, y: 1.8959583, z: 2.522204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1370830200
 GameObject:
   m_ObjectHideFlags: 0
@@ -5681,6 +5723,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: New Game
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 05a81c3d5091440058129444d28322f3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.549
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a81c3d5091440058129444d28322f3, type: 3}
 --- !u!224 &1801007391 stripped
@@ -5932,6 +5978,7 @@ MonoBehaviour:
   - {fileID: 941944870}
   - {fileID: 164002675}
   - {fileID: 967487454}
+  menu: 0
   selectedBtn: {fileID: 0}
   assignedJoysticks: 
 --- !u!1001 &1871961339
