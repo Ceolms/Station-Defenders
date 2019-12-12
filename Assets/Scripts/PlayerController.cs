@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-
 public class PlayerController : MonoBehaviour
 {
     //inputs vars
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isShooting;
     private bool canMove = true;
     private bool isHealing;
+    private Transform facingDirection;
     //GameObject vars
 
     public PlayerInfos infos;
@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public GameObject grenadePrefab;
     public GameObject healParticlePrefab;
     private GameObject healParticle;
+    private Transform shootPositon;
     private bool hitCooldown;
     public int score;
     public List<ScoreID> scoreList;
@@ -74,11 +75,29 @@ public class PlayerController : MonoBehaviour
         //camera position
         offset = camera.transform.position - character.position;
         uiManager.SetGrenadeCount(infos.grenadeCount);
+
+        foreach (Transform child in gun.transform)
+        {
+            if (child.name.Equals("GunShootPosition"))
+            {
+                shootPositon = child;
+                break;
+            }
+        }
+        foreach (Transform child in this.transform)
+        {
+            if (child.name.Equals("FacingDirection"))
+            {
+                facingDirection = child;
+                break;
+            }
+        }
     }
 
 
     void Update()
     {
+        Debug.DrawRay(facingDirection.position, facingDirection.forward);
         if (GameManager.Instance.gameRunning)
         {
             GetInput();
@@ -147,25 +166,17 @@ public class PlayerController : MonoBehaviour
 
     void OnFireButtonDown(InputActionEventData data)
     {
+
         if (canMove && GameManager.Instance.gameRunning)
         {
-            Transform pos = null;
-            foreach (Transform child in gun.transform)
-            {
-                if (child.name.Equals("GunShootPosition"))
-                {
-                    pos = child;
-                    break;
-                }
-            }
-            if (pos == null)
-            {
-                return;
-            }
-            GameObject bullet = Instantiate(prefabBullet, pos.position, Quaternion.identity);
+            GameObject bullet = Instantiate(prefabBullet, shootPositon.position, Quaternion.identity);
             bullet.transform.forward = character.forward;
             bullet.GetComponent<BulletController>().canMove = true;
             bullet.GetComponent<BulletController>().owner = id;
+        }
+        else
+        {
+            Debug.Log("can't move");
         }
 
     }
@@ -216,7 +227,7 @@ public class PlayerController : MonoBehaviour
         if (canMove && GameManager.Instance.gameRunning && infos.grenadeCount > 0)
         {
             GameObject grenade = Instantiate(grenadePrefab);
-            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, character);
+            grenade.GetComponent<GrenadeScript>().Throw(gun.transform.parent, facingDirection);
             grenade.GetComponent<GrenadeScript>().owner = id;
             animator.SetBool("isRunning", false);
             animator.SetTrigger("isThrowingGrenade");
@@ -270,11 +281,15 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 facingrotation = Vector3.Normalize(new Vector3(player.GetAxis("Move Horizontal"), 0f, player.GetAxis("Move Vertical")));
                 if (facingrotation != Vector3.zero)//This condition prevents from spamming "Look rotation viewing vector is zero" when not moving.
+                {
                     character.transform.forward = facingrotation;
+                    facingDirection.forward = facingrotation;
+                }
             }
             else
             {
                 character.transform.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f); // this does the actual rotation according to inputs
+                facingDirection.localEulerAngles = new Vector3(0f, Mathf.Atan2(h1, v1) * 180 / Mathf.PI, 0f);
             }
         }
 
@@ -292,6 +307,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.DrawLine(ray.origin, pointToLook, Color.red);
                 pointToLook.y = character.transform.position.y;
                 character.transform.LookAt(pointToLook);
+                facingDirection.LookAt(pointToLook);
             }
         }
     }

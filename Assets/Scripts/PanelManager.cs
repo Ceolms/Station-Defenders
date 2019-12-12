@@ -16,7 +16,7 @@ public class PanelManager : MonoBehaviour
 {
 
     public Animator initiallyOpen;
-    private CurrentMenu menu;
+
     private int m_OpenParameterId;
     private Animator m_Open;
     private GameObject m_PreviouslySelected;
@@ -35,6 +35,7 @@ public class PanelManager : MonoBehaviour
     public Animator animPlay;
 
     public List<PlayerJoinScript> playersList;
+    public CurrentMenu menu;
     public Button selectedBtn;
     //rewired join
     private int maxPlayers = 4;
@@ -42,11 +43,16 @@ public class PanelManager : MonoBehaviour
     public List<int> assignedJoysticks;
     private int playerReady = 0;
 
+
+    private void Start()
+    {
+        SoundPlayer.Instance.Play("MenuTheme");
+    }
     public void Update()
     {
         if (!cursorCooldown)
         {
-            for(int i = 0; i < ReInput.players.playerCount;i++)
+            for (int i = 0; i < ReInput.players.playerCount; i++)
             {
                 Player player = ReInput.players.GetPlayer(i);
                 float yp = player.GetAxis("Move Horizontal");
@@ -101,7 +107,7 @@ public class PanelManager : MonoBehaviour
                 btnReturnHowto.onClick.Invoke();
                 btnReturnPlay.onClick.Invoke();
             }
-            if(sb.Equals("Return") && menu == CurrentMenu.PlayMenu)
+            if (sb.Equals("Return") && menu == CurrentMenu.PlayMenu)
             {
                 int rewiredPlayerId = GetNextGamePlayerId();
                 Player rewiredPlayer = ReInput.players.GetPlayer(rewiredPlayerId);
@@ -165,8 +171,8 @@ public class PanelManager : MonoBehaviour
             animMain.gameObject.SetActive(true);
             animMain.SetBool(m_OpenParameterId, true);
             menu = CurrentMenu.MainMenu;
-            selectedBtn = btnStart;
-            selectedBtn.gameObject.GetComponent<Animator>().SetTrigger("Highlighted");
+            // selectedBtn = btnStart;
+            // selectedBtn.gameObject.GetComponent<Animator>().SetTrigger("Highlighted");
 
         }
         else if (btn == btnReturnPlay)
@@ -177,8 +183,11 @@ public class PanelManager : MonoBehaviour
             animPlay.SetBool(m_OpenParameterId, false);
             StartCoroutine(DisableDelay(animPlay));
             menu = CurrentMenu.MainMenu;
-            selectedBtn = btnStart;
-            selectedBtn.gameObject.GetComponent<Animator>().SetTrigger("Highlighted");
+            btnStart.animator.SetTrigger("Normal");
+            btnHowToPlay.animator.SetTrigger("Normal");
+            btnQuit.animator.SetTrigger("Normal");
+            //selectedBtn = btnStart;
+            //selectedBtn.gameObject.GetComponent<Animator>().SetTrigger("Highlighted");
             assignedJoysticks = new List<int>();
             foreach (var j in ReInput.controllers.Joysticks)
             {

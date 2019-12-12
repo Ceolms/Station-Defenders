@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundPlayer : MonoBehaviour
 {
     public static SoundPlayer Instance { get; private set; }
-
+    public bool mainMenu;
     public Sound[] soundList;
 
     public Sound[] musicList;
@@ -29,7 +29,8 @@ public class SoundPlayer : MonoBehaviour
 
     private void Update()
     {
-        if(!isPlayingMusic && musicList.Length >0)
+        
+        if(!isPlayingMusic && musicList.Length >0 && !mainMenu)
         {
             int r = Random.Range(0, musicList.Length);
             {
@@ -50,19 +51,19 @@ public class SoundPlayer : MonoBehaviour
             aSource.loop = s.loop;
             aSource.volume = s.volume;
             aSource.Play();
-            StartCoroutine(DestroySource(go));
+            if(!aSource.loop)StartCoroutine(DestroySource(go));
         }
         else  Debug.Log("Sound " + name + " doesn't exist");
     }
 
     public void Stop(string name)
     {
-        GameObject go = GameObject.Find("name");
+        GameObject go = GameObject.Find(name);
         if(go != null)
         {
-            Debug.Log("Destroyin" + go.name);
             AudioSource s = go.GetComponent<AudioSource>();
             if (s != null) s.Stop();
+            Debug.Log("Stopping" + go.name);
             Destroy(go);
         }
     }

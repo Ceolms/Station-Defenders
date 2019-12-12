@@ -11,7 +11,7 @@ public class GrenadeScript : MonoBehaviour
     private bool isInHand = true;
     private float radius = 2.5f;
     private Transform hand;
-    private Transform character;
+    private Transform directionTransform;
     private Vector3 directionForward;
     private Vector3 directionFUp;
     private int countdown = 3;
@@ -26,22 +26,26 @@ public class GrenadeScript : MonoBehaviour
     public void Throw(Transform h, Transform c)
     {
         hand = h;
-        character = c;
-        directionForward = c.forward;
-        directionFUp = c.up;
+        directionTransform = c;
         StartCoroutine(GrenadeRoutine());
     }
     private IEnumerator GrenadeRoutine()
     {
         //animation 
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(1.0f);
         isInHand = false;
+
         // Throw physic
         ConstantForce gravity = this.gameObject.AddComponent<ConstantForce>();
         gravity.force = new Vector3(0.0f, -8.00f, 0.0f);
+        directionForward = directionTransform.forward;
+        directionFUp = directionTransform.up;
+        Rigidbody rb = this.GetComponent<Rigidbody>();
+        rb.velocity =  Vector3.zero; ;
         this.GetComponent<Rigidbody>().AddForce(((directionForward * 0.4f) + (directionFUp * 0.4f)) * throwForce);
         yield return new WaitForSeconds(0.3f);
         this.transform.gameObject.layer = LayerMask.NameToLayer("Default");
+
         // blip blip
         Light l = this.GetComponentInChildren<Light>();
         for (int i = 0; i < countdown; i++)
@@ -52,6 +56,7 @@ public class GrenadeScript : MonoBehaviour
             l.enabled = false;
             yield return new WaitForSeconds(0.5f);
         }
+
         //boom
         GameObject explosion = Instantiate(explosionPrefab);
         explosion.transform.position = this.transform.position;

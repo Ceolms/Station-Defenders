@@ -22,10 +22,13 @@ public class MeteorScript : MonoBehaviour
         Collider[] collidersSound = Physics.OverlapSphere(this.transform.position, soundRadius);
         foreach (Collider hit in collidersSound)
         {
-            if (hit.transform.parent.tag.Equals("Player"))
+            if(hit.transform.parent != null)
             {
-                SoundPlayer.Instance.Play("ExplosionMeteor");
-                break;
+                if (hit.transform.parent.tag.Equals("Player"))
+                {
+                    SoundPlayer.Instance.Play("ExplosionMeteor");
+                    break;
+                }
             }
         }
 

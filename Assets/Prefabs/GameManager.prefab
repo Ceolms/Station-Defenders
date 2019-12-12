@@ -65,43 +65,43 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: RedAlert
     clip: {fileID: 8300000, guid: 873112618e4a7bb4d879faf78fac837e, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  - name: 
+  - name: AllCrewDown
     clip: {fileID: 8300000, guid: f980d610ec6a83b40835b841064b0231, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  - name: 
+  - name: DefendTheCore
     clip: {fileID: 8300000, guid: f06b272914e98eb41af24b0c8a0f2063, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  - name: 
+  - name: GameOver
     clip: {fileID: 8300000, guid: b098928815958d54e96878a5fd02bd3d, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  - name: 
+  - name: NewAlienWave
     clip: {fileID: 8300000, guid: 6a8a807326163f44992f45cd151318c0, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
   - name: WarningFire
     clip: {fileID: 8300000, guid: 91a70819cd64bf045939a49dc96c1e7c, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
   - name: WarningMeteor
     clip: {fileID: 8300000, guid: e1100bec01f4fa1478607c7c03c6391a, type: 3}
-    volume: 0.7
+    volume: 0.5
     loop: 0
     isMusic: 0
     source: {fileID: 0}
@@ -111,8 +111,19 @@ MonoBehaviour:
     loop: 0
     isMusic: 0
     source: {fileID: 0}
-  musicList: []
-  sourceMusique: {fileID: 0}
+  - name: ScoreCount
+    clip: {fileID: 8300000, guid: f3eb7883d9bc126428b6b0a7d59ae99b, type: 3}
+    volume: 0.7
+    loop: 1
+    isMusic: 0
+    source: {fileID: 0}
+  musicList:
+  - name: Scene Music
+    clip: {fileID: 8300000, guid: 033585d75f9b94544a5affa565416dfb, type: 3}
+    volume: 0.5
+    loop: 1
+    isMusic: 1
+    source: {fileID: 0}
   multiplier: 1
   musicMultiplier: 1
 --- !u!81 &1115350586
@@ -175,8 +186,8 @@ MonoBehaviour:
   - {fileID: 730176921307178992, guid: 3ce515ba527d9be4e90e119caf65e194, type: 3}
   - {fileID: 730176921307178992, guid: e1b0d2c3188a4e6488a69aa04ba92082, type: 3}
   players: []
-  forceSpawnP2: 0
-  forceSpawnP3: 0
+  forceSpawnP2: 1
+  forceSpawnP3: 1
   forceSpawnP4: 0
 --- !u!114 &1587115170469573478
 MonoBehaviour:
@@ -238,9 +249,21 @@ MonoBehaviour:
   redAlien: {fileID: 1395759818056972909, guid: d63ef99ca4492a7459183790a2f4ab60,
     type: 3}
   waves:
-  - greenAlienCount: 1
-    purpleAlienCount: 0
+  - greenAlienCount: 8
+    purpleAlienCount: 1
+    redAlienCount: 1
+    rate: 2
+  - greenAlienCount: 12
+    purpleAlienCount: 1
     redAlienCount: 0
-    rate: 8
-  timeBetweenWaves: 5
+    rate: 2
+  - greenAlienCount: 14
+    purpleAlienCount: 5
+    redAlienCount: 1
+    rate: 2
+  - greenAlienCount: 30
+    purpleAlienCount: 15
+    redAlienCount: 2
+    rate: 2
+  timeBetweenWaves: 1
   waveCountdown: 0
