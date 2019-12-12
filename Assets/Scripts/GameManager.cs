@@ -13,9 +13,8 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
-    private bool worldPanelVisible;
-    private bool isPlayingScoreCount;
-    public bool gameRunning { get; private set; }
+    public bool worldPanelVisible;
+    public bool gameRunning;
     void Awake()
     {
         Instance = this;
@@ -50,7 +49,6 @@ public class GameManager : MonoBehaviour
                 if (allPlayersdown)
                 {
                     players[0].uiManager.GameOverScreen(GameOverType.PlayersDown);
-                   
                 }
                 else
                 {

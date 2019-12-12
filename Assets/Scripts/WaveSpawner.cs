@@ -73,7 +73,10 @@ public class WaveSpawner : MonoBehaviour
                 wavesEnum.MoveNext();
                 index++;
                 //Debug.Log("Starting Wave : " + index);
-                StartCoroutine(SpawnWave(wavesEnum.Current));
+                if (GameManager.Instance.gameRunning)
+                {
+                    StartCoroutine(SpawnWave(wavesEnum.Current));
+                }
             }
         }
         else
@@ -97,9 +100,9 @@ public class WaveSpawner : MonoBehaviour
         }
         if (index == waves.Count)
         {
-            wavesEnum.Reset();
-            index = 0;
-         //  TODO WIN
+            GameManager.Instance.gameRunning = false;
+            GameManager.Instance.worldPanelVisible = true;
+            GameManager.Instance.players[0].uiManager.GameOverScreen(GameOverType.Victory);
         }
         else
         {
@@ -126,6 +129,11 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(Wave wave)
     {
+        foreach (PlayerController p in GameManager.Instance.players)
+        {
+            p.uiManager.SetTextWave(index, waves.Count);
+        }
+
         state = SpawnState.SPAWNING;
        // Debug.Log("Start Wave");
        // Debug.Log("GreenAliens:" + wave.greenAlienCount);

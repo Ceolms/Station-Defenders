@@ -483,6 +483,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[0].greenAlienCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[0].purpleAlienCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[0].redAlienCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[0].rate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[1].greenAlienCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[1].rate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[2].greenAlienCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 483666610, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
+      propertyPath: waves.Array.data[2].rate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1115350584, guid: 7797569eac780db459b6d705fdf4e90c, type: 3}
       propertyPath: soundList.Array.size
       value: 13
