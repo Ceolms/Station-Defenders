@@ -51,7 +51,7 @@ public class PanelManager : MonoBehaviour
     public void Update()
     {
         if (!cursorCooldown)
-        {
+        {  
             for (int i = 0; i < ReInput.players.playerCount; i++)
             {
                 Player player = ReInput.players.GetPlayer(i);
@@ -60,13 +60,12 @@ public class PanelManager : MonoBehaviour
                 if (yp > 0)
                 {
                     SwitchButton(false);
-                    Cursor.visible = false;
+
                     StartCoroutine(Cooldown());
                 }
                 else if (yp < 0)
                 {
                     SwitchButton(true);
-                    Cursor.visible = false;
                     StartCoroutine(Cooldown());
                 }
             }
@@ -76,13 +75,11 @@ public class PanelManager : MonoBehaviour
             if (y > 0)
             {
                 SwitchButton(false);
-                Cursor.visible = false;
                 StartCoroutine(Cooldown());
             }
             else if (y < 0)
             {
                 SwitchButton(true);
-                Cursor.visible = false;
                 StartCoroutine(Cooldown());
             }
         }

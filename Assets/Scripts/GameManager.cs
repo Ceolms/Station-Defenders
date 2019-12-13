@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP4;
     public bool worldPanelVisible;
     public bool gameRunning;
+    private bool isPlayingScoreCount;
     void Awake()
     {
         Instance = this;
