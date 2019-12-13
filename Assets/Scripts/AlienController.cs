@@ -119,7 +119,7 @@ public class AlienController : MonoBehaviour
             else
             {
 
-                NavMesh.SamplePosition(bestTarget.transform.position, out navHit, 1, -1);
+                NavMesh.SamplePosition(bestTarget.transform.position, out navHit, 3.0f, NavMesh.AllAreas);
 
                 if (oldPosCore != navHit.position)
                 {
@@ -153,14 +153,14 @@ public class AlienController : MonoBehaviour
             }
             else
             {
-                if (agent.enabled && bestTarget != null && Vector3.Distance(transform.position, navHit.position) <= 3)
+                if (agent.enabled && bestTarget != null && Vector3.Distance(transform.position, navHit.position) <= 1)
                 {
                     isMoving = false;
                     agent.enabled = false;
                     obstacle.enabled = true;
                 }
 
-                if (!agent.enabled && Vector3.Distance(transform.position, navHit.position) > 3)
+                if (!agent.enabled && Vector3.Distance(transform.position, navHit.position) > 1)
                 {
                     StartCoroutine(SwitchObstacleAgent());
                     isMoving = true;
@@ -206,7 +206,7 @@ public class AlienController : MonoBehaviour
             AttackPlayer();
         }
 
-        if (!targetIsPlayer && Vector3.Distance(transform.position, navHit.position) <= 3)
+        if (!targetIsPlayer && Vector3.Distance(transform.position, navHit.position) <= 1)
         {
             AttackCore();
         }
