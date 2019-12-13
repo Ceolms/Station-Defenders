@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("nbPlayers") > 0)
         {
-            Debug.Log("Players : ReInput.controllers == 0");
+            Debug.Log("Players : " +PlayerPrefs.GetInt("nbPlayers"));
 
             for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
             {
@@ -105,16 +105,17 @@ public class GameManager : MonoBehaviour
                     Player playerkeyboard = ReInput.players.GetPlayer(i);
 
                     playerkeyboard.controllers.hasMouse = true;
-
+     
                     // Load the keyboard and mouse maps into the Player
                     playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "UI", "Default", true);
                     playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "Default", "Default", true);
                     playerkeyboard.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
+                    player.GetComponent<PlayerController>().useKeyboard = true;
                 }
                 else
                 {
                     Player playerController = ReInput.players.GetPlayer(i);
-                    Joystick j = ReInput.controllers.Joysticks[i];
+                    Joystick j = ReInput.controllers.Joysticks[PlayerPrefs.GetInt("player" + i)];
                     playerController.controllers.AddController(j, true);
                     playerController.isPlaying = true;
                 }
@@ -151,8 +152,6 @@ public class GameManager : MonoBehaviour
                 GameObject spawnPosition = GameObject.Find(spawnS);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i * 4, 0, 0);
-
-                player.GetComponent<PlayerController>().useKeyboard = false;
                 players.Add(player.GetComponent<PlayerController>());
             }
         }

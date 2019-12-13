@@ -33,6 +33,7 @@ public class PanelManager : MonoBehaviour
     public Animator animControls;
     public Animator animMain;
     public Animator animPlay;
+    public GameObject panelLoading;
 
     public List<PlayerJoinScript> playersList;
     public CurrentMenu menu;
@@ -47,6 +48,7 @@ public class PanelManager : MonoBehaviour
     private void Start()
     {
         SoundPlayer.Instance.Play("MenuTheme");
+        PlayerPrefs.GetInt("nbPlayers", 0);
         assignedJoysticks = new List<int>();
         PlayerPrefs.SetInt("player0", 0);
         PlayerPrefs.SetInt("player1", 0);
@@ -204,12 +206,15 @@ public class PanelManager : MonoBehaviour
         {
             if (assignedJoysticks.Count > 0)
             {
-                PlayerPrefs.SetInt("nbPlayers", assignedJoysticks.Count);
+                PlayerPrefs.SetInt("nbPlayers", playerReady);
             }
             else
             {
                 PlayerPrefs.SetInt("nbPlayers", 0);
             }
+            panelLoading.SetActive(true);
+            DontDestroyOnLoad(GameObject.Find("Rewired"));
+            PlayerPrefs.SetInt("nbPlayers", playerReady);
             SceneManager.LoadScene("MasterScene");
         }
     }
@@ -278,10 +283,6 @@ public class PanelManager : MonoBehaviour
         if (initiallyOpen == null)
             return;
         OpenPanel(initiallyOpen);
-        if (ReInput.controllers.Joysticks.Count >= 0)
-        {
-            Cursor.visible = false;
-        }
         menu = CurrentMenu.MainMenu;
         assignedJoysticks = new List<int>();
         ReInput.ControllerConnectedEvent += OnControllerConnected;
@@ -450,7 +451,6 @@ public class PanelManager : MonoBehaviour
     {
         // Assign the joystick to the Player, removing it from System Player
         player.controllers.AddController(joystick, true);
-        player.isPlaying = true;
         // Mark this joystick as assigned so we don't give it to the System Player again
         assignedJoysticks.Add(joystick.id);
 
@@ -486,11 +486,6 @@ public class PanelManager : MonoBehaviour
         {
             playersList[playerReady - 1].Join();
         }
-    }
-
-    private void RemoveEvenvents()
-    {
-
     }
 }
 
