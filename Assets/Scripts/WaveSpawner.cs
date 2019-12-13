@@ -129,37 +129,40 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(Wave wave)
     {
-        foreach (PlayerController p in GameManager.Instance.players)
+        if (GameManager.Instance.gameRunning)
         {
-            p.uiManager.SetTextWave(index, waves.Count);
-        }
+            foreach (PlayerController p in GameManager.Instance.players)
+            {
+                p.uiManager.SetTextWave(index, waves.Count);
+            }
 
-        state = SpawnState.SPAWNING;
-       // Debug.Log("Start Wave");
-       // Debug.Log("GreenAliens:" + wave.greenAlienCount);
-        // spawn
-        for (int i = 0; i < wave.greenAlienCount; i++)
-        {
-            
-            SpawnEnemy(greenAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
+            state = SpawnState.SPAWNING;
+            // Debug.Log("Start Wave");
+            // Debug.Log("GreenAliens:" + wave.greenAlienCount);
+            // spawn
+            for (int i = 0; i < wave.greenAlienCount; i++)
+            {
 
-        for (int i = 0; i < wave.purpleAlienCount; i++)
-        {
-            SpawnEnemy(purpleAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
+                SpawnEnemy(greenAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
 
-        for (int i = 0; i < wave.redAlienCount; i++)
-        {
-            SpawnEnemy(redAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
-        //Debug.Log("Spawning Alien");
-        state = SpawnState.WAITING;
+            for (int i = 0; i < wave.purpleAlienCount; i++)
+            {
+                SpawnEnemy(purpleAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
 
-        yield break;
+            for (int i = 0; i < wave.redAlienCount; i++)
+            {
+                SpawnEnemy(redAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
+            //Debug.Log("Spawning Alien");
+            state = SpawnState.WAITING;
+
+            yield break;
+        }      
     }
 
     void SpawnEnemy(GameObject enemy)

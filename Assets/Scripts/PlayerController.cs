@@ -242,6 +242,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Instance.gameRunning)
         {
+
+            foreach(PlayerController p in GameManager.Instance.players)
+            {
+                p.StopEvents();
+            }
             SceneManager.LoadScene("MainMenu");
         }
     }
@@ -256,7 +261,6 @@ public class PlayerController : MonoBehaviour
     }
     private void ProcessInput()
     {
-
         if (canMove)
         {
             if (moveVector.x != 0.0f || moveVector.z != 0.0f)
@@ -268,8 +272,6 @@ public class PlayerController : MonoBehaviour
             if (useKeyboard) RotationKeyboard();
             else RotationController();
         }
-
-
     }
     private void RotationController()
     {
@@ -370,7 +372,19 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void StopEvents()
+    {
+        player.RemoveInputEventDelegate(OnFireButtonDown);
+        player.RemoveInputEventDelegate(OnMapButtonDown);
+        player.RemoveInputEventDelegate(OnEmoteButtonDown);
+        player.RemoveInputEventDelegate(OnGrenadeButtonDown);
+        player.RemoveInputEventDelegate(OnHealButtonDown);
+        player.RemoveInputEventDelegate(OnHealButtonUp);
+        player.RemoveInputEventDelegate(OnValidateButtonDown);
+    }
 }
+
 [System.Serializable]
 public class PlayerInfos : System.Object
 {

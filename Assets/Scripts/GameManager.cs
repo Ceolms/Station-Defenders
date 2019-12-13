@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!worldPanelVisible)
+        if (gameRunning && !worldPanelVisible)
         {
+
             bool allPlayersdown = true;
             foreach (PlayerController p in players)
             {
@@ -58,14 +59,14 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if(listScores.Count == players.Count && !isPlayingScoreCount)
+       if (worldPanelVisible && listScores.Count == players.Count && !isPlayingScoreCount)
         {
             SoundPlayer.Instance.Play("ScoreCount");
             isPlayingScoreCount = true;
         }
-        if(isPlayingScoreCount && listScores.Count == 0)
+        if (worldPanelVisible && isPlayingScoreCount && listScores.Count == 0)
         {
-            Debug.Log("stop count");
+            isPlayingScoreCount = false;
             SoundPlayer.Instance.Stop("ScoreCount");
         }
     }
@@ -75,10 +76,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void InitializePlayers()
     {
+        foreach (var j in ReInput.controllers.Joysticks)
+        {
+            ReInput.players.GetSystemPlayer().controllers.AddController(j, true);
+        }
+
         if (PlayerPrefs.GetInt("nbPlayers") > 0)
         {
+            Debug.Log("Players : ReInput.controllers == 0");
+
             for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
             {
+
                 GameObject playerPrefab = listPlayersPrefabs[i];
                 GameObject player = Instantiate(playerPrefab);
 
@@ -86,14 +95,36 @@ public class GameManager : MonoBehaviour
                 GameObject spawnPosition = GameObject.Find(spawnS);
                 if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
                 else player.transform.position = new Vector3(i * 4, 0, 0);
-
-                player.GetComponent<PlayerController>().useKeyboard = false;
                 players.Add(player.GetComponent<PlayerController>());
+
+
+                Debug.Log("player" + i + " :  " + PlayerPrefs.GetInt("player" + i));
+
+                if (PlayerPrefs.GetInt("player"+i) == -1)
+                {
+                    Player playerkeyboard = ReInput.players.GetPlayer(i);
+
+                    playerkeyboard.controllers.hasMouse = true;
+
+                    // Load the keyboard and mouse maps into the Player
+                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "UI", "Default", true);
+                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "Default", "Default", true);
+                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
+                }
+                else
+                {
+                    Player playerController = ReInput.players.GetPlayer(i);
+                    Joystick j = ReInput.controllers.Joysticks[i];
+                    playerController.controllers.AddController(j, true);
+                    playerController.isPlaying = true;
+                }
             }
             return;
         }
         else if (ReInput.controllers.Joysticks.Count == 0)
         {
+            Debug.Log("Players : ReInput.controllers == 0");
+
             GameObject player1Prefab = listPlayersPrefabs[0];
             GameObject player1 = Instantiate(player1Prefab);
 
@@ -106,6 +137,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("auto assign");
             for (int i = 0; i < ReInput.controllers.Joysticks.Count; i++)
             {
                 Player p = ReInput.players.Players[i];

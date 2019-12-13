@@ -26,7 +26,6 @@ public class SoundPlayer : MonoBehaviour
         UpdateVolume();
         UpdateMusicVolume();
     }
-
     private void Update()
     {
         
