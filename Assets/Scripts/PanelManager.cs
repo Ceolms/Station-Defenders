@@ -33,6 +33,7 @@ public class PanelManager : MonoBehaviour
     public Animator animControls;
     public Animator animMain;
     public Animator animPlay;
+    public GameObject panelLoading;
 
     public List<PlayerJoinScript> playersList;
     public CurrentMenu menu;
@@ -47,11 +48,17 @@ public class PanelManager : MonoBehaviour
     private void Start()
     {
         SoundPlayer.Instance.Play("MenuTheme");
+        PlayerPrefs.GetInt("nbPlayers", 0);
+        assignedJoysticks = new List<int>();
+        PlayerPrefs.SetInt("player0", 0);
+        PlayerPrefs.SetInt("player1", 0);
+        PlayerPrefs.SetInt("player2", 0);
+        PlayerPrefs.SetInt("player3", 0);
     }
     public void Update()
     {
         if (!cursorCooldown)
-        {
+        {  
             for (int i = 0; i < ReInput.players.playerCount; i++)
             {
                 Player player = ReInput.players.GetPlayer(i);
@@ -60,13 +67,12 @@ public class PanelManager : MonoBehaviour
                 if (yp > 0)
                 {
                     SwitchButton(false);
-                    Cursor.visible = false;
+
                     StartCoroutine(Cooldown());
                 }
                 else if (yp < 0)
                 {
                     SwitchButton(true);
-                    Cursor.visible = false;
                     StartCoroutine(Cooldown());
                 }
             }
@@ -76,13 +82,11 @@ public class PanelManager : MonoBehaviour
             if (y > 0)
             {
                 SwitchButton(false);
-                Cursor.visible = false;
                 StartCoroutine(Cooldown());
             }
             else if (y < 0)
             {
                 SwitchButton(true);
-                Cursor.visible = false;
                 StartCoroutine(Cooldown());
             }
         }
@@ -122,7 +126,6 @@ public class PanelManager : MonoBehaviour
         if (!string.IsNullOrEmpty(sb) && sb.Contains("Mouse"))
         {
             if (selectedBtn != null) selectedBtn.gameObject.GetComponent<Animator>().SetTrigger("Normal");
-            Cursor.visible = true;
         }
         if (menu == CurrentMenu.PlayMenu) UpdatePlayerJoin();
     }
@@ -203,14 +206,16 @@ public class PanelManager : MonoBehaviour
         {
             if (assignedJoysticks.Count > 0)
             {
-                PlayerPrefs.SetInt("nbPlayers", assignedJoysticks.Count);
-                SceneManager.LoadScene("MasterScene");
+                PlayerPrefs.SetInt("nbPlayers", playerReady);
             }
             else
             {
                 PlayerPrefs.SetInt("nbPlayers", 0);
-                SceneManager.LoadScene("MasterScene");
             }
+            panelLoading.SetActive(true);
+            DontDestroyOnLoad(GameObject.Find("Rewired"));
+            PlayerPrefs.SetInt("nbPlayers", playerReady);
+            SceneManager.LoadScene("MasterScene");
         }
     }
 
@@ -278,10 +283,6 @@ public class PanelManager : MonoBehaviour
         if (initiallyOpen == null)
             return;
         OpenPanel(initiallyOpen);
-        if (ReInput.controllers.Joysticks.Count >= 0)
-        {
-            Cursor.visible = false;
-        }
         menu = CurrentMenu.MainMenu;
         assignedJoysticks = new List<int>();
         ReInput.ControllerConnectedEvent += OnControllerConnected;
@@ -339,7 +340,7 @@ public class PanelManager : MonoBehaviour
     {
         bool closedStateReached = false;
         bool wantToClose = true;
-        while (!closedStateReached && wantToClose)
+        while (!closedStateReached && wantToClose )
         {
             if (!anim.IsInTransition(0))
                 closedStateReached = anim.GetCurrentAnimatorStateInfo(0).IsName(k_ClosedStateName);
@@ -440,6 +441,7 @@ public class PanelManager : MonoBehaviour
         player.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
 
         // Exclude this Player from Joystick auto-assignment because it is the KB/Mouse Player now
+        PlayerPrefs.SetInt("player" + player.id, -1);
         player.controllers.excludeFromControllerAutoAssignment = true;
         Join();
         Debug.Log("Assigned Keyboard/Mouse to Player " + player.name);
@@ -449,9 +451,11 @@ public class PanelManager : MonoBehaviour
     {
         // Assign the joystick to the Player, removing it from System Player
         player.controllers.AddController(joystick, true);
-
         // Mark this joystick as assigned so we don't give it to the System Player again
         assignedJoysticks.Add(joystick.id);
+
+        PlayerPrefs.SetInt("player" + player.id, joystick.id);
+
         Join();
         Debug.Log("Assigned " + joystick.name + " to Player " + player.name);
     }
@@ -462,6 +466,7 @@ public class PanelManager : MonoBehaviour
     }
     void OnControllerConnected(ControllerStatusChangedEventArgs args)
     {
+        Debug.Log("New Controller detected");
         if (args.controllerType != ControllerType.Joystick) return;
 
         // Check if this Joystick has already been assigned. If so, just let Auto-Assign do its job.
@@ -477,8 +482,6 @@ public class PanelManager : MonoBehaviour
     private void Join()
     {
         playerReady += 1;
-        Debug.Log("playerReady : " + playerReady);
-        Debug.Log("playerList : " + playersList.Count);
         if (playerReady < playersList.Count)
         {
             playersList[playerReady - 1].Join();

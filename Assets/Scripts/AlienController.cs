@@ -52,7 +52,7 @@ public class AlienController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         //Get navMeshAgent
         agent = GetComponent<NavMeshAgent>();
         obstacle = GetComponent<NavMeshObstacle>();
@@ -73,9 +73,7 @@ public class AlienController : MonoBehaviour
         //Get core
         core = GameObject.FindGameObjectWithTag("Core");
 
-
         oldPosCore = new Vector3(0, 0, 0);
-        
 
         //Priority
         float rdm = Random.Range(0f, 1f);
@@ -108,7 +106,7 @@ public class AlienController : MonoBehaviour
             isDead = true;
         }
 
-        
+
 
         if (agent.enabled && bestTarget != null && !isDead)
         {
@@ -121,26 +119,26 @@ public class AlienController : MonoBehaviour
             else
             {
 
-                NavMesh.SamplePosition(bestTarget.transform.position, out navHit, 1, -1);
+                NavMesh.SamplePosition(bestTarget.transform.position, out navHit, 3.0f, NavMesh.AllAreas);
 
-                if(oldPosCore != navHit.position)
+                if (oldPosCore != navHit.position)
                 {
                     agent.SetDestination(navHit.position);
                 }
-                
+
 
             }
-            
-            
-            
+
+
+
         }
-       
+
 
         if (!isDead)
         {
             if (targetIsPlayer)
             {
-                if (agent != null && bestTarget != null && Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
+                if (agent.enabled && bestTarget != null && Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
                 {
                     isMoving = false;
                     agent.enabled = false;
@@ -155,20 +153,20 @@ public class AlienController : MonoBehaviour
             }
             else
             {
-                if (agent != null && bestTarget != null && Vector3.Distance(transform.position, navHit.position) <= 3)
+                if (agent.enabled && bestTarget != null && Vector3.Distance(transform.position, navHit.position) <= 1)
                 {
                     isMoving = false;
                     agent.enabled = false;
                     obstacle.enabled = true;
                 }
 
-                if (!agent.enabled && Vector3.Distance(transform.position, navHit.position) > 3)
+                if (!agent.enabled && Vector3.Distance(transform.position, navHit.position) > 1)
                 {
                     StartCoroutine(SwitchObstacleAgent());
                     isMoving = true;
                 }
             }
-            
+
         }
         else
         {
@@ -180,8 +178,8 @@ public class AlienController : MonoBehaviour
                 agent.enabled = false;
                 obstacle.enabled = false;
             }
-         
-            if(! isPlayingDeadAnim)
+
+            if (!isPlayingDeadAnim)
             {
                 isPlayingDeadAnim = true;
                 anim.SetTrigger("Die");
@@ -189,17 +187,10 @@ public class AlienController : MonoBehaviour
         }
 
 
-
+        // Moving
         if (isMoving)
         {
             anim.SetBool("Walk Forward", true);
-            /*if(!agent.pathPending && !agent.hasPath)
-            {
-                isMoving = false;
-
-                anim.SetBool("Walk Forward", false);
-                agent.ResetPath();
-            }*/
         }
         else if (!isMoving && !isDead)
         {
@@ -207,18 +198,21 @@ public class AlienController : MonoBehaviour
 
             if (agent.enabled) agent.velocity = Vector3.zero;
 
-            if (targetIsPlayer)
-            {
-                AttackPlayer();
-            }
-            
-            if(!targetIsPlayer)
-            {
-                AttackCore();
-            }
-
-            
         }
+
+        //Attacking
+        if (targetIsPlayer && Vector3.Distance(transform.position, bestTarget.transform.position) <= agent.stoppingDistance)
+        {
+            AttackPlayer();
+        }
+
+        if (!targetIsPlayer && Vector3.Distance(transform.position, navHit.position) <= 1)
+        {
+            AttackCore();
+        }
+
+
+
 
     }
 

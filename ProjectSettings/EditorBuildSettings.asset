@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MasterScene.unity
     guid: 5247172451b402841a444475939c702a
+  - enabled: 0
+    path: Assets/Scenes/Trailer Scene.unity
+    guid: 66facb5b91b27494ca6c011c6f10b6d0
   m_configObjects: {}

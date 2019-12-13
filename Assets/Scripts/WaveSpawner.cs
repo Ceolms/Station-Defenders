@@ -73,7 +73,10 @@ public class WaveSpawner : MonoBehaviour
                 wavesEnum.MoveNext();
                 index++;
                 //Debug.Log("Starting Wave : " + index);
-                StartCoroutine(SpawnWave(wavesEnum.Current));
+                if (GameManager.Instance.gameRunning)
+                {
+                    StartCoroutine(SpawnWave(wavesEnum.Current));
+                }
             }
         }
         else
@@ -97,9 +100,9 @@ public class WaveSpawner : MonoBehaviour
         }
         if (index == waves.Count)
         {
-            wavesEnum.Reset();
-            index = 0;
-         //  TODO WIN
+            GameManager.Instance.gameRunning = false;
+            GameManager.Instance.worldPanelVisible = true;
+            GameManager.Instance.players[0].uiManager.GameOverScreen(GameOverType.Victory);
         }
         else
         {
@@ -126,32 +129,40 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(Wave wave)
     {
-        state = SpawnState.SPAWNING;
-       // Debug.Log("Start Wave");
-       // Debug.Log("GreenAliens:" + wave.greenAlienCount);
-        // spawn
-        for (int i = 0; i < wave.greenAlienCount; i++)
+        if (GameManager.Instance.gameRunning)
         {
-            
-            SpawnEnemy(greenAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
+            foreach (PlayerController p in GameManager.Instance.players)
+            {
+                p.uiManager.SetTextWave(index, waves.Count);
+            }
 
-        for (int i = 0; i < wave.purpleAlienCount; i++)
-        {
-            SpawnEnemy(purpleAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
+            state = SpawnState.SPAWNING;
+            // Debug.Log("Start Wave");
+            // Debug.Log("GreenAliens:" + wave.greenAlienCount);
+            // spawn
+            for (int i = 0; i < wave.greenAlienCount; i++)
+            {
 
-        for (int i = 0; i < wave.redAlienCount; i++)
-        {
-            SpawnEnemy(redAlien);
-            yield return new WaitForSeconds(wave.rate);
-        }
-        //Debug.Log("Spawning Alien");
-        state = SpawnState.WAITING;
+                SpawnEnemy(greenAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
 
-        yield break;
+            for (int i = 0; i < wave.purpleAlienCount; i++)
+            {
+                SpawnEnemy(purpleAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
+
+            for (int i = 0; i < wave.redAlienCount; i++)
+            {
+                SpawnEnemy(redAlien);
+                yield return new WaitForSeconds(wave.rate);
+            }
+            //Debug.Log("Spawning Alien");
+            state = SpawnState.WAITING;
+
+            yield break;
+        }      
     }
 
     void SpawnEnemy(GameObject enemy)

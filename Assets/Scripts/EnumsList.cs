@@ -5,7 +5,8 @@ using UnityEngine;
 public enum GameOverType
 {
     CoreDestroyed,
-    PlayersDown
+    PlayersDown,
+    Victory
 }
 public enum EventType
 {

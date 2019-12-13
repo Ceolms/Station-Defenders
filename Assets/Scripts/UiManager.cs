@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
     public GameObject worldPanel;
     public GameObject textGameOver;
     public GameObject imageButton;
-
+    public GameObject panelTextWave;
     public List<GameObject> prefabsScorePanel;
 
     public Sprite spriteA;
@@ -107,6 +107,10 @@ public class UiManager : MonoBehaviour
         if (n > 0) textGrenade.GetComponent<Text>().color = Color.white;
         else textGrenade.GetComponent<Text>().color = Color.red;
     }
+    public void SetTextWave(int wave , int totalWave)
+    {
+        StartCoroutine(ShowTextWave(wave, totalWave));
+    }
     public void ShowWarningSprite(EventType type)
     {
         switch (type)
@@ -138,13 +142,24 @@ public class UiManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         damageEffectPanel.SetActive(false);
     }
+    private IEnumerator ShowTextWave(int wave , int totalWave)
+    {
+        panelTextWave.SetActive(true);
+        Text t = panelTextWave.GetComponentInChildren<Text>();
+        t.text = "Wave : " + wave + " / " + totalWave;
+        yield return new WaitForSeconds(2f);
+        panelTextWave.SetActive(false);
+    }
     private IEnumerator ShowGameOverPanel(GameOverType t)
     {
         yield return new WaitForSeconds(0f);
-        Debug.Log("Game Over");
         worldPanel.SetActive(true);
         textGameOver.SetActive(true);
         Image img = worldPanel.GetComponent<Image>();
+        if (t == GameOverType.Victory)
+        {
+            textGameOver.GetComponent<Text>().text = "Victory ! ";
+        }
         while (img.color.a < 0.3f)
         {
             img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.05f);
@@ -152,7 +167,10 @@ public class UiManager : MonoBehaviour
             textGO.color = new Color(textGO.color.r, textGO.color.g, textGO.color.b, textGO.color.a + 0.05f);
             yield return new WaitForSeconds(0.1f);
         }
-        if (t == GameOverType.PlayersDown) SoundPlayer.Instance.Play("AllCrewDown");
+        if (t == GameOverType.PlayersDown)
+        {
+            SoundPlayer.Instance.Play("AllCrewDown");
+        }
         while (img.color.a < 1)
         {
             img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a + 0.05f);
@@ -170,7 +188,6 @@ public class UiManager : MonoBehaviour
 
         for (int i = 0; i < GameManager.Instance.players.Count; i++)
         {
-            Debug.Log("Spawning Panel" + GameManager.Instance.players.Count);
             GameObject panel = Instantiate(prefabsScorePanel[i]);
             panel.transform.parent = worldPanel.transform.GetChild(2).transform;
             listePanelsScores.Add(panel.GetComponent<PanelScoreScript>());

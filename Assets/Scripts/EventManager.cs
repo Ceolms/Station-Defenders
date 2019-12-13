@@ -92,7 +92,7 @@ public class EventManager : MonoBehaviour
         randomActive = true;
         if (eventTypeProba.Count > 0)
         {
-            while (!eventActive)
+            while (!eventActive && GameManager.Instance.gameRunning)
             {
                 if(GameManager.Instance.gameRunning)
                 {
@@ -281,7 +281,7 @@ public class EventMeteor : MonoBehaviour
         {
             l.color = Color.red;
         }
-        while (infos.eventActive)
+        while (infos.eventActive && GameManager.Instance.gameRunning)
         {
             yield return new WaitForSeconds(0.01f);
             foreach (Light l in EventManager.Instance.lights)
