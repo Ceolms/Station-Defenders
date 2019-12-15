@@ -13,14 +13,16 @@ public class GameManager : MonoBehaviour
     public bool forceSpawnP2;
     public bool forceSpawnP3;
     public bool forceSpawnP4;
-    public bool worldPanelVisible;
-    public bool gameRunning;
+    [HideInInspector]  public bool worldPanelVisible;
+    [HideInInspector] public bool gameRunning;
+    public bool demoMode;
     private bool isPlayingScoreCount;
     void Awake()
     {
         Instance = this;
         players = new List<PlayerController>();
         listScores = new List<Pair<PlayerID, int>>();
+        
         InitializePlayers();
         if (forceSpawnP2) ForceSpawn(2);
         if (forceSpawnP3) ForceSpawn(3);
@@ -80,81 +82,98 @@ public class GameManager : MonoBehaviour
         {
             ReInput.players.GetSystemPlayer().controllers.AddController(j, true);
         }
-
-        if (PlayerPrefs.GetInt("nbPlayers") > 0)
+        if (!demoMode)
         {
-            Debug.Log("Players : " +PlayerPrefs.GetInt("nbPlayers"));
 
-            for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
+            if (PlayerPrefs.GetInt("nbPlayers") > 0)
             {
+                Debug.Log("Players : " + PlayerPrefs.GetInt("nbPlayers"));
 
-                GameObject playerPrefab = listPlayersPrefabs[i];
-                GameObject player = Instantiate(playerPrefab);
-
-                string spawnS = "SpawnPosition Player" + (i + 1).ToString();
-                GameObject spawnPosition = GameObject.Find(spawnS);
-                if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
-                else player.transform.position = new Vector3(i * 4, 0, 0);
-                players.Add(player.GetComponent<PlayerController>());
-
-
-                Debug.Log("player" + i + " :  " + PlayerPrefs.GetInt("player" + i));
-
-                if (PlayerPrefs.GetInt("player"+i) == -1)
+                for (int i = 0; i < PlayerPrefs.GetInt("nbPlayers"); i++)
                 {
-                    Player playerkeyboard = ReInput.players.GetPlayer(i);
 
-                    playerkeyboard.controllers.hasMouse = true;
-     
-                    // Load the keyboard and mouse maps into the Player
-                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "UI", "Default", true);
-                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "Default", "Default", true);
-                    playerkeyboard.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
-                    player.GetComponent<PlayerController>().useKeyboard = true;
+                    GameObject playerPrefab = listPlayersPrefabs[i];
+                    GameObject player = Instantiate(playerPrefab);
+
+                    string spawnS = "SpawnPosition Player" + (i + 1).ToString();
+                    GameObject spawnPosition = GameObject.Find(spawnS);
+                    if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
+                    else player.transform.position = new Vector3(i * 4, 0, 0);
+                    players.Add(player.GetComponent<PlayerController>());
+
+
+                    Debug.Log("player" + i + " :  " + PlayerPrefs.GetInt("player" + i));
+
+                    if (PlayerPrefs.GetInt("player" + i) == -1)
+                    {
+                        Player playerkeyboard = ReInput.players.GetPlayer(i);
+
+                        playerkeyboard.controllers.hasMouse = true;
+
+                        // Load the keyboard and mouse maps into the Player
+                        playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "UI", "Default", true);
+                        playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "Default", "Default", true);
+                        playerkeyboard.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
+                        player.GetComponent<PlayerController>().useKeyboard = true;
+                    }
+                    else
+                    {
+                        Player playerController = ReInput.players.GetPlayer(i);
+                        Joystick j = ReInput.controllers.Joysticks[PlayerPrefs.GetInt("player" + i)];
+                        playerController.controllers.AddController(j, true);
+                        playerController.isPlaying = true;
+                    }
                 }
-                else
+                return;
+            }
+            else if (ReInput.controllers.Joysticks.Count == 0)
+            {
+                Debug.Log("Players : ReInput.controllers == 0");
+
+                GameObject player1Prefab = listPlayersPrefabs[0];
+                GameObject player1 = Instantiate(player1Prefab);
+
+                GameObject spawnPosition = GameObject.Find("SpawnPosition Player1");
+                if (spawnPosition != null) player1.transform.position = spawnPosition.transform.position;
+                else player1.transform.position = new Vector3(0, 0, 0);
+
+                player1.GetComponent<PlayerController>().useKeyboard = true;
+                players.Add(player1.GetComponent<PlayerController>());
+            }
+            else
+            {
+                Debug.Log("auto assign");
+                for (int i = 0; i < ReInput.controllers.Joysticks.Count; i++)
                 {
-                    Player playerController = ReInput.players.GetPlayer(i);
-                    Joystick j = ReInput.controllers.Joysticks[PlayerPrefs.GetInt("player" + i)];
-                    playerController.controllers.AddController(j, true);
-                    playerController.isPlaying = true;
+                    Player p = ReInput.players.Players[i];
+                    Joystick j = ReInput.controllers.Joysticks[i];
+                    p.controllers.AddController(j, true);
+
+                    GameObject playerPrefab = listPlayersPrefabs[i];
+                    GameObject player = Instantiate(playerPrefab);
+
+                    string spawnS = "SpawnPosition Player" + (i + 1).ToString();
+                    GameObject spawnPosition = GameObject.Find(spawnS);
+                    if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
+                    else player.transform.position = new Vector3(i * 4, 0, 0);
+                    players.Add(player.GetComponent<PlayerController>());
                 }
             }
-            return;
-        }
-        else if (ReInput.controllers.Joysticks.Count == 0)
-        {
-            Debug.Log("Players : ReInput.controllers == 0");
-
-            GameObject player1Prefab = listPlayersPrefabs[0];
-            GameObject player1 = Instantiate(player1Prefab);
-
-            GameObject spawnPosition = GameObject.Find("SpawnPosition Player1");
-            if (spawnPosition != null) player1.transform.position = spawnPosition.transform.position;
-            else player1.transform.position = new Vector3(0, 0, 0);
-
-            player1.GetComponent<PlayerController>().useKeyboard = true;
-            players.Add(player1.GetComponent<PlayerController>());
         }
         else
         {
-            Debug.Log("auto assign");
-            for (int i = 0; i < ReInput.controllers.Joysticks.Count; i++)
-            {
-                Player p = ReInput.players.Players[i];
-                Joystick j = ReInput.controllers.Joysticks[i];
-                p.controllers.AddController(j, true);
+            GameObject player1 = GameObject.Find("Player 1");
+            player1.GetComponent<PlayerController>().useKeyboard = true;
+            players.Add(player1.GetComponent<PlayerController>());
 
-                GameObject playerPrefab = listPlayersPrefabs[i];
-                GameObject player = Instantiate(playerPrefab);
-
-                string spawnS = "SpawnPosition Player" + (i + 1).ToString();
-                GameObject spawnPosition = GameObject.Find(spawnS);
-                if (spawnPosition != null) player.transform.position = spawnPosition.transform.position;
-                else player.transform.position = new Vector3(i * 4, 0, 0);
-                players.Add(player.GetComponent<PlayerController>());
-            }
+            Player playerkeyboard = ReInput.players.GetPlayer(0);
+            playerkeyboard.controllers.hasMouse = true;
+            playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "UI", "Default", true);
+            playerkeyboard.controllers.maps.LoadMap(ControllerType.Keyboard, 0, "Default", "Default", true);
+            playerkeyboard.controllers.maps.LoadMap(ControllerType.Mouse, 0, "Default", "Default", true);
         }
+      
+
     }
     /// <summary>
     /// Initialize camera positions en screen depending on the number of players

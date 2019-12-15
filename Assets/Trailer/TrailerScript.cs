@@ -61,6 +61,7 @@ public class TrailerScript : MonoBehaviour
         yield return new WaitForSeconds(25.0f);
         followCam = false;
         Debug.Log("cam stop");
+        GameObject.Find("SoldierTrailer4").SetActive(false);
         agent.isStopped = true;
         anim.enabled = false;
 
@@ -88,7 +89,6 @@ public class TrailerScript : MonoBehaviour
     {
         if (i < points.Count)
         {
-            Debug.Log(i);
             agent.destination = points[i].position;
             this.transform.LookAt(points[i]);
         }

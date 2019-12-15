@@ -48,6 +48,11 @@ public class CustomSeeThrough : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        material.shader = originalShader;
+    }
+
     void OnApplicationQuit()
     {
         material.shader = originalShader;

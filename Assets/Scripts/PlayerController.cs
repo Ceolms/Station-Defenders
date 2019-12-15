@@ -382,6 +382,8 @@ public class PlayerController : MonoBehaviour
         player.RemoveInputEventDelegate(OnHealButtonDown);
         player.RemoveInputEventDelegate(OnHealButtonUp);
         player.RemoveInputEventDelegate(OnValidateButtonDown);
+
+        this.GetComponent<CustomSeeThrough>().Reset();
     }
 }
 
